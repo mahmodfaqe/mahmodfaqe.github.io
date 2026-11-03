@@ -66,6 +66,11 @@ function hasLink(url) {
   return url.trim() !== "";
 }
 
+function getAppleStoreLabel(url) {
+  if (!url) return "App Store";
+  return url.includes("testflight.apple.com") ? "TestFlight" : "App Store";
+}
+
 function parseTools(value) {
   return value
     .split(/,|\n/)
@@ -560,7 +565,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                     className="btn btn-learn-more project-modal-link-btn"
                   >
                     <i className="bi bi-apple"></i>
-                    App Store
+                    {getAppleStoreLabel(project.app_store_url)}
                   </a>
                 )}
 
@@ -1076,13 +1081,13 @@ export default function Project() {
                                 )}
 
                                 {showAppStore && (
-                                  <a href={project.app_store_url} className="btn btn-store" target="_blank" rel="noreferrer">
-                                    <i className="bi bi-apple"></i> App Store
+                                  <a href={project.app_store_url} className="btn btn-preview" target="_blank" rel="noreferrer">
+                                    <i className="bi bi-apple"></i> {getAppleStoreLabel(project.app_store_url)}
                                   </a>
                                 )}
 
                                 {showPlayStore && (
-                                  <a href={project.play_store_url} className="btn btn-store" target="_blank" rel="noreferrer">
+                                  <a href={project.play_store_url} className="btn btn-preview" target="_blank" rel="noreferrer">
                                     <i className="bi bi-google-play"></i> Play
                                   </a>
                                 )}
