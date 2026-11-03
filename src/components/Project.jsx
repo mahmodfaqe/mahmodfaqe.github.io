@@ -262,20 +262,20 @@ function ProjectForm({ formData, onChange, onSubmit, saving, submitLabel, submit
   return (
     <form className="project-form" onSubmit={onSubmit}>
       <div className="project-form-grid">
-        {/* Nama Project & Kategori */}
+        {/* Project name & category */}
         <label className="project-field">
-          <span>Nama Project</span>
+          <span>Project Name</span>
           <input
             type="text"
             value={formData.nama}
             onChange={(e) => onChange("nama", e.target.value)}
-            placeholder="Contoh: Portfolio React"
+            placeholder="e.g. Portfolio React"
             required
           />
         </label>
 
         <label className="project-field">
-          <span>Kategori</span>
+          <span>Category</span>
           <select
             value={formData.kategori}
             onChange={(e) => onChange("kategori", e.target.value)}
@@ -289,7 +289,7 @@ function ProjectForm({ formData, onChange, onSubmit, saving, submitLabel, submit
         </label>
 
         <label className="project-field">
-          <span>Link Preview (demo)</span>
+          <span>Preview Link (demo)</span>
           <input
             type="url"
             value={formData.preview_url}
@@ -299,7 +299,7 @@ function ProjectForm({ formData, onChange, onSubmit, saving, submitLabel, submit
         </label>
 
         <label className="project-field">
-          <span>Link GitHub</span>
+          <span>GitHub Link</span>
           <input
             type="url"
             value={formData.github_url}
@@ -309,23 +309,23 @@ function ProjectForm({ formData, onChange, onSubmit, saving, submitLabel, submit
         </label>
 
         <label className="project-field project-field-full">
-          <span>Deskripsi</span>
+          <span>Description</span>
           <textarea
             rows="4"
             value={formData.deskripsi}
             onChange={(e) => onChange("deskripsi", e.target.value)}
-            placeholder="Ceritakan singkat project ini"
+            placeholder="Short description of the project"
             required
           />
         </label>
 
         <label className="project-field">
-          <span>Fitur</span>
+          <span>Features</span>
           <textarea
             rows="3"
             value={formData.fiturInput}
             onChange={(e) => onChange("fiturInput", e.target.value)}
-            placeholder="Login, Dashboard, CRUD (pisahkan koma/enter)"
+            placeholder="Login, Dashboard, CRUD (separate with commas or new lines)"
           />
         </label>
 
@@ -486,7 +486,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                 </div>
                 <div className="project-stat-info">
                   <span className="project-stat-value">{tools.length}</span>
-                  <span className="project-stat-label">Total Teknologi</span>
+                  <span className="project-stat-label">Technologies</span>
                 </div>
               </div>
 
@@ -496,7 +496,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                 </div>
                 <div className="project-stat-info">
                   <span className="project-stat-value">{features.length}</span>
-                  <span className="project-stat-label">Fitur Utama</span>
+                  <span className="project-stat-label">Key Features</span>
                 </div>
               </div>
             </div>

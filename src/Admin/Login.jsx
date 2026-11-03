@@ -14,7 +14,7 @@ export default function Login() {
         e.preventDefault();
         const { error } = await login(email, password);
         if (error) {
-            alert("Login gagal");
+            alert("Login failed");
             return;
         }
         navigate("/admin/dashboard");
@@ -32,7 +32,7 @@ export default function Login() {
             <div className="login-card" data-aos="zoom-in-up" data-aos-duration="700">
                 <div className="login-header" data-aos="fade-up" data-aos-delay="80">
                     <h3>Welcome Back</h3>
-                    <p>Login ke panel admin</p>
+                    <p>Sign in to the admin panel</p>
                 </div>
                 <form onSubmit={handleLogin}>
                     <div className="input-group" data-aos="fade-up" data-aos-delay="140">

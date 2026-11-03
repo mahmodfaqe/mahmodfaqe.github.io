@@ -361,7 +361,7 @@ function DeleteSkillModal({ skill, onCancel, onConfirm }) {
           <p>
             Delete skill <strong>{skill.nama}</strong>?
           </p>
-          <span>Data tidak bisa dikembalikan.</span>
+          <span>This cannot be undone.</span>
         </div>
 
         <div className="skill-delete-actions">
