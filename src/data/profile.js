@@ -61,6 +61,8 @@ export const STATIC_PROJECTS = [
     fitur: ["Student admission", "Room allocation", "PDF reports", "Push notifications", "iOS & Android apps"],
     preview_url: "https://dorm.uor.edu.krd",
     github_url: "",
+    app_store_url: "",
+    play_store_url: "https://play.google.com/store/apps/details?id=krd.uor.dormitory",
     file: "/projects/dormitory.jpg",
   },
   {
@@ -74,6 +76,8 @@ export const STATIC_PROJECTS = [
     fitur: ["Live monitoring", "Mobile apps", "Regional coverage"],
     preview_url: "https://gwrc-airstation.uor.edu.krd",
     github_url: "",
+    app_store_url: "https://apps.apple.com/app/id6821161186",
+    play_store_url: "https://play.google.com/store/apps/details?id=edu.uor.aqkr_mobile",
     file: "/projects/air-quality.jpg",
   },
   {

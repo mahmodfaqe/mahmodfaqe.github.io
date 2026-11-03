@@ -119,6 +119,8 @@ function normalizeProject(project) {
     fitur: getFiturList(project),
     preview_url: project.preview_url ?? "",
     github_url: project.github_url ?? "",
+    app_store_url: project.app_store_url ?? "",
+    play_store_url: project.play_store_url ?? "",
     status: normalizeStatus(project.status),
   };
 }
@@ -389,6 +391,9 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
   const features = project ? getFiturList(project) : [];
   const hasPreviewLink = hasLink(project?.preview_url);
   const hasGithubLink = hasLink(project?.github_url);
+  const hasAppStoreLink = hasLink(project?.app_store_url);
+  const hasPlayStoreLink = hasLink(project?.play_store_url);
+  const hasStoreLinks = hasAppStoreLink || hasPlayStoreLink;
 
   useEffect(() => {
     if (!project) return;
@@ -533,7 +538,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
               {currentStatus.text}
             </p>
 
-            {(hasPreviewLink || hasGithubLink) && (
+            {(hasPreviewLink || hasGithubLink || hasStoreLinks) && (
               <div className="project-action-grid">
                 {hasPreviewLink && (
                   <a
@@ -544,6 +549,30 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                   >
                     <i className="bi bi-eye"></i>
                     Live Demo
+                  </a>
+                )}
+
+                {hasAppStoreLink && (
+                  <a
+                    href={project.app_store_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-learn-more project-modal-link-btn"
+                  >
+                    <i className="bi bi-apple"></i>
+                    App Store
+                  </a>
+                )}
+
+                {hasPlayStoreLink && (
+                  <a
+                    href={project.play_store_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-learn-more project-modal-link-btn"
+                  >
+                    <i className="bi bi-google-play"></i>
+                    Google Play
                   </a>
                 )}
 
@@ -990,7 +1019,13 @@ export default function Project() {
               {paginatedProjects.map((project, index) => {
                 const showPreview = hasLink(project.preview_url);
                 const showGithub = hasLink(project.github_url);
-                const linkCount = Number(showPreview) + Number(showGithub);
+                const showAppStore = hasLink(project.app_store_url);
+                const showPlayStore = hasLink(project.play_store_url);
+                const linkCount =
+                  Number(showPreview) +
+                  Number(showGithub) +
+                  Number(showAppStore) +
+                  Number(showPlayStore);
                 const hasFooterActions = true;
                 const statusMeta = getProjectStatusMeta(project.status);
 
@@ -1033,10 +1068,22 @@ export default function Project() {
                       <div className="project-card-footer">
                         <div className="project-card-actions-stack">
                             {linkCount > 0 && (
-                              <div className="project-link-actions">
+                              <div className="project-link-actions project-link-actions-wrap">
                                 {showPreview && (
-                                  <a href={project.preview_url} className="btn btn-preview">
+                                  <a href={project.preview_url} className="btn btn-preview" target="_blank" rel="noreferrer">
                                     <i className="bi bi-eye"></i> Preview
+                                  </a>
+                                )}
+
+                                {showAppStore && (
+                                  <a href={project.app_store_url} className="btn btn-store" target="_blank" rel="noreferrer">
+                                    <i className="bi bi-apple"></i> App Store
+                                  </a>
+                                )}
+
+                                {showPlayStore && (
+                                  <a href={project.play_store_url} className="btn btn-store" target="_blank" rel="noreferrer">
+                                    <i className="bi bi-google-play"></i> Play
                                   </a>
                                 )}
 
