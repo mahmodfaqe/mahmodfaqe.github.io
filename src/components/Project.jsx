@@ -560,10 +560,10 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                     href={project.app_store_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="btn btn-learn-more project-modal-link-btn"
+                    className="btn btn-app-store project-modal-link-btn"
                   >
-                    <i className="bi bi-apple"></i>
-                    {getAppleStoreLabel(project.app_store_url)}
+                    <i className="bi bi-apple" aria-hidden="true"></i>
+                    <span>{getAppleStoreLabel(project.app_store_url)}</span>
                   </a>
                 )}
 
@@ -572,10 +572,10 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                     href={project.play_store_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="btn btn-learn-more project-modal-link-btn"
+                    className="btn btn-play-store project-modal-link-btn"
                   >
-                    <i className="bi bi-google-play"></i>
-                    Google Play
+                    <i className="bi bi-google-play" aria-hidden="true"></i>
+                    <span>Play Store</span>
                   </a>
                 )}
 
@@ -1079,14 +1079,26 @@ export default function Project() {
                                 )}
 
                                 {showAppStore && (
-                                  <a href={project.app_store_url} className="btn btn-preview" target="_blank" rel="noreferrer">
-                                    <i className="bi bi-apple"></i> {getAppleStoreLabel(project.app_store_url)}
+                                  <a
+                                    href={project.app_store_url}
+                                    className="btn btn-app-store"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    <i className="bi bi-apple" aria-hidden="true"></i>
+                                    <span>{getAppleStoreLabel(project.app_store_url)}</span>
                                   </a>
                                 )}
 
                                 {showPlayStore && (
-                                  <a href={project.play_store_url} className="btn btn-preview" target="_blank" rel="noreferrer">
-                                    <i className="bi bi-google-play"></i> Play
+                                  <a
+                                    href={project.play_store_url}
+                                    className="btn btn-play-store"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    <i className="bi bi-google-play" aria-hidden="true"></i>
+                                    <span>Play Store</span>
                                   </a>
                                 )}
 

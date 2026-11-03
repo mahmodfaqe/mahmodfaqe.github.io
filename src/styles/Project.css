@@ -226,6 +226,70 @@
     box-shadow: 0 6px 14px rgba(201, 106, 122, 0.4);
 }
 
+.project-card .project-link-actions-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.project-card .project-link-actions-wrap .btn {
+    width: 100%;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.project-card .btn-app-store,
+.project-action-grid .btn-app-store {
+    background: linear-gradient(180deg, #2c2c30 0%, #121215 100%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.project-card .btn-app-store:hover,
+.project-action-grid .btn-app-store:hover {
+    background: linear-gradient(180deg, #3a3a40 0%, #1a1a1f 100%);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.34);
+}
+
+.project-card .btn-app-store i,
+.project-action-grid .btn-app-store i {
+    font-size: 1.05rem;
+    line-height: 1;
+}
+
+.project-card .btn-play-store,
+.project-action-grid .btn-play-store {
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    color: #f8fafc;
+    font-weight: 600;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.3);
+}
+
+.project-card .btn-play-store:hover,
+.project-action-grid .btn-play-store:hover {
+    background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+    border-color: rgba(203, 213, 225, 0.42);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.38);
+}
+
+.project-card .btn-play-store i,
+.project-action-grid .btn-play-store i {
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
 .project-card .btn-detail {
     backdrop-filter: blur(6px);
     font-weight: 500;
@@ -256,40 +320,32 @@
 
 @media (max-width: 768px) {
     .project-card .project-link-actions.dual-link {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
     }
 
-    .project-card .project-link-actions.dual-link .btn {
-        flex: 1;
+    .project-card .project-link-actions.dual-link .btn,
+    .project-card .project-link-actions-wrap .btn {
+        width: 100%;
         min-width: 0;
-        width: auto;
         padding: 0 12px;
-        font-size: 0.8rem;
-        white-space: normal;
-    }
-
-    .project-card .project-link-actions {
-        flex-direction: row;
-        flex-wrap: wrap;
+        font-size: 0.82rem;
+        white-space: nowrap;
     }
 }
 
 @media (max-width: 480px) {
-    .project-card .project-link-actions.dual-link {
+    .project-card .project-link-actions.dual-link,
+    .project-card .project-link-actions-wrap {
         gap: 8px;
     }
 
-    .project-card .project-link-actions.dual-link .btn {
+    .project-card .project-link-actions.dual-link .btn,
+    .project-card .project-link-actions-wrap .btn {
         padding: 0 10px;
-        font-size: 0.75rem;
-        min-height: 40px;
-    }
-
-    .project-card .project-link-actions {
-        flex-direction: row !important;
+        font-size: 0.78rem;
+        min-height: 42px;
     }
 }
 
