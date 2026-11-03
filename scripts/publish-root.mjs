@@ -16,4 +16,11 @@ cpSync(join(dist, "assets"), assetsOut, { recursive: true });
 cpSync(join(dist, "index.html"), join(root, "index.html"));
 cpSync(join(dist, "404.html"), join(root, "404.html"));
 
+const projectsDist = join(dist, "projects");
+const projectsOut = join(root, "projects");
+if (existsSync(projectsDist)) {
+  rmSync(projectsOut, { recursive: true, force: true });
+  cpSync(projectsDist, projectsOut, { recursive: true });
+}
+
 console.log("Published dist → repository root for GitHub Pages.");
