@@ -61,7 +61,7 @@ export const STATIC_PROJECTS = [
     fitur: ["Student admission", "Room allocation", "PDF reports", "Push notifications", "iOS & Android apps"],
     preview_url: "https://dorm.uor.edu.krd",
     github_url: "",
-    file: "",
+    file: "/projects/dormitory.jpg",
   },
   {
     id: 2,
@@ -74,7 +74,7 @@ export const STATIC_PROJECTS = [
     fitur: ["Live monitoring", "Mobile apps", "Regional coverage"],
     preview_url: "https://gwrc-airstation.uor.edu.krd",
     github_url: "",
-    file: "",
+    file: "/projects/air-quality.jpg",
   },
   {
     id: 3,
@@ -87,7 +87,7 @@ export const STATIC_PROJECTS = [
     fitur: ["Trilingual site", "GeoLab", "24 Earth Engine apps"],
     preview_url: "https://gwrc.uor.edu.krd",
     github_url: "",
-    file: "",
+    file: "/projects/gwrc.jpg",
   },
   {
     id: 4,
@@ -100,7 +100,7 @@ export const STATIC_PROJECTS = [
     fitur: ["Trilingual CMS", "Research publishing"],
     preview_url: "https://research.dormitory-uor.online",
     github_url: "",
-    file: "",
+    file: "/projects/research-center.jpg",
   },
   {
     id: 5,
@@ -113,7 +113,7 @@ export const STATIC_PROJECTS = [
     fitur: ["Eight languages", "QR catalogue", "Staff admin panel"],
     preview_url: "https://dormitory-uor.online",
     github_url: "https://scence-bio.github.io/library/",
-    file: "",
+    file: "/projects/e-library.jpg",
   },
   {
     id: 6,
@@ -126,7 +126,7 @@ export const STATIC_PROJECTS = [
     fitur: ["Ten chapters", "Kurdish & English", "Microscopic structures"],
     preview_url: "https://scence-bio.github.io/Biology/",
     github_url: "",
-    file: "",
+    file: "/projects/bioguide.jpg",
   },
   {
     id: 7,
@@ -139,7 +139,7 @@ export const STATIC_PROJECTS = [
     fitur: ["Three languages", "Quizzes", "Leaderboard"],
     preview_url: "https://www.entomo.online",
     github_url: "",
-    file: "",
+    file: "/projects/entomology.jpg",
   },
   {
     id: 8,
@@ -152,7 +152,7 @@ export const STATIC_PROJECTS = [
     fitur: ["Create & scan", "Custom colours", "Multiple payloads"],
     preview_url: "https://scence-bio.github.io/Qr-Code/",
     github_url: "",
-    file: "",
+    file: "/projects/qr-studio.jpg",
   },
   {
     id: 9,
@@ -165,7 +165,7 @@ export const STATIC_PROJECTS = [
     fitur: ["Surveys", "Charts", "PDF export", "Trilingual"],
     preview_url: "",
     github_url: "",
-    file: "",
+    file: "/projects/quality-assurance.jpg",
   },
   {
     id: 10,
@@ -177,7 +177,7 @@ export const STATIC_PROJECTS = [
     fitur: ["Map reports", "Location collection"],
     preview_url: "",
     github_url: "",
-    file: "",
+    file: "/projects/geospatial.jpg",
   },
   {
     id: 11,
@@ -190,7 +190,7 @@ export const STATIC_PROJECTS = [
     fitur: ["POS", "Inventory", "Invoices"],
     preview_url: "",
     github_url: "",
-    file: "",
+    file: "/projects/erp-pos.jpg",
   },
   {
     id: 12,
@@ -202,7 +202,7 @@ export const STATIC_PROJECTS = [
     fitur: ["Tourism services"],
     preview_url: "",
     github_url: "",
-    file: "",
+    file: "/projects/bokwe.jpg",
   },
   {
     id: 13,
@@ -215,7 +215,7 @@ export const STATIC_PROJECTS = [
     fitur: ["GC content", "ORF detection", "FASTA comparison"],
     preview_url: "",
     github_url: "",
-    file: "",
+    file: "/projects/dna-analytics.jpg",
   },
   {
     id: 14,
@@ -228,7 +228,7 @@ export const STATIC_PROJECTS = [
     fitur: ["1950–2025 series", "Open data", "Warming stripes source"],
     preview_url: "https://gwrc.uor.edu.krd/open-data/",
     github_url: "",
-    file: "",
+    file: "/projects/temperature-dataset.jpg",
   },
   {
     id: 15,
@@ -241,7 +241,7 @@ export const STATIC_PROJECTS = [
     fitur: ["Agency subscriptions", "Role-based access", "Maps", "Flutter app"],
     preview_url: "",
     github_url: "",
-    file: "",
+    file: "/projects/aqar.jpg",
   },
 ];
 
