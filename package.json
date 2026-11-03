@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "cp index.vite.html index.html && vite",
+    "build": "cp index.vite.html index.html && vite build && node scripts/publish-root.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy:check": "vite build && vite preview"
+    "deploy:check": "npm run build && vite preview"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.103.0",
