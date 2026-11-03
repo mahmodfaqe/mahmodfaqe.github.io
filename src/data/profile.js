@@ -115,8 +115,8 @@ export const STATIC_PROJECTS = [
     status: "completed",
     tools: ["Laravel", "React", "Tailwind CSS", "SQLite"],
     fitur: ["Eight languages", "QR catalogue", "Staff admin panel"],
-    preview_url: "https://dormitory-uor.online",
-    github_url: "https://scence-bio.github.io/library/",
+    preview_url: "https://scence-bio.github.io/library/",
+    github_url: "",
     file: "/projects/e-library.jpg",
   },
   {

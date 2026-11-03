@@ -16,7 +16,6 @@ const FILTERS = [
   { label: "All", value: "all" },
   { label: "Landing Page", value: "landing-page" },
   { label: "Web App", value: "web-app" },
-  { label: "UI/UX Design", value: "ui-ux" },
 ];
 
 const STATUS_PRIORITY = {
@@ -461,7 +460,6 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
               <span className="project-subtitle">
                 {project.kategori === "landing-page" && "Landing Page Project"}
                 {project.kategori === "web-app" && "Web Application"}
-                {project.kategori === "ui-ux" && "UI/UX Design"}
               </span>
             </div>
 
