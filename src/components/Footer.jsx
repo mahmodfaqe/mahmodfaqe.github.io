@@ -16,11 +16,13 @@ export default function Footer() {
                             </li>
                             <li>
                                 <i className="bi bi-telephone-fill"></i>
-                                <span>{PROFILE.phoneDisplay}</span>
+                                <a href={`tel:${PROFILE.phoneDisplay.replace(/\s+/g, "")}`}>
+                                    {PROFILE.phoneDisplay}
+                                </a>
                             </li>
                             <li>
                                 <i className="bi bi-envelope-fill"></i>
-                                <span>{PROFILE.email}</span>
+                                <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
                             </li>
                         </ul>
                     </div>

@@ -50,6 +50,17 @@
     color: var(--text-muted);
 }
 
+.footer-list a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer-list a:hover,
+.footer-list a:focus-visible {
+    color: var(--footer-text);
+    text-decoration: underline;
+}
+
 .footer-list i {
     color: var(--maroon-accent);
     font-size: 1.1rem;

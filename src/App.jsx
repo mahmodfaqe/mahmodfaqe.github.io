@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import About from "./components/About";
 import Home from "./components/Home";
@@ -254,6 +254,8 @@ function App() {
             }
           />
 
+          <Route path="/admin/login" element={<Navigate to="/admin" replace />} />
+
           <Route
             path="/admin/dashboard"
             element={
@@ -284,6 +286,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
