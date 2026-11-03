@@ -244,50 +244,78 @@
 
 .project-card .btn-app-store,
 .project-action-grid .btn-app-store {
-    background: linear-gradient(180deg, #2c2c30 0%, #121215 100%);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 42%),
+        linear-gradient(180deg, #3a3a3e 0%, #1a1a1d 100%);
+    border: 1px solid rgba(255, 255, 255, 0.28);
     color: #fff;
     font-weight: 600;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+    letter-spacing: 0.01em;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.14),
+        0 8px 18px rgba(0, 0, 0, 0.28);
 }
 
 .project-card .btn-app-store:hover,
 .project-action-grid .btn-app-store:hover {
-    background: linear-gradient(180deg, #3a3a40 0%, #1a1a1f 100%);
-    border-color: rgba(255, 255, 255, 0.28);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 42%),
+        linear-gradient(180deg, #4a4a50 0%, #242428 100%);
+    border-color: rgba(255, 255, 255, 0.4);
     color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.34);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        0 12px 24px rgba(0, 0, 0, 0.34);
 }
 
 .project-card .btn-app-store i,
 .project-action-grid .btn-app-store i {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     line-height: 1;
+    color: #ffffff;
+}
+
+.project-card .btn-app-store span,
+.project-action-grid .btn-app-store span {
+    font-size: 0.86rem;
 }
 
 .project-card .btn-play-store,
 .project-action-grid .btn-play-store {
-    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-    border: 1px solid rgba(148, 163, 184, 0.28);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 42%),
+        linear-gradient(180deg, #243044 0%, #121a27 100%);
+    border: 1px solid rgba(148, 163, 184, 0.34);
     color: #f8fafc;
     font-weight: 600;
-    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.3);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 8px 18px rgba(15, 23, 42, 0.3);
 }
 
 .project-card .btn-play-store:hover,
 .project-action-grid .btn-play-store:hover {
-    background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
-    border-color: rgba(203, 213, 225, 0.42);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 42%),
+        linear-gradient(180deg, #334155 0%, #1e293b 100%);
+    border-color: rgba(203, 213, 225, 0.48);
     color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.38);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.14),
+        0 12px 24px rgba(15, 23, 42, 0.38);
 }
 
 .project-card .btn-play-store i,
 .project-action-grid .btn-play-store i {
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 1;
+}
+
+.project-card .btn-play-store span,
+.project-action-grid .btn-play-store span {
+    font-size: 0.86rem;
 }
 
 .project-card .btn-detail {
