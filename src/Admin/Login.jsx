@@ -12,12 +12,12 @@ export default function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const { error } = await login(email, password);
-        if (error) {
-            alert("Login failed");
+        const { data, error } = await login(email, password);
+        if (error || !data?.user) {
+            alert(error?.message || "Login failed");
             return;
         }
-        navigate("/admin/dashboard");
+        navigate("/admin/dashboard", { replace: true });
     };
 
     const togglePasswordVisibility = () => {

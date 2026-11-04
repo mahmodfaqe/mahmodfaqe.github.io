@@ -28,8 +28,8 @@ const STATUS_PRIORITY = {
 const STATUS_META = {
   completed: { text: "Completed", class: "done" },
   "in repair": { text: "In Repair", class: "repair" },
-  "on progress": { text: "On Progress", class: "on-progress" },
-  "on going": { text: "On Going", class: "ongoing" },
+  "on progress": { text: "In Progress", class: "progress" },
+  "on going": { text: "Ongoing", class: "ongoing" },
 };
 
 function getMobilePaginationPages(currentPage, totalPages) {
@@ -1036,16 +1036,21 @@ export default function Project() {
             <div className="card-container mt-5">
               {paginatedProjects.map((project, index) => {
                 const showPreview = hasLink(project.preview_url);
-                const showGithub = hasLink(project.github_url);
                 const showAppStore = hasLink(project.app_store_url);
                 const showPlayStore = hasLink(project.play_store_url);
                 const linkCount =
                   Number(showPreview) +
-                  Number(showGithub) +
                   Number(showAppStore) +
                   Number(showPlayStore);
+                const actionCount = linkCount + 1;
                 const hasFooterActions = true;
                 const statusMeta = getProjectStatusMeta(project.status);
+                const actionsLayoutClass =
+                  actionCount >= 3
+                    ? "project-link-actions project-link-actions-wrap"
+                    : actionCount === 2
+                      ? "project-link-actions dual-link"
+                      : "project-link-actions single-link";
 
                 return (
                 <article
@@ -1085,55 +1090,47 @@ export default function Project() {
                     {hasFooterActions && (
                       <div className="project-card-footer">
                         <div className="project-card-actions-stack">
-                            {linkCount > 0 && (
-                              <div className="project-link-actions project-link-actions-wrap">
-                                {showPreview && (
-                                  <a href={project.preview_url} className="btn btn-preview" target="_blank" rel="noreferrer">
-                                    <i className="bi bi-eye"></i> Preview
-                                  </a>
-                                )}
+                            <div className={actionsLayoutClass}>
+                              {showPreview && (
+                                <a href={project.preview_url} className="btn btn-preview" target="_blank" rel="noreferrer">
+                                  <i className="bi bi-eye" aria-hidden="true"></i>
+                                  <span>Preview</span>
+                                </a>
+                              )}
 
-                                {showAppStore && (
-                                  <a
-                                    href={project.app_store_url}
-                                    className="btn btn-app-store"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                  >
-                                    <i className="bi bi-apple" aria-hidden="true"></i>
-                                    <span>{getAppleStoreLabel(project.app_store_url)}</span>
-                                  </a>
-                                )}
-
-                                {showPlayStore && (
-                                  <a
-                                    href={project.play_store_url}
-                                    className="btn btn-play-store"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                  >
-                                    <i className="bi bi-google-play" aria-hidden="true"></i>
-                                    <span>Play Store</span>
-                                  </a>
-                                )}
-
-                                <button
-                                  type="button"
-                                  className="btn btn-detail"
-                                  onClick={() => setSelectedProject(project)}
+                              {showAppStore && (
+                                <a
+                                  href={project.app_store_url}
+                                  className="btn btn-app-store"
+                                  target="_blank"
+                                  rel="noreferrer"
                                 >
-                                  <i className="bi bi-info-circle"></i> Detail
-                                </button>
-                              </div>
-                            )}
+                                  <i className="bi bi-apple" aria-hidden="true"></i>
+                                  <span>{getAppleStoreLabel(project.app_store_url)}</span>
+                                </a>
+                              )}
 
-                            {linkCount === 0 && (
-                              <div className="project-link-actions single-link">
-                                <button type="button" className="btn btn-detail" onClick={() => setSelectedProject(project)}>
-                                  <i className="bi bi-info-circle"></i> Detail
-                                </button>
-                              </div>
-                            )}
+                              {showPlayStore && (
+                                <a
+                                  href={project.play_store_url}
+                                  className="btn btn-play-store"
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  <i className="bi bi-google-play" aria-hidden="true"></i>
+                                  <span>Play</span>
+                                </a>
+                              )}
+
+                              <button
+                                type="button"
+                                className="btn btn-detail"
+                                onClick={() => setSelectedProject(project)}
+                              >
+                                <i className="bi bi-info-circle" aria-hidden="true"></i>
+                                <span>Detail</span>
+                              </button>
+                            </div>
 
                           {isAdmin && (
                             <div className="project-admin-actions">

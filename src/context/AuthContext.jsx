@@ -3,6 +3,16 @@ import supabase from "../assets/supabase-client";
 
 const AuthContext = createContext();
 
+async function fetchProfileRole(userId) {
+    const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", userId)
+        .maybeSingle();
+
+    return profile?.role ?? null;
+}
+
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [role, setRole] = useState(null);
@@ -15,35 +25,41 @@ export function AuthProvider({ children }) {
 
         let active = true;
 
-        async function syncSession() {
-            const { data } = await supabase.auth.getUser();
+        async function syncSession({ showLoading = false } = {}) {
+            if (showLoading) {
+                setLoading(true);
+            }
 
-            if (!active) return;
-
-            if (data.user) {
-                setUser(data.user);
-
-                const { data: profile } = await supabase
-                    .from("profiles")
-                    .select("role")
-                    .eq("id", data.user.id)
-                    .maybeSingle();
+            try {
+                const { data } = await supabase.auth.getUser();
 
                 if (!active) return;
 
-                setRole(profile?.role);
-            } else {
+                if (data.user) {
+                    setUser(data.user);
+                    const nextRole = await fetchProfileRole(data.user.id);
+                    if (!active) return;
+                    setRole(nextRole);
+                } else {
+                    setUser(null);
+                    setRole(null);
+                }
+            } catch (error) {
+                console.error("Auth session sync failed:", error);
+                if (!active) return;
                 setUser(null);
                 setRole(null);
+            } finally {
+                if (active) {
+                    setLoading(false);
+                }
             }
-
-            setLoading(false);
         }
 
-        syncSession();
+        syncSession({ showLoading: true });
 
         const { data: listener } = supabase.auth.onAuthStateChange(() => {
-            syncSession();
+            syncSession({ showLoading: false });
         });
 
         return () => {
@@ -60,7 +76,33 @@ export function AuthProvider({ children }) {
             };
         }
 
-        return await supabase.auth.signInWithPassword({ email, password });
+        setLoading(true);
+
+        try {
+            const result = await supabase.auth.signInWithPassword({ email, password });
+
+            if (result.error || !result.data?.user) {
+                setUser(null);
+                setRole(null);
+                return result;
+            }
+
+            setUser(result.data.user);
+            const nextRole = await fetchProfileRole(result.data.user.id);
+            setRole(nextRole);
+
+            return result;
+        } catch (error) {
+            console.error("Login failed:", error);
+            setUser(null);
+            setRole(null);
+            return {
+                data: { user: null, session: null },
+                error: { message: error?.message || "Login failed" },
+            };
+        } finally {
+            setLoading(false);
+        }
     };
 
     const logout = async () => {

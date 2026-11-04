@@ -81,17 +81,16 @@ export default function SplashScreen() {
 
         const previousBodyOverflow = document.body.style.overflow;
         const previousHtmlOverflow = document.documentElement.style.overflow;
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const leaveAt = reducedMotion ? 0 : 2200;
+        const hideAt = reducedMotion ? 0 : 2850;
 
         document.body.dataset.splash = "active";
         document.body.style.overflow = "hidden";
         document.documentElement.style.overflow = "hidden";
         window.dispatchEvent(new Event("viewport:change"));
 
-        const leaveTimer = window.setTimeout(() => {
-            setIsLeaving(true);
-        }, 2200);
-
-        const timer = window.setTimeout(() => {
+        const finishSplash = () => {
             document.body.dataset.splash = "done";
             window.sessionStorage.setItem(SPLASH_DONE_KEY, "1");
             document.body.style.overflow = previousBodyOverflow;
@@ -99,7 +98,21 @@ export default function SplashScreen() {
             window.dispatchEvent(new Event("viewport:change"));
             window.dispatchEvent(new Event("splashscreen:complete"));
             setHidden(true);
-        }, 2850);
+        };
+
+        if (reducedMotion) {
+            finishSplash();
+            return () => {
+                document.body.style.overflow = previousBodyOverflow;
+                document.documentElement.style.overflow = previousHtmlOverflow;
+            };
+        }
+
+        const leaveTimer = window.setTimeout(() => {
+            setIsLeaving(true);
+        }, leaveAt);
+
+        const timer = window.setTimeout(finishSplash, hideAt);
 
         return () => {
             window.clearTimeout(leaveTimer);
