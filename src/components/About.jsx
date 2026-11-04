@@ -42,6 +42,8 @@ export default function About() {
                                     src={me}
                                     alt={PROFILE.fullName}
                                     className="profile-img"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             </div>
                         </div>

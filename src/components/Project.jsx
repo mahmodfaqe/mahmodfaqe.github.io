@@ -11,6 +11,7 @@ import {
   rememberSectionTarget,
   scrollToSectionId,
 } from "../utils/sectionScroll";
+import { hasSafeHttpUrl, sanitizeHttpUrl } from "../utils/safeUrl";
 
 const FILTERS = [
   { label: "All", value: "all" },
@@ -61,8 +62,7 @@ function getIsAdmin(role) {
 }
 
 function hasLink(url) {
-  if (!url) return false;
-  return url.trim() !== "";
+  return hasSafeHttpUrl(url);
 }
 
 function getAppleStoreLabel(url) {
@@ -226,9 +226,16 @@ function buildPayload(formData, existingFileUrl = null) {
     fitur: parseTools(formData.fiturInput),
     tools: parseTools(formData.toolsInput),
     status: formData.status,
-    preview_url: formData.preview_url,
-    github_url: formData.github_url,
+    preview_url: sanitizeHttpUrl(formData.preview_url),
+    github_url: sanitizeHttpUrl(formData.github_url),
   };
+}
+
+function requireSupabase() {
+  if (!supabase) {
+    throw new Error("Supabase config is missing");
+  }
+  return supabase;
 }
 
 function navigateToProjectSection(navigate) {
@@ -355,8 +362,8 @@ function ProjectForm({ formData, onChange, onSubmit, saving, submitLabel, submit
           >
             <option value="completed">Completed</option>
             <option value="in repair">In Repair</option>
-            <option value="on progress">On Progress</option>
-            <option value="on going">On Going</option>
+            <option value="on progress">In Progress</option>
+            <option value="on going">Ongoing</option>
           </select>
         </label>
 
@@ -419,18 +426,22 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
   }
 
   async function handleDelete(project) {
-    const { error } = await supabase
-      .from("Project")
-      .delete()
-      .eq("id", project.id);
+    try {
+      const { error } = await requireSupabase()
+        .from("Project")
+        .delete()
+        .eq("id", project.id);
 
-    if (error) {
+      if (error) {
+        console.error("Error deleting:", error);
+        return;
+      }
+
+      setDeleteTarget(null);
+      navigateToProjectSection(navigate);
+    } catch (error) {
       console.error("Error deleting:", error);
-      return;
     }
-
-    setDeleteTarget(null);
-    navigateToProjectSection(navigate);
   }
 
   const currentStatus = getProjectStatusMeta(project.status);
@@ -523,7 +534,12 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
           <div className="project-preview-section" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
             <div className="project-preview-container">
               {project.file ? (
-                <img src={project.file} alt={project.nama} />
+                <img
+                  src={project.file}
+                  alt={project.nama}
+                  loading="lazy"
+                  decoding="async"
+                />
               ) : (
                 <div className="project-preview-placeholder">
                   No Preview Available
@@ -545,9 +561,9 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
               <div className="project-action-grid">
                 {hasPreviewLink && (
                   <a
-                    href={project.preview_url}
+                    href={sanitizeHttpUrl(project.preview_url)}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="btn btn-live-demo project-modal-link-btn"
                   >
                     <i className="bi bi-eye"></i>
@@ -557,9 +573,9 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
 
                 {hasAppStoreLink && (
                   <a
-                    href={project.app_store_url}
+                    href={sanitizeHttpUrl(project.app_store_url)}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="btn btn-app-store project-modal-link-btn"
                   >
                     <i className="bi bi-apple" aria-hidden="true"></i>
@@ -569,9 +585,9 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
 
                 {hasPlayStoreLink && (
                   <a
-                    href={project.play_store_url}
+                    href={sanitizeHttpUrl(project.play_store_url)}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="btn btn-play-store project-modal-link-btn"
                   >
                     <i className="bi bi-google-play" aria-hidden="true"></i>
@@ -581,9 +597,9 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
 
                 {hasGithubLink && (
                   <a
-                    href={project.github_url}
+                    href={sanitizeHttpUrl(project.github_url)}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="btn btn-learn-more project-modal-link-btn"
                   >
                     <i className="bi bi-github"></i>
@@ -644,18 +660,22 @@ function ProjectEditorPage({ mode }) {
   const [deleteTarget, setDeleteTarget] = useState(null);
 
   async function handleDelete(project) {
-    const { error } = await supabase
-      .from("Project")
-      .delete()
-      .eq("id", project.id);
+    try {
+      const { error } = await requireSupabase()
+        .from("Project")
+        .delete()
+        .eq("id", project.id);
 
-    if (error) {
+      if (error) {
+        console.error("Error deleting:", error);
+        return;
+      }
+
+      setDeleteTarget(null);
+      navigateToProjectSection(navigate);
+    } catch (error) {
       console.error("Error deleting:", error);
-      return;
     }
-
-    setDeleteTarget(null);
-    navigateToProjectSection(navigate);
   }
 
 
@@ -733,9 +753,17 @@ function ProjectEditorPage({ mode }) {
       return;
     }
 
+    const previewUrl = formData.preview_url?.trim() || "";
+    const githubUrl = formData.github_url?.trim() || "";
+    if ((previewUrl && !sanitizeHttpUrl(previewUrl)) || (githubUrl && !sanitizeHttpUrl(githubUrl))) {
+      alert("Preview and GitHub links must be valid http(s) URLs.");
+      return;
+    }
+
     setSaving(true);
 
     try {
+      const client = requireSupabase();
       let fileUrl = currentProject?.file ?? null;
 
       if (formData.file) {
@@ -745,13 +773,13 @@ function ProjectEditorPage({ mode }) {
       const payload = buildPayload(formData, fileUrl);
 
       if (isEditMode && currentProject) {
-        const { error } = await supabase.from("Project").update(payload).eq("id", currentProject.id);
+        const { error } = await client.from("Project").update(payload).eq("id", currentProject.id);
 
         if (error) {
           throw error;
         }
       } else {
-        const { error } = await supabase.from("Project").insert([payload]);
+        const { error } = await client.from("Project").insert([payload]);
 
         if (error) {
           throw error;
@@ -964,18 +992,22 @@ export default function Project() {
   }
 
   async function handleDelete(project) {
-    const { error } = await supabase
-      .from("Project")
-      .delete()
-      .eq("id", project.id);
+    try {
+      const { error } = await requireSupabase()
+        .from("Project")
+        .delete()
+        .eq("id", project.id);
 
-    if (error) {
+      if (error) {
+        console.error("Error deleting:", error);
+        return;
+      }
+
+      setProjects((prev) => prev.filter((p) => p.id !== project.id));
+      setDeleteTarget(null);
+    } catch (error) {
       console.error("Error deleting:", error);
-      return;
     }
-
-    setProjects((prev) => prev.filter((p) => p.id !== project.id));
-    setDeleteTarget(null);
   }
 
   return (
@@ -1068,7 +1100,13 @@ export default function Project() {
                       </span>
 
                       {project.file ? (
-                        <img src={project.file} alt={project.nama} className="project-image" />
+                        <img
+                          src={project.file}
+                          alt={project.nama}
+                          className="project-image"
+                          loading="lazy"
+                          decoding="async"
+                        />
                       ) : (
                         <div className="project-placeholder">No Image</div>
                       )}
@@ -1091,8 +1129,13 @@ export default function Project() {
                       <div className="project-card-footer">
                         <div className="project-card-actions-stack">
                             <div className={actionsLayoutClass}>
-                              {showPreview && (
-                                <a href={project.preview_url} className="btn btn-preview" target="_blank" rel="noreferrer">
+                                {showPreview && (
+                                <a
+                                  href={sanitizeHttpUrl(project.preview_url)}
+                                  className="btn btn-preview"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
                                   <i className="bi bi-eye" aria-hidden="true"></i>
                                   <span>Preview</span>
                                 </a>
@@ -1100,10 +1143,10 @@ export default function Project() {
 
                               {showAppStore && (
                                 <a
-                                  href={project.app_store_url}
+                                  href={sanitizeHttpUrl(project.app_store_url)}
                                   className="btn btn-app-store"
                                   target="_blank"
-                                  rel="noreferrer"
+                                  rel="noopener noreferrer"
                                 >
                                   <i className="bi bi-apple" aria-hidden="true"></i>
                                   <span>{getAppleStoreLabel(project.app_store_url)}</span>
@@ -1112,10 +1155,10 @@ export default function Project() {
 
                               {showPlayStore && (
                                 <a
-                                  href={project.play_store_url}
+                                  href={sanitizeHttpUrl(project.play_store_url)}
                                   className="btn btn-play-store"
                                   target="_blank"
-                                  rel="noreferrer"
+                                  rel="noopener noreferrer"
                                 >
                                   <i className="bi bi-google-play" aria-hidden="true"></i>
                                   <span>Play</span>

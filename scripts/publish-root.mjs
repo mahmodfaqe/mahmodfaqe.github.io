@@ -16,6 +16,13 @@ cpSync(join(dist, "assets"), assetsOut, { recursive: true });
 cpSync(join(dist, "index.html"), join(root, "index.html"));
 cpSync(join(dist, "404.html"), join(root, "404.html"));
 
+for (const file of ["robots.txt", "sitemap.xml", ".nojekyll"]) {
+  const from = join(dist, file);
+  if (existsSync(from)) {
+    cpSync(from, join(root, file));
+  }
+}
+
 const projectsDist = join(dist, "projects");
 const projectsOut = join(root, "projects");
 if (existsSync(projectsDist)) {
