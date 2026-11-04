@@ -1169,13 +1169,17 @@ export default function Project() {
         </div>
 
         <div className="portfolio-pagination animate-fade-in-up text-center">
-          <ul className="pagination-custom pagination-desktop">
-
-            <li
-              className={`page-item-custom ${currentPage === 1 ? "disabled" : ""}`}
-              onClick={() => currentPage > 1 && goToPage(currentPage - 1)}
-            >
-              <i className="fas fa-chevron-left"></i>
+          <ul className="pagination-custom pagination-desktop" aria-label="Project pages">
+            <li className={`page-item-custom ${currentPage === 1 ? "disabled" : ""}`}>
+              <button
+                type="button"
+                className="page-item-btn"
+                aria-label="Previous page"
+                disabled={currentPage === 1}
+                onClick={() => goToPage(currentPage - 1)}
+              >
+                <i className="fas fa-chevron-left" aria-hidden="true"></i>
+              </button>
             </li>
 
             {Array.from({ length: totalPages }).map((_, i) => {
@@ -1185,48 +1189,73 @@ export default function Project() {
                 <li
                   key={page}
                   className={`page-item-custom ${currentPage === page ? "active" : ""}`}
-                  onClick={() => goToPage(page)}
                 >
-                  {page}
+                  <button
+                    type="button"
+                    className="page-item-btn"
+                    aria-label={`Page ${page}`}
+                    aria-current={currentPage === page ? "page" : undefined}
+                    onClick={() => goToPage(page)}
+                  >
+                    {page}
+                  </button>
                 </li>
               );
             })}
 
-            <li
-              className={`page-item-custom ${currentPage === totalPages ? "disabled" : ""}`}
-              onClick={() => currentPage < totalPages && goToPage(currentPage + 1)}
-            >
-              <i className="fas fa-chevron-right"></i>
+            <li className={`page-item-custom ${currentPage === totalPages ? "disabled" : ""}`}>
+              <button
+                type="button"
+                className="page-item-btn"
+                aria-label="Next page"
+                disabled={currentPage === totalPages}
+                onClick={() => goToPage(currentPage + 1)}
+              >
+                <i className="fas fa-chevron-right" aria-hidden="true"></i>
+              </button>
             </li>
-
           </ul>
 
           <ul className="pagination-custom pagination-mobile" aria-label="Project pages">
-            <li
-              className={`page-item-custom ${currentPage === 1 ? "disabled" : ""}`}
-              onClick={() => currentPage > 1 && goToPage(currentPage - 1)}
-              aria-label="Previous page"
-            >
-              <i className="fas fa-chevron-left"></i>
+            <li className={`page-item-custom ${currentPage === 1 ? "disabled" : ""}`}>
+              <button
+                type="button"
+                className="page-item-btn"
+                aria-label="Previous page"
+                disabled={currentPage === 1}
+                onClick={() => goToPage(currentPage - 1)}
+              >
+                <i className="fas fa-chevron-left" aria-hidden="true"></i>
+              </button>
             </li>
 
             {mobilePaginationPages.map((page) => (
               <li
                 key={page}
                 className={`page-item-custom ${currentPage === page ? "active" : ""}`}
-                onClick={() => goToPage(page)}
-                aria-current={currentPage === page ? "page" : undefined}
               >
-                {page}
+                <button
+                  type="button"
+                  className="page-item-btn"
+                  aria-label={`Page ${page}`}
+                  aria-current={currentPage === page ? "page" : undefined}
+                  onClick={() => goToPage(page)}
+                >
+                  {page}
+                </button>
               </li>
             ))}
 
-            <li
-              className={`page-item-custom ${currentPage === totalPages ? "disabled" : ""}`}
-              onClick={() => currentPage < totalPages && goToPage(currentPage + 1)}
-              aria-label="Next page"
-            >
-              <i className="fas fa-chevron-right"></i>
+            <li className={`page-item-custom ${currentPage === totalPages ? "disabled" : ""}`}>
+              <button
+                type="button"
+                className="page-item-btn"
+                aria-label="Next page"
+                disabled={currentPage === totalPages}
+                onClick={() => goToPage(currentPage + 1)}
+              >
+                <i className="fas fa-chevron-right" aria-hidden="true"></i>
+              </button>
             </li>
           </ul>
         </div>

@@ -20,6 +20,15 @@
         ],
         "createdAt": "2026-11-04T00:12:31.110Z",
         "reason": "Agent: existing splash title gradient is part of the established portfolio splash brand treatment, not new decorative metric text"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/styles/Splash-screen.css"
+        ],
+        "createdAt": "2026-11-04T00:12:53.259Z",
+        "reason": "Agent: splash particles are full-bleed atmosphere, not a side-tab navigation pattern; detector false positive on particle nth-child positioning"
       }
     ]
   }

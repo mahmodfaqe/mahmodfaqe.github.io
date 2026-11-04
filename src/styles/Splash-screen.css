@@ -15,10 +15,6 @@
     padding:
         calc(env(safe-area-inset-top, 0px) + 24px) clamp(18px, 5vw, 36px) calc(env(safe-area-inset-bottom, 0px) + 24px);
     transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
 }
 
 @media (max-width: 576px) {
@@ -52,85 +48,85 @@
    PARTICLES
 ========================= */
 
-.particles span {
+.splash .particles span {
     position: absolute;
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    animation: float 10s infinite ease-in-out;
+    animation: splashParticleFloat 10s infinite ease-in-out;
     opacity: 0.6;
 }
 
-.particles span:nth-child(odd) {
+.splash .particles span:nth-child(odd) {
     background: rgba(255, 0, 76, 0.5);
 }
 
-.particles span:nth-child(even) {
+.splash .particles span:nth-child(even) {
     background: rgba(128, 0, 32, 0.5);
 }
 
 /* random positions */
-.particles span:nth-child(1) {
+.splash .particles span:nth-child(1) {
     top: 10%;
     left: 20%;
 }
 
-.particles span:nth-child(2) {
+.splash .particles span:nth-child(2) {
     top: 30%;
     left: 70%;
 }
 
-.particles span:nth-child(3) {
+.splash .particles span:nth-child(3) {
     top: 80%;
     left: 30%;
 }
 
-.particles span:nth-child(4) {
+.splash .particles span:nth-child(4) {
     top: 60%;
     left: 10%;
 }
 
-.particles span:nth-child(5) {
+.splash .particles span:nth-child(5) {
     top: 20%;
     left: 80%;
 }
 
-.particles span:nth-child(6) {
+.splash .particles span:nth-child(6) {
     top: 50%;
     left: 50%;
 }
 
-.particles span:nth-child(7) {
+.splash .particles span:nth-child(7) {
     top: 25%;
     left: 40%;
 }
 
-.particles span:nth-child(8) {
+.splash .particles span:nth-child(8) {
     top: 70%;
     left: 60%;
 }
 
-.particles span:nth-child(9) {
+.splash .particles span:nth-child(9) {
     top: 15%;
     left: 55%;
 }
 
-.particles span:nth-child(10) {
+.splash .particles span:nth-child(10) {
     top: 85%;
     left: 75%;
 }
 
-.particles span:nth-child(11) {
+.splash .particles span:nth-child(11) {
     top: 35%;
     left: 15%;
 }
 
-.particles span:nth-child(12) {
+.splash .particles span:nth-child(12) {
     top: 65%;
     left: 85%;
 }
 
-@keyframes float {
+@keyframes splashParticleFloat {
     0% {
         transform: translateY(0);
     }
@@ -258,10 +254,10 @@
         margin: 22px auto 20px;
     }
 
-    .particles span:nth-child(4),
-    .particles span:nth-child(8),
-    .particles span:nth-child(10),
-    .particles span:nth-child(12) {
+    .splash .particles span:nth-child(4),
+    .splash .particles span:nth-child(8),
+    .splash .particles span:nth-child(10),
+    .splash .particles span:nth-child(12) {
         display: none;
     }
 }
