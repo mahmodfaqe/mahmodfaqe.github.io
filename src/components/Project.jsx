@@ -858,24 +858,39 @@ export default function Project() {
 
   useEffect(() => {
     const hashTarget = location.hash.replace("#", "");
+    const rememberedTarget = isKnownSectionId(hashTarget)
+      ? hashTarget
+      : consumeSectionTarget();
 
-    if (isKnownSectionId(hashTarget)) {
-      const timer = setTimeout(() => {
-        scrollToSectionId(hashTarget, { behavior: "smooth" });
-      }, 120);
-
-      return () => clearTimeout(timer);
+    if (!rememberedTarget || !isKnownSectionId(rememberedTarget)) {
+      return undefined;
     }
 
-    const rememberedTarget = consumeSectionTarget();
+    let cancelled = false;
+    let timer = 0;
 
-    if (rememberedTarget) {
-      const timer = setTimeout(() => {
-        scrollToSectionId(rememberedTarget, { behavior: "smooth" });
-      }, 120);
+    const runScroll = () => {
+      if (cancelled) return;
+      scrollToSectionId(rememberedTarget, { behavior: "smooth" });
+    };
 
-      return () => clearTimeout(timer);
+    const schedule = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(runScroll, 120);
+    };
+
+    if (document.body.dataset.splash === "done") {
+      schedule();
+    } else {
+      window.addEventListener("splashscreen:complete", schedule, { once: true });
+      timer = window.setTimeout(schedule, 3000);
     }
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+      window.removeEventListener("splashscreen:complete", schedule);
+    };
   }, [location.hash, location.pathname]);
   
   const isAdmin =
