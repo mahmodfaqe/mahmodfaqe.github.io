@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from "react";
+import { lazy, Suspense, useEffect, useLayoutEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
@@ -19,7 +19,7 @@ import SplashScreen from "./components/Splash-screen";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./context/ProtectedRoute";
 
-import Login from "./Admin/Login";
+const Login = lazy(() => import("./Admin/Login"));
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
@@ -31,6 +31,18 @@ function addMediaQueryListener(mediaQuery, listener) {
 
   mediaQuery.addListener(listener);
   return () => mediaQuery.removeListener(listener);
+}
+
+function RouteFallback() {
+  return (
+    <div className="auth-loading-screen">
+      <div className="auth-loading-card">
+        <div className="auth-loading-spinner"></div>
+        <h4>Loading</h4>
+        <p>Preparing this page.</p>
+      </div>
+    </div>
+  );
 }
 
 function BackgroundLayer() {
@@ -241,54 +253,56 @@ function App() {
       <BrowserRouter>
         <ViewportManager />
         <AosManager />
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
+        <Suspense fallback={<RouteFallback />}>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
 
-          <Route
-            path="/admin"
-            element={
-              <>
-                <BackgroundLayer />
-                <Login />
-              </>
-            }
-          />
+            <Route
+              path="/admin"
+              element={
+                <>
+                  <BackgroundLayer />
+                  <Login />
+                </>
+              }
+            />
 
-          <Route path="/admin/login" element={<Navigate to="/admin" replace />} />
+            <Route path="/admin/login" element={<Navigate to="/admin" replace />} />
 
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedRoute>
-                <LandingPage />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <ProtectedRoute>
+                  <LandingPage />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/project/add"
-            element={
-              <ProtectedRoute>
-                <SiteLayout>
-                  <AddProjectPage />
-                </SiteLayout>
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/project/add"
+              element={
+                <ProtectedRoute>
+                  <SiteLayout>
+                    <AddProjectPage />
+                  </SiteLayout>
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/project/edit/:id"
-            element={
-              <ProtectedRoute>
-                <SiteLayout>
-                  <EditProjectPage />
-                </SiteLayout>
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/project/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <SiteLayout>
+                    <EditProjectPage />
+                  </SiteLayout>
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </AuthProvider>
   );

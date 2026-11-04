@@ -91,13 +91,19 @@ export function AuthProvider({ children }) {
             const nextRole = await fetchProfileRole(result.data.user.id);
             setRole(nextRole);
 
-            return result;
+            return {
+                ...result,
+                data: {
+                    ...result.data,
+                    role: nextRole,
+                },
+            };
         } catch (error) {
             console.error("Login failed:", error);
             setUser(null);
             setRole(null);
             return {
-                data: { user: null, session: null },
+                data: { user: null, session: null, role: null },
                 error: { message: error?.message || "Login failed" },
             };
         } finally {

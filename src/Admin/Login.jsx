@@ -4,20 +4,35 @@ import { useAuth } from "../context/AuthContext";
 import "../styles/login.css";
 
 export default function Login() {
-    const { login } = useAuth();
+    const { login, logout } = useAuth();
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const { data, error } = await login(email, password);
-        if (error || !data?.user) {
-            alert(error?.message || "Login failed");
-            return;
+        if (submitting) return;
+
+        setSubmitting(true);
+        try {
+            const { data, error } = await login(email, password);
+            if (error || !data?.user) {
+                alert(error?.message || "Login failed");
+                return;
+            }
+
+            if (data.role !== "admin") {
+                await logout();
+                alert("This account is not an administrator.");
+                return;
+            }
+
+            navigate("/admin/dashboard", { replace: true });
+        } finally {
+            setSubmitting(false);
         }
-        navigate("/admin/dashboard", { replace: true });
     };
 
     const togglePasswordVisibility = () => {
@@ -42,6 +57,7 @@ export default function Login() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
+                            disabled={submitting}
                         />
                     </div>
                     <div className="input-group password-group" data-aos="fade-up" data-aos-delay="220">
@@ -51,6 +67,7 @@ export default function Login() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
+                            disabled={submitting}
                         />
                         <button
                             type="button"
@@ -62,7 +79,9 @@ export default function Login() {
                         </button>
                     </div>
                     <div data-aos="fade-up" data-aos-delay="300">
-                        <button type="submit" className="login-btn">Login</button>
+                        <button type="submit" className="login-btn" disabled={submitting}>
+                            {submitting ? "Signing in..." : "Login"}
+                        </button>
                     </div>
                 </form>
                 <div className="login-footer" data-aos="fade-up" data-aos-delay="360">
