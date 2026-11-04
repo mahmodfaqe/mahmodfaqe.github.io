@@ -11,6 +11,15 @@
         ],
         "createdAt": "2026-11-03T23:45:02.890Z",
         "reason": "Agent: false positive on full-border button styles in delete modal; no thick single-side accent card border in this file"
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/styles/Splash-screen.css"
+        ],
+        "createdAt": "2026-11-04T00:12:31.110Z",
+        "reason": "Agent: existing splash title gradient is part of the established portfolio splash brand treatment, not new decorative metric text"
       }
     ]
   }

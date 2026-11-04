@@ -38,16 +38,13 @@ export default function Home() {
                         <div className={`hero-content ${isVisible ? "is-visible" : ""}`}>
                             <h4
                                 className="hero-eyebrow hero-reveal"
-                                data-aos="fade-up"
                                 style={{ "--hero-delay": "0.08s" }}
                             >
-                                Hello!, It's Me
+                                Hello, it's me
                             </h4>
 
                             <h1
                                 className="hero-title hero-reveal"
-                                data-aos="zoom-in"
-                                data-aos-delay="100"
                                 style={{ "--hero-delay": "0.18s" }}
                             >
                                 <span className="hero-title-first">{PROFILE.firstName}</span>{" "}
@@ -56,8 +53,6 @@ export default function Home() {
 
                             <h3
                                 className="hero-role hero-reveal"
-                                data-aos="fade-up"
-                                data-aos-delay="180"
                                 style={{ "--hero-delay": "0.28s" }}
                             >
                                 And I am a {PROFILE.role.toLowerCase()}
@@ -65,8 +60,6 @@ export default function Home() {
 
                             <p
                                 className="hero-text mx-auto hero-reveal"
-                                data-aos="fade-up"
-                                data-aos-delay="260"
                                 style={{ "--hero-delay": "0.38s" }}
                             >
                                 {PROFILE.homeLead}
@@ -74,8 +67,6 @@ export default function Home() {
 
                             <div
                                 className="d-flex flex-wrap gap-3 justify-content-center hero-actions hero-reveal"
-                                data-aos="zoom-in-up"
-                                data-aos-delay="340"
                                 style={{ "--hero-delay": "0.5s" }}
                             >
                                 <Link to={buildSectionHref(location.pathname, "about")} className="btn btn-primary-modern">

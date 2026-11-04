@@ -54,15 +54,6 @@ export default function Skills() {
   const displayedSkills = skills.slice(0, visibleCount);
 
   useEffect(() => {
-    AOS.init({
-      duration: 700,
-      easing: "ease-in-out",
-      once: true,
-      offset: 40,
-    });
-  }, []);
-
-  useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth <= 768;
       const nextBase = mobile ? 6 : 12;

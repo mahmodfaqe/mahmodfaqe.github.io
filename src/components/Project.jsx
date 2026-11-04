@@ -729,7 +729,7 @@ function ProjectEditorPage({ mode }) {
     const fiturList = parseTools(formData.fiturInput);
 
     if (fiturList.length < 3) {
-      alert("Minimal fitur harus 3!");
+      alert("Please add at least 3 features.");
       return;
     }
 
@@ -772,8 +772,8 @@ function ProjectEditorPage({ mode }) {
         <div className="container">
           <div className="project-admin-panel">
             <div className="project-admin-header">
-              <h3>Akses Ditolak</h3>
-              <p>Halaman ini hanya untuk admin.</p>
+              <h3>Access denied</h3>
+              <p>This page is for administrators only.</p>
             </div>
           </div>
         </div>
@@ -816,7 +816,7 @@ function ProjectEditorPage({ mode }) {
             <div className="project-editor-stage is-loading">
               <div className="project-editor-loading">
               <div className="project-editor-loader"></div>
-              <p>Memuat data project...</p>
+              <p>Loading project data...</p>
               </div>
             </div>
           ) : (

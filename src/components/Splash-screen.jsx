@@ -2,19 +2,30 @@ import { useEffect, useState } from "react";
 import "../styles/Splash-screen.css";
 import { PROFILE } from "../data/profile";
 
-export default function SplashScreen() {
-    const [hidden, setHidden] = useState(false);
-    const [isLeaving, setIsLeaving] = useState(false);
-    const [text, setText] = useState(`Welcome to ${PROFILE.firstName}'s Portfolio`);
+const SPLASH_DONE_KEY = "portfolio:splash-done";
 
+function hasCompletedSplash() {
+    if (typeof window === "undefined") return false;
+    return (
+        document.body.dataset.splash === "done" ||
+        window.sessionStorage.getItem(SPLASH_DONE_KEY) === "1"
+    );
+}
+
+export default function SplashScreen() {
+    const [hidden, setHidden] = useState(() => hasCompletedSplash());
+    const [isLeaving, setIsLeaving] = useState(false);
     const [texts] = useState([
         "Welcome to My Portfolio",
         "Biology Student & Developer",
         "Web · Mobile · Research Tools",
         "Kurdish · English · Arabic Platforms",
     ]);
+    const [text, setText] = useState(texts[0]);
 
     useEffect(() => {
+        if (hidden) return undefined;
+
         let i = 0;
         let char = 0;
         let deleting = false;
@@ -41,7 +52,7 @@ export default function SplashScreen() {
                 pauseTimer = window.setTimeout(() => {
                     deleting = true;
                     type();
-                }, 1200);
+                }, 900);
                 return;
             }
 
@@ -50,7 +61,7 @@ export default function SplashScreen() {
                 i = (i + 1) % texts.length;
             }
 
-            typingTimer = window.setTimeout(type, deleting ? 50 : 90);
+            typingTimer = window.setTimeout(type, deleting ? 40 : 70);
         }
 
         type();
@@ -60,9 +71,14 @@ export default function SplashScreen() {
             window.clearTimeout(typingTimer);
             window.clearTimeout(pauseTimer);
         };
-    }, [texts]);
+    }, [hidden, texts]);
 
     useEffect(() => {
+        if (hidden) {
+            document.body.dataset.splash = "done";
+            return undefined;
+        }
+
         const previousBodyOverflow = document.body.style.overflow;
         const previousHtmlOverflow = document.documentElement.style.overflow;
 
@@ -77,6 +93,7 @@ export default function SplashScreen() {
 
         const timer = window.setTimeout(() => {
             document.body.dataset.splash = "done";
+            window.sessionStorage.setItem(SPLASH_DONE_KEY, "1");
             document.body.style.overflow = previousBodyOverflow;
             document.documentElement.style.overflow = previousHtmlOverflow;
             window.dispatchEvent(new Event("viewport:change"));
@@ -95,7 +112,7 @@ export default function SplashScreen() {
                 delete document.body.dataset.splash;
             }
         };
-    }, []);
+    }, [hidden]);
 
     if (hidden) return null;
 
