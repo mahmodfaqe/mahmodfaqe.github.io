@@ -7,3 +7,5 @@ docs/
 .env.local
 *.log
 _backup_old/
+
+projects/_raw/
