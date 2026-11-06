@@ -1,5 +1,9 @@
 name: Deploy to GitHub Pages
 
+# Repo Pages source is branch `main` (legacy). Publishing happens from the
+# committed publish-root assets. This workflow verifies `npm run build` and
+# does not call deploy-pages (that path conflicts with legacy branch deploys).
+
 on:
   push:
     branches: [main]
@@ -7,12 +11,9 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  # Shared group so overlapping Pages deploys (Actions + branch builder) do not stall queued.
-  group: github-pages
+  group: portfolio-ci
   cancel-in-progress: true
 
 jobs:
@@ -35,18 +36,3 @@ jobs:
           VITE_FORMSPREE_ID: ${{ secrets.VITE_FORMSPREE_ID }}
           VITE_PLAUSIBLE_DOMAIN: ${{ secrets.VITE_PLAUSIBLE_DOMAIN }}
         run: npm run build
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
