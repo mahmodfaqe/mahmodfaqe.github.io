@@ -54,7 +54,9 @@ export default function Footer() {
                                 {t.nav.cv}
                             </Link>
                         </div>
+                    </div>
 
+                    <div className="footer-form-col" data-aos="fade-up" data-aos-delay="60">
                         <ContactForm />
                     </div>
 
