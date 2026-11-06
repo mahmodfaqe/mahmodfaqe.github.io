@@ -4,8 +4,11 @@
   --maroon-primary: #5a0000;
   --maroon-dark: #2a0407;
   --maroon-light: #7f1a2a;
-  --maroon-accent: #9b2335;
-  --maroon-accent-rgb: 155, 35, 53;
+  /* Brighter accent for text on near-black (WCAG-friendlier than #9b2335) */
+  --maroon-accent: #e05a6c;
+  --maroon-accent-rgb: 224, 90, 108;
+  --maroon-accent-deep: #9b2335;
+  --maroon-accent-deep-rgb: 155, 35, 53;
 
   --bg-primary: #050505;
   --bg-secondary: #0b0b0b;

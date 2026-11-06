@@ -49,8 +49,10 @@
 .hero-title-accent {
     position: relative;
     display: inline-block;
-    color: var(--maroon-accent);
-    text-shadow: 0 0 22px rgba(var(--maroon-accent-rgb), 0.2);
+    color: #f2a0ae;
+    text-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.45),
+        0 0 22px rgba(var(--maroon-accent-rgb), 0.35);
     animation: heroAccentGlow 3.2s ease-in-out infinite, heroNameFloat 4.2s ease-in-out infinite -1.1s;
 }
 
@@ -136,12 +138,16 @@
     0%,
     100% {
         transform: translateY(0);
-        text-shadow: 0 0 16px rgba(var(--maroon-accent-rgb), 0.18);
+        text-shadow:
+            0 1px 0 rgba(0, 0, 0, 0.45),
+            0 0 16px rgba(242, 160, 174, 0.28);
     }
 
     50% {
         transform: translateY(-2px);
-        text-shadow: 0 0 26px rgba(var(--maroon-accent-rgb), 0.34);
+        text-shadow:
+            0 1px 0 rgba(0, 0, 0, 0.45),
+            0 0 28px rgba(242, 160, 174, 0.48);
     }
 }
 

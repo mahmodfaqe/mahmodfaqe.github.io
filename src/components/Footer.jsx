@@ -54,6 +54,12 @@ export default function Footer() {
                                 <i className="bi bi-messenger"></i>
                                 <span>Messenger</span>
                             </a>
+                            {PROFILE.snapchat ? (
+                                <a href={PROFILE.snapchat} target="_blank" rel="noopener noreferrer" className="social-item">
+                                    <i className="bi bi-snapchat"></i>
+                                    <span>Snapchat</span>
+                                </a>
+                            ) : null}
                         </div>
                     </div>
                 </div>

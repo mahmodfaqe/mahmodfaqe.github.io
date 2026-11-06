@@ -17,20 +17,30 @@ const FILTERS = [
   { label: "All", value: "all" },
   { label: "Landing Page", value: "landing-page" },
   { label: "Web App", value: "web-app" },
+  { label: "Mobile App", value: "mobile-app" },
 ];
 
 const STATUS_PRIORITY = {
   completed: 1,
   "in repair": 2,
-  "on progress": 3,
-  "on going": 4,
+  "in progress": 3,
+};
+
+const STATUS_ALIASES = {
+  completed: "completed",
+  "in repair": "in repair",
+  "in progress": "in progress",
+  // Legacy values from older CMS rows / Fitri template
+  "on progress": "in progress",
+  "on going": "in progress",
+  ongoing: "in progress",
+  progress: "in progress",
 };
 
 const STATUS_META = {
   completed: { text: "Completed", class: "done" },
   "in repair": { text: "In Repair", class: "repair" },
-  "on progress": { text: "In Progress", class: "progress" },
-  "on going": { text: "Ongoing", class: "ongoing" },
+  "in progress": { text: "In Progress", class: "progress" },
 };
 
 function getMobilePaginationPages(currentPage, totalPages) {
@@ -51,7 +61,7 @@ const EMPTY_FORM = {
   toolsInput: "",
   kategori: "landing-page",
   file: null,
-  status: "on going",
+  status: "in progress",
   preview_url: "",
   github_url: "",
 };
@@ -134,15 +144,73 @@ function normalizeStatus(value) {
     return "completed";
   }
 
-  if (typeof value === "string" && STATUS_PRIORITY[value]) {
-    return value;
+  if (typeof value === "string") {
+    const key = value.trim().toLowerCase();
+    if (STATUS_ALIASES[key]) {
+      return STATUS_ALIASES[key];
+    }
   }
 
-  return "on going";
+  return "in progress";
 }
 
 function getProjectStatusMeta(status) {
-  return STATUS_META[normalizeStatus(status)] ?? STATUS_META["on going"];
+  return STATUS_META[normalizeStatus(status)] ?? STATUS_META["in progress"];
+}
+
+function getProjectImageSources(file) {
+  if (!file || typeof file !== "string") {
+    return { primary: "", fallback: "" };
+  }
+
+  if (file.endsWith(".webp")) {
+    return {
+      primary: file,
+      fallback: file.replace(/\.webp$/i, ".jpg"),
+    };
+  }
+
+  if (/\.(jpe?g|png)$/i.test(file)) {
+    return {
+      primary: file.replace(/\.(jpe?g|png)$/i, ".webp"),
+      fallback: file,
+    };
+  }
+
+  return { primary: file, fallback: file };
+}
+
+function ProjectCoverImage({ file, alt, className, loading = "lazy" }) {
+  const { primary, fallback } = getProjectImageSources(file);
+
+  if (!primary && !fallback) {
+    return <div className="project-placeholder">No Image</div>;
+  }
+
+  if (primary && fallback && primary !== fallback) {
+    return (
+      <picture>
+        <source srcSet={primary} type="image/webp" />
+        <img
+          src={fallback}
+          alt={alt}
+          className={className}
+          loading={loading}
+          decoding="async"
+        />
+      </picture>
+    );
+  }
+
+  return (
+    <img
+      src={primary || fallback}
+      alt={alt}
+      className={className}
+      loading={loading}
+      decoding="async"
+    />
+  );
 }
 
 async function uploadProjectFile(file) {
@@ -362,8 +430,7 @@ function ProjectForm({ formData, onChange, onSubmit, saving, submitLabel, submit
           >
             <option value="completed">Completed</option>
             <option value="in repair">In Repair</option>
-            <option value="on progress">In Progress</option>
-            <option value="on going">Ongoing</option>
+            <option value="in progress">In Progress</option>
           </select>
         </label>
 
@@ -471,6 +538,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
               <span className="project-subtitle">
                 {project.kategori === "landing-page" && "Landing Page Project"}
                 {project.kategori === "web-app" && "Web Application"}
+                {project.kategori === "mobile-app" && "Mobile Application"}
               </span>
             </div>
 
@@ -534,12 +602,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
           <div className="project-preview-section" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
             <div className="project-preview-container">
               {project.file ? (
-                <img
-                  src={project.file}
-                  alt={project.nama}
-                  loading="lazy"
-                  decoding="async"
-                />
+                <ProjectCoverImage file={project.file} alt={project.nama} />
               ) : (
                 <div className="project-preview-placeholder">
                   No Preview Available
@@ -1100,12 +1163,10 @@ export default function Project() {
                       </span>
 
                       {project.file ? (
-                        <img
-                          src={project.file}
+                        <ProjectCoverImage
+                          file={project.file}
                           alt={project.nama}
                           className="project-image"
-                          loading="lazy"
-                          decoding="async"
                         />
                       ) : (
                         <div className="project-placeholder">No Image</div>
