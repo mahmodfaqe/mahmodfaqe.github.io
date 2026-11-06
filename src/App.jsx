@@ -44,7 +44,6 @@ function RouteFallback() {
       <div className="auth-loading-card">
         <div className="auth-loading-spinner"></div>
         <h4>Loading</h4>
-        <p>Preparing this page.</p>
       </div>
     </div>
   );

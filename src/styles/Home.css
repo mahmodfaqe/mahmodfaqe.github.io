@@ -25,15 +25,6 @@
     animation-delay: var(--hero-delay, 0s);
 }
 
-.hero-eyebrow {
-    color: var(--text-primary);
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    margin-bottom: 18px;
-    font-size: 0.85rem;
-}
-
 .hero-title {
     font-size: clamp(2.8rem, 4.2vw, 4.4rem);
     font-weight: 800;
@@ -256,11 +247,6 @@
         margin-bottom: 22px;
     }
 
-    .hero-eyebrow {
-        font-size: 0.7rem;
-        letter-spacing: 0.14em;
-        margin-bottom: 12px;
-    }
 }
 
 @media (max-width: 991px) {

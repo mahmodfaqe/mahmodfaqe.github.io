@@ -1,11 +1,14 @@
-name: Deploy to GitHub Pages
+name: CI
 
-# Repo Pages source is branch `main` (legacy). Publishing happens from the
-# committed publish-root assets. This workflow verifies `npm run build` and
-# does not call deploy-pages (that path conflicts with legacy branch deploys).
+# GitHub Pages for this repo is "Deploy from a branch" (main /).
+# Live files are the committed publish-root assets (index.html, 404.html, assets/).
+# This workflow only verifies `npm run build`. Do not use actions/deploy-pages here —
+# that requires Pages source = GitHub Actions and conflicts with branch deploys.
 
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -13,7 +16,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: portfolio-ci
+  group: portfolio-ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

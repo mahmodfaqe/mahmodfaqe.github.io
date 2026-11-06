@@ -72,16 +72,6 @@ export default function ContactForm() {
 
   return (
     <div className="contact-form-panel" data-aos="fade-up" data-aos-delay="80">
-      <div className="contact-availability">
-        <span
-          className={`availability-dot ${PROFILE.availableForWork ? "is-available" : "is-busy"}`}
-          aria-hidden="true"
-        />
-        <p>
-          {PROFILE.availableForWork ? t.contact.available : t.contact.unavailable}
-        </p>
-      </div>
-
       <h4 className="contact-form-title">{t.contact.formTitle}</h4>
 
       <form className="contact-form" onSubmit={handleSubmit}>
@@ -137,12 +127,6 @@ export default function ContactForm() {
       {feedback ? (
         <p className={`contact-form-feedback ${status === "error" ? "is-error" : "is-ok"}`} role="status">
           {feedback}
-        </p>
-      ) : null}
-
-      {!FORMSPREE_ID ? (
-        <p className="contact-form-hint">
-          Opens your email app by default. Optional: set <code>VITE_FORMSPREE_ID</code> for direct delivery.
         </p>
       ) : null}
     </div>

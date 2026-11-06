@@ -21,9 +21,9 @@ export default class ErrorBoundary extends Component {
         <div className="soft-page">
           <div className="soft-page-card">
             <h1>Something went wrong</h1>
-            <p>Please refresh the page. If the problem continues, try again later.</p>
+            <p>Refresh the page, or go home.</p>
             <button type="button" className="btn btn-primary-modern" onClick={() => window.location.assign("/")}>
-              Reload home
+              Home
             </button>
           </div>
         </div>

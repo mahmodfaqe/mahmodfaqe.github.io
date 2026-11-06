@@ -2,7 +2,6 @@ import "../styles/About.css";
 import mePng from "../assets/images/me1.png";
 import meWebp from "../assets/images/me1.webp";
 import { PROFILE } from "../data/profile";
-import { HIGHLIGHTS } from "../data/siteExtras";
 import { useLocale } from "../i18n/LocaleContext";
 
 export default function About() {
@@ -34,25 +33,6 @@ export default function About() {
                             >
                                 {locale === "ku" ? PROFILE.aboutKu : PROFILE.about}
                             </p>
-
-                            <div
-                                className="about-results"
-                                data-aos="fade-up"
-                                data-aos-delay="280"
-                            >
-                                <h2 className="about-results-title">{t.about.resultsTitle}</h2>
-                                <p className="about-results-lead">{t.about.resultsLead}</p>
-                                <div className="about-results-grid">
-                                    {HIGHLIGHTS.map((item) => (
-                                        <div className="about-result-card" key={item.id}>
-                                            <strong>{item.value}</strong>
-                                            <span>
-                                                {locale === "ku" ? item.labelKu : item.labelEn}
-                                            </span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
                         </div>
 
                         <div

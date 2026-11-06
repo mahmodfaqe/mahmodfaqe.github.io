@@ -32,7 +32,7 @@ export default function Home() {
         };
     }, []);
 
-    const roleText = locale === "ku" ? PROFILE.roleKu : PROFILE.role.toLowerCase();
+    const roleText = locale === "ku" ? PROFILE.roleKu : PROFILE.role;
     const leadText = locale === "ku" ? PROFILE.homeLeadKu : PROFILE.homeLead;
 
     return (
@@ -41,41 +41,34 @@ export default function Home() {
                 <div className="row justify-content-center text-center">
                     <div className="col-lg-8">
                         <div className={`hero-content ${isVisible ? "is-visible" : ""}`}>
-                            <h4
-                                className="hero-eyebrow hero-reveal"
-                                style={{ "--hero-delay": "0.08s" }}
-                            >
-                                {t.home.eyebrow}
-                            </h4>
-
                             <h1
                                 className="hero-title hero-reveal"
-                                style={{ "--hero-delay": "0.18s" }}
+                                style={{ "--hero-delay": "0.08s" }}
                             >
                                 <span className="hero-title-first">{PROFILE.firstName}</span>{" "}
                                 <span className="hero-title-accent">{PROFILE.lastName}</span>
                             </h1>
 
-                            <h3
+                            <h2
                                 className="hero-role hero-reveal"
-                                style={{ "--hero-delay": "0.28s" }}
+                                style={{ "--hero-delay": "0.18s" }}
                             >
-                                {t.home.rolePrefix} {roleText}
-                            </h3>
+                                {roleText}
+                            </h2>
 
                             <p
                                 className="hero-text mx-auto hero-reveal"
-                                style={{ "--hero-delay": "0.38s" }}
+                                style={{ "--hero-delay": "0.28s" }}
                             >
                                 {leadText}
                             </p>
 
                             <div
                                 className="d-flex flex-wrap gap-3 justify-content-center hero-actions hero-reveal"
-                                style={{ "--hero-delay": "0.5s" }}
+                                style={{ "--hero-delay": "0.4s" }}
                             >
                                 <Link to={buildSectionHref(location.pathname, "about")} className="btn btn-primary-modern">
-                                    {t.home.learnMore}
+                                    {t.home.about}
                                 </Link>
 
                                 <Link to={buildSectionHref(location.pathname, "project")} className="btn btn-outline-modern">

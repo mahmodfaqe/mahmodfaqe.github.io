@@ -41,9 +41,6 @@ export default function CvPage() {
             {" · "}
             <a href={PROFILE.github}>{PROFILE.github.replace("https://", "")}</a>
           </p>
-          {PROFILE.availableForWork ? (
-            <p className="cv-availability">{t.contact.available}</p>
-          ) : null}
         </header>
 
         <section>

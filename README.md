@@ -26,9 +26,15 @@ npm run lint
 
 ## GitHub Pages
 
-The site is published from this repository. `npm run build` runs Vite and then `scripts/publish-root.mjs`, which copies `dist/` into the repository root (`index.html`, `404.html`, `assets/`, `projects/`, SEO files).
+Pages source is **Deploy from a branch → `main` / (root)**.
 
-CI: `.github/workflows/deploy.yml` builds and deploys the `dist/` artifact. Optional repository secrets:
+1. Locally (or before push): `npm run build` runs Vite, then `scripts/publish-root.mjs` copies `dist/` into the repo root (`index.html`, `404.html`, `assets/`, `projects/`, SEO files).
+2. Commit those publish-root files with your source changes and push `main`.
+3. GitHub’s branch Pages builder publishes the root. SPA routes (e.g. `/cv`) rely on `404.html` being a copy of `index.html`.
+
+CI (`.github/workflows/deploy.yml`) only **verifies** the build. It does **not** call `actions/deploy-pages` — that conflicts with branch-based Pages.
+
+Optional repository secrets (used when CI builds):
 
 | Secret | Value |
 |--------|--------|

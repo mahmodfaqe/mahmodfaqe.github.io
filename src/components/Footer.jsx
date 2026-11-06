@@ -14,11 +14,7 @@ export default function Footer() {
                     <div className="footer-info" data-aos="fade-up">
                         <h3 className="footer-title">{t.contact.title}</h3>
                         <p className="footer-subtitle">
-                            {PROFILE.availableForWork
-                                ? locale === "ku"
-                                    ? PROFILE.footerNoteKu
-                                    : PROFILE.footerNote
-                                : t.contact.unavailable}
+                            {locale === "ku" ? PROFILE.footerNoteKu : PROFILE.footerNote}
                         </p>
                         <ul className="footer-list">
                             <li>

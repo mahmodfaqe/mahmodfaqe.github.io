@@ -1,10 +1,6 @@
 import { useEffect } from "react";
 
-/**
- * Optional privacy-friendly analytics.
- * Set VITE_PLAUSIBLE_DOMAIN (e.g. mahmodfaqe.github.io) to enable Plausible.
- * Nothing loads when the env var is empty.
- */
+/** Loads Plausible only when VITE_PLAUSIBLE_DOMAIN is set. */
 export default function Analytics() {
   useEffect(() => {
     const domain = import.meta.env.VITE_PLAUSIBLE_DOMAIN?.trim();

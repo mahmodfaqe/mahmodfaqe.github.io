@@ -8,7 +8,6 @@ export default function NotFound() {
   return (
     <div className="soft-page">
       <div className="soft-page-card" data-aos="zoom-in-up">
-        <p className="soft-page-kicker">404</p>
         <h1>{t.notFound.title}</h1>
         <p>{t.notFound.body}</p>
         <div className="soft-page-actions">

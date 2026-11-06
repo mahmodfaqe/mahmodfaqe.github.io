@@ -12,7 +12,6 @@ import {
   scrollToSectionId,
 } from "../utils/sectionScroll";
 import { hasSafeHttpUrl, sanitizeHttpUrl } from "../utils/safeUrl";
-import { getCaseStudy, getProjectUpdate } from "../data/siteExtras";
 import { useLocale } from "../i18n/LocaleContext";
 
 const FILTER_DEFS = [
@@ -474,7 +473,6 @@ function ProjectForm({ formData, onChange, onSubmit, saving, submitLabel, submit
 
 function ProjectDetailModal({ project, isAdmin, onClose }) {
   const navigate = useNavigate();
-  const { t, locale } = useLocale();
   const [deleteTarget, setDeleteTarget] = useState(null);
   const tools = project ? getProjectTools(project) : [];
   const features = project ? getFiturList(project) : [];
@@ -483,8 +481,6 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
   const hasAppStoreLink = hasLink(project?.app_store_url);
   const hasPlayStoreLink = hasLink(project?.play_store_url);
   const hasStoreLinks = hasAppStoreLink || hasPlayStoreLink;
-  const caseStudy = project ? getCaseStudy(project.id) : null;
-  const projectUpdate = project ? getProjectUpdate(project.id) : null;
 
   useEffect(() => {
     if (!project) return;
@@ -617,31 +613,6 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                 </div>
               </div>
             )}
-
-            {caseStudy ? (
-              <div className="project-case-study">
-                <h4>{t.project.caseStudy}</h4>
-                <p>
-                  <strong>{t.project.challenge}:</strong>{" "}
-                  {locale === "ku" ? caseStudy.challengeKu : caseStudy.challengeEn}
-                </p>
-                <p>
-                  <strong>{t.project.approach}:</strong>{" "}
-                  {locale === "ku" ? caseStudy.approachKu : caseStudy.approachEn}
-                </p>
-                <p>
-                  <strong>{t.project.outcome}:</strong>{" "}
-                  {locale === "ku" ? caseStudy.outcomeKu : caseStudy.outcomeEn}
-                </p>
-              </div>
-            ) : null}
-
-            {projectUpdate ? (
-              <p className="project-update-note">
-                <strong>{t.project.updated} {projectUpdate.date}:</strong>{" "}
-                {locale === "ku" ? projectUpdate.noteKu : projectUpdate.noteEn}
-              </p>
-            ) : null}
           </div>
 
           
