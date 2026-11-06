@@ -84,6 +84,8 @@
     font-weight: 700;
     letter-spacing: 0.08em;
     cursor: default;
+    direction: ltr;
+    unicode-bidi: isolate;
 }
 
 .site-nav .navbar-brand:hover {

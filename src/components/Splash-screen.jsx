@@ -141,7 +141,7 @@ export default function SplashScreen() {
             </div>
 
             <div className="content">
-                <h1 className="title">{PROFILE.firstName} Portfolio</h1>
+                <h1 className="title" dir="ltr" lang="en">{PROFILE.firstName} {PROFILE.lastName}</h1>
                 <p className="subtitle">{PROFILE.splashRole}</p>
 
                 <div className="spinner">

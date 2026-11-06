@@ -96,7 +96,11 @@ export default function Footer() {
                 </div>
 
                 <div className="footer-bottom">
-                    <p>&copy; 2026 {PROFILE.firstName} Khdir · {t.contact.rights}</p>
+                    <p>
+                        <span dir="ltr" lang="en">&copy; 2026 {PROFILE.firstName} {PROFILE.lastName}</span>
+                        {" · "}
+                        {t.contact.rights}
+                    </p>
                 </div>
             </footer>
         </section>

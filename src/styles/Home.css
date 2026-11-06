@@ -30,6 +30,9 @@
     font-weight: 800;
     letter-spacing: -0.02em;
     margin-bottom: 12px;
+    /* Keep Latin name order stable when the page is RTL (ku). */
+    direction: ltr;
+    unicode-bidi: isolate;
 }
 
 .hero-title-first {

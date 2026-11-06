@@ -44,6 +44,8 @@ export default function Home() {
                             <h1
                                 className="hero-title hero-reveal"
                                 style={{ "--hero-delay": "0.08s" }}
+                                dir="ltr"
+                                lang="en"
                             >
                                 <span className="hero-title-first">{PROFILE.firstName}</span>{" "}
                                 <span className="hero-title-accent">{PROFILE.lastName}</span>

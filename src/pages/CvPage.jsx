@@ -30,7 +30,7 @@ export default function CvPage() {
 
       <article className="cv-sheet">
         <header className="cv-header">
-          <h1>{PROFILE.fullName}</h1>
+          <h1 dir="ltr" lang="en">{PROFILE.fullName}</h1>
           <p className="cv-role">{locale === "ku" ? PROFILE.roleKu : PROFILE.role}</p>
           <p className="cv-meta">
             {PROFILE.affiliation}
