@@ -22,8 +22,22 @@ export const TRANSLATIONS = {
     about: {
       title: "About",
     },
+    skills: {
+      title: "Tools & Technologies",
+      lead: "Tools for web, mobile and scientific work.",
+    },
+    journey: {
+      title: "Education & Experience",
+      lead: "Education and research.",
+      education: "Education",
+      experience: "Experience",
+      tabsLabel: "Education and experience",
+      contributions: "Project contributions",
+      technologies: "Technologies",
+    },
     project: {
       title: "Projects",
+      lead: "Software I designed and shipped.",
       searchPlaceholder: "Search name or tool…",
       empty: "No projects in this category.",
       emptySearch: "No matching projects.",
@@ -31,6 +45,13 @@ export const TRANSLATIONS = {
       filterLanding: "Landing Page",
       filterWeb: "Web App",
       filterMobile: "Mobile App",
+      keyFeatures: "Key Features",
+      technologies: "Technologies",
+      technologiesUsed: "Technologies used",
+    },
+    services: {
+      title: "Services",
+      lead: "Web, mobile and server work for universities, centres and clients.",
     },
     contact: {
       title: "Contact",
@@ -45,11 +66,26 @@ export const TRANSLATIONS = {
       formSuccess: "Opening your email app.",
       formspreeSuccess: "Message sent.",
       formError: "Could not send. Use email or WhatsApp.",
+      rights: "All rights reserved.",
     },
     cv: {
       title: "CV",
       print: "Print / PDF",
       back: "Back",
+      profile: "Profile",
+      education: "Education",
+      experience: "Experience",
+      projects: "Selected projects",
+      services: "Services",
+      tools: "Tools",
+    },
+    splash: {
+      lines: [
+        "Mahmood Khdir — Portfolio",
+        "Biology student & developer",
+        "Web · Mobile · Research tools",
+        "Kurdish · English · Arabic",
+      ],
     },
     notFound: {
       title: "Page not found",
@@ -80,8 +116,22 @@ export const TRANSLATIONS = {
     about: {
       title: "دەربارەی من",
     },
+    skills: {
+      title: "ئامراز و تەکنەلۆژیا",
+      lead: "ئامراز بۆ وێب، مۆبایل و کاری زانستی.",
+    },
+    journey: {
+      title: "خوێندن و ئەزموون",
+      lead: "خوێندن و توێژینەوە.",
+      education: "خوێندن",
+      experience: "ئەزموون",
+      tabsLabel: "خوێندن و ئەزموون",
+      contributions: "بەشداریی پڕۆژە",
+      technologies: "تەکنەلۆژیاکان",
+    },
     project: {
       title: "پڕۆژەکان",
+      lead: "نەرمەکاڵایەک کە دیزاینم کرد و بڵاوم کردەوە.",
       searchPlaceholder: "گەڕان بە ناو یان ئامراز…",
       empty: "لەم پۆلەدا پڕۆژە نییە.",
       emptySearch: "هیچ پڕۆژەیەک نەدۆزرایەوە.",
@@ -89,6 +139,13 @@ export const TRANSLATIONS = {
       filterLanding: "لاپەڕەی سەرەتا",
       filterWeb: "ئەپی وێب",
       filterMobile: "ئەپی مۆبایل",
+      keyFeatures: "تایبەتمەندییە سەرەکییەکان",
+      technologies: "تەکنەلۆژیاکان",
+      technologiesUsed: "تەکنەلۆژیا بەکارهاتووەکان",
+    },
+    services: {
+      title: "خزمەتگوزارییەکان",
+      lead: "کاری وێب، مۆبایل و سێرڤەر بۆ زانکۆ، سەنتەر و کڕیار.",
     },
     contact: {
       title: "پەیوەندی",
@@ -103,11 +160,26 @@ export const TRANSLATIONS = {
       formSuccess: "ئەپی ئیمەیڵ دەکرێتەوە.",
       formspreeSuccess: "پەیام نێردرا.",
       formError: "نەنێردرا. ئیمەیڵ یان واتساپ بەکار بهێنە.",
+      rights: "هەموو مافەکان پارێزراون.",
     },
     cv: {
       title: "سی ڤی",
       print: "چاپ / PDF",
       back: "گەڕانەوە",
+      profile: "پوختە",
+      education: "خوێندن",
+      experience: "ئەزموون",
+      projects: "پڕۆژە دیارەکان",
+      services: "خزمەتگوزارییەکان",
+      tools: "ئامرازەکان",
+    },
+    splash: {
+      lines: [
+        "مەحمود خدر — پۆرتفۆلیۆ",
+        "خوێندکاری بایۆلۆجی و گەشەپێدەر",
+        "وێب · مۆبایل · ئامرازی توێژینەوە",
+        "کوردی · ئینگلیزی · عەرەبی",
+      ],
     },
     notFound: {
       title: "پەڕە نەدۆزرایەوە",

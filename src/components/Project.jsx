@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import supabase from "../assets/supabase-client";
 import "../styles/Project.css";
 import { useAuth } from "../context/AuthContext";
-import { PROFILE, STATIC_PROJECTS } from "../data/profile";
+import { STATIC_PROJECTS } from "../data/profile";
 import { isKnownSectionId } from "../utils/sectionNavigation";
 import {
   consumeSectionTarget,
@@ -473,6 +473,7 @@ function ProjectForm({ formData, onChange, onSubmit, saving, submitLabel, submit
 
 function ProjectDetailModal({ project, isAdmin, onClose }) {
   const navigate = useNavigate();
+  const { t } = useLocale();
   const [deleteTarget, setDeleteTarget] = useState(null);
   const tools = project ? getProjectTools(project) : [];
   const features = project ? getFiturList(project) : [];
@@ -564,7 +565,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
 
             {tools.length > 0 && (
               <div className="project-tools-section">
-                <p className="tools-label">Technologies Used</p>
+                <p className="tools-label">{t.project.technologiesUsed}</p>
                 <div className="project-tools-tags">
                   {tools.map((tool, index) => (
                     <span key={index} className="tool-tag">
@@ -583,7 +584,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                 </div>
                 <div className="project-stat-info">
                   <span className="project-stat-value">{tools.length}</span>
-                  <span className="project-stat-label">Technologies</span>
+                  <span className="project-stat-label">{t.project.technologies}</span>
                 </div>
               </div>
 
@@ -593,7 +594,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                 </div>
                 <div className="project-stat-info">
                   <span className="project-stat-value">{features.length}</span>
-                  <span className="project-stat-label">Key Features</span>
+                  <span className="project-stat-label">{t.project.keyFeatures}</span>
                 </div>
               </div>
             </div>
@@ -602,7 +603,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
               <div className="project-features-section">
                 <div className="features-header">
                   <i className="bi bi-star"></i>
-                  <h4>Key Features</h4>
+                  <h4>{t.project.keyFeatures}</h4>
                 </div>
                 <div className="features-list">
                   {features.slice(0, 10).map((feature, index) => (
@@ -1123,7 +1124,7 @@ export default function Project() {
             data-aos-duration="700"
             data-aos-easing="ease-out">
             <h2 className="highlight">{t.project.title}</h2>
-            <p className="highlight-text mt-3">{PROFILE.projectsLead}</p>
+            <p className="highlight-text mt-3">{t.project.lead}</p>
           </div>
 
           {isAdmin && (

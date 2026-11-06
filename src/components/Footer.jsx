@@ -96,7 +96,7 @@ export default function Footer() {
                 </div>
 
                 <div className="footer-bottom">
-                    <p>&copy; 2026 {PROFILE.firstName} Khdir ✦ All rights reserved.</p>
+                    <p>&copy; 2026 {PROFILE.firstName} Khdir · {t.contact.rights}</p>
                 </div>
             </footer>
         </section>

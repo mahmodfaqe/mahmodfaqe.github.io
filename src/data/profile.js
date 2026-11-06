@@ -23,10 +23,6 @@ export const PROFILE = {
   homeLead: `Undergraduate biologist building web platforms and mobile applications for the University of Raparin, its research centres and the life sciences — with multilingual Kurdish, English and Arabic interfaces.`,
   homeLeadKu: `بایۆلۆجیستێکی قۆناغی بەکالۆریۆس کە پلاتفۆڕمی وێب و ئەپی مۆبایل بۆ زانکۆی ڕاپەڕین، سەنتەرەکانی توێژینەوە و زانستەکانی ژیان دروست دەکات — لەگەڵ ڕووکاری فرەزمانی کوردی، ئینگلیزی و عەرەبی.`,
   roleKu: "خوێندکاری بایۆلۆجی و گەشەپێدەری وێب و مۆبایل",
-  skillsLead: "Tools for web, mobile and scientific work.",
-  projectsLead: "Software I designed and shipped.",
-  journeyLead: "Education and research.",
-  servicesLead: "Web, mobile and server work for universities, centres and clients.",
   footerNote: "Academic collaboration and project enquiries.",
   footerNoteKu: "هاوکاریی ئەکادیمی و داوای پڕۆژە.",
 };

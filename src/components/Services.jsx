@@ -1,13 +1,16 @@
 import "../styles/Services.css";
-import { PROFILE, SERVICES } from "../data/profile";
+import { SERVICES } from "../data/profile";
+import { useLocale } from "../i18n/LocaleContext";
 
 export default function Services() {
+  const { t } = useLocale();
+
   return (
     <section id="services" className="services-section" aria-labelledby="services-title">
       <div className="container">
         <div className="services-heading" data-aos="fade-up">
-          <h2 id="services-title">Services</h2>
-          <p>{PROFILE.servicesLead}</p>
+          <h2 id="services-title">{t.services.title}</h2>
+          <p>{t.services.lead}</p>
         </div>
 
         <div className="services-grid">

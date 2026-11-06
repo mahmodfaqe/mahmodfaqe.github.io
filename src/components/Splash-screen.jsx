@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "../styles/Splash-screen.css";
 import { PROFILE } from "../data/profile";
+import { useLocale } from "../i18n/LocaleContext";
 
 const SPLASH_DONE_KEY = "portfolio:splash-done";
 
@@ -13,15 +14,15 @@ function hasCompletedSplash() {
 }
 
 export default function SplashScreen() {
+    const { t } = useLocale();
     const [hidden, setHidden] = useState(() => hasCompletedSplash());
     const [isLeaving, setIsLeaving] = useState(false);
-    const [texts] = useState([
-        "Welcome to My Portfolio",
-        "Biology Student & Developer",
-        "Web · Mobile · Research Tools",
-        "Kurdish · English · Arabic Platforms",
-    ]);
-    const [text, setText] = useState(texts[0]);
+    const texts = useMemo(() => t.splash.lines, [t]);
+    const [text, setText] = useState(() => texts[0] ?? "");
+
+    useEffect(() => {
+        setText(texts[0] ?? "");
+    }, [texts]);
 
     useEffect(() => {
         if (hidden) return undefined;
@@ -38,7 +39,7 @@ export default function SplashScreen() {
                 return;
             }
 
-            const current = texts[i];
+            const current = texts[i] ?? "";
 
             if (!deleting) {
                 char++;

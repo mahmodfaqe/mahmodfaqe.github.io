@@ -1,8 +1,10 @@
 import { useState } from "react";
 import "../styles/Journey.css";
-import { JOURNEY_CONTENT, PROFILE } from "../data/profile";
+import { JOURNEY_CONTENT } from "../data/profile";
+import { useLocale } from "../i18n/LocaleContext";
 
 export default function Journey() {
+  const { t } = useLocale();
   const [activeTab, setActiveTab] = useState("education");
   const items = JOURNEY_CONTENT[activeTab];
 
@@ -15,18 +17,18 @@ export default function Journey() {
         <div className="journey-heading" data-aos="fade-up">
 
           <h2 id="journey-title">
-            Education & Experience
+            {t.journey.title}
           </h2>
 
           <p>
-            {PROFILE.journeyLead}
+            {t.journey.lead}
           </p>
         </div>
 
         <div
           className="journey-tabs"
           role="tablist"
-          aria-label="Education and experience"
+          aria-label={t.journey.tabsLabel}
         >
           {["education", "experience"].map((tab) => (
             <button
@@ -49,8 +51,8 @@ export default function Journey() {
               />
 
               {tab === "education"
-                ? "Education"
-                : "Experience"}
+                ? t.journey.education
+                : t.journey.experience}
             </button>
           ))}
         </div>
@@ -89,7 +91,7 @@ export default function Journey() {
 
                 {item.projects && item.projects.length > 0 && (
                   <div className="journey-projects">
-                    <h4>Project Contributions</h4>
+                    <h4>{t.journey.contributions}</h4>
 
                     {item.projects.map((project) => (
                       <div

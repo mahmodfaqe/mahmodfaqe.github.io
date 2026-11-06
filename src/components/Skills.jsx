@@ -5,7 +5,8 @@ import "../styles/Skills.css";
 import supabase from "../assets/supabase-client";
 import { useAuth } from "../context/AuthContext";
 import { useLocation } from "react-router-dom";
-import { PROFILE, STATIC_SKILLS } from "../data/profile";
+import { STATIC_SKILLS } from "../data/profile";
+import { useLocale } from "../i18n/LocaleContext";
 
 const INITIAL_FORM = {
   nama: "",
@@ -46,6 +47,7 @@ export default function Skills() {
   const [deleteTarget, setDeleteTarget] = useState(null);
 
   const { role } = useAuth();
+  const { t } = useLocale();
   const location = useLocation();
   const lastBaseVisibleRef = useRef(isMobile ? 6 : 12);
 
@@ -178,7 +180,7 @@ export default function Skills() {
             data-aos="fade-up"
             data-aos-delay="100"
           >
-            Tools & Technologies
+            {t.skills.title}
           </h1>
 
           <p
@@ -186,7 +188,7 @@ export default function Skills() {
             data-aos="fade-up"
             data-aos-delay="200"
           >
-            {PROFILE.skillsLead}
+            {t.skills.lead}
           </p>
         </div>
 

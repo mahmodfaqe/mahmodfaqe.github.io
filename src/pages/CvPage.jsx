@@ -44,12 +44,12 @@ export default function CvPage() {
         </header>
 
         <section>
-          <h2>{locale === "ku" ? "پوختە" : "Profile"}</h2>
+          <h2>{t.cv.profile}</h2>
           <p>{locale === "ku" ? PROFILE.aboutKu : PROFILE.about}</p>
         </section>
 
         <section>
-          <h2>{locale === "ku" ? "خوێندن" : "Education"}</h2>
+          <h2>{t.cv.education}</h2>
           {JOURNEY_CONTENT.education.map((item) => (
             <div className="cv-block" key={item.title}>
               <h3>{item.title}</h3>
@@ -62,7 +62,7 @@ export default function CvPage() {
         </section>
 
         <section>
-          <h2>{locale === "ku" ? "ئەزموون" : "Experience"}</h2>
+          <h2>{t.cv.experience}</h2>
           {JOURNEY_CONTENT.experience.map((item) => (
             <div className="cv-block" key={item.title}>
               <h3>{item.title}</h3>
@@ -75,7 +75,7 @@ export default function CvPage() {
         </section>
 
         <section>
-          <h2>{locale === "ku" ? "پڕۆژە دیارەکان" : "Selected projects"}</h2>
+          <h2>{t.cv.projects}</h2>
           <ul className="cv-list">
             {completed.slice(0, 8).map((project) => (
               <li key={project.id}>
@@ -93,7 +93,7 @@ export default function CvPage() {
         </section>
 
         <section>
-          <h2>{locale === "ku" ? "خزمەتگوزارییەکان" : "Services"}</h2>
+          <h2>{t.cv.services}</h2>
           <ul className="cv-list">
             {SERVICES.map((service) => (
               <li key={service.title}>
@@ -104,7 +104,7 @@ export default function CvPage() {
         </section>
 
         <section>
-          <h2>{locale === "ku" ? "ئامرازەکان" : "Tools"}</h2>
+          <h2>{t.cv.tools}</h2>
           <p>{skills}</p>
         </section>
       </article>

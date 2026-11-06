@@ -7,5 +7,7 @@ docs/
 .env.local
 *.log
 _backup_old/
+.picsart-screen-videos-record.json
+tutorials/
 
 projects/_raw/
