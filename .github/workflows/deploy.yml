@@ -11,7 +11,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  # Shared group so overlapping Pages deploys (Actions + branch builder) do not stall queued.
+  group: github-pages
   cancel-in-progress: true
 
 jobs:
