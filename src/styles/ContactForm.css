@@ -1,0 +1,119 @@
+.contact-form-panel {
+  margin-top: 28px;
+  padding: 22px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(var(--maroon-accent-rgb), 0.22);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.contact-availability {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.contact-availability p {
+  margin: 0;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.availability-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.availability-dot.is-available {
+  background: #4ade80;
+  box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.18);
+}
+
+.availability-dot.is-busy {
+  background: #fbbf24;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.18);
+}
+
+.contact-form-title {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+}
+
+.contact-form {
+  display: grid;
+  gap: 12px;
+}
+
+.contact-form label {
+  display: grid;
+  gap: 6px;
+  text-align: start;
+}
+
+.contact-form label span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-primary);
+  padding: 12px 14px;
+  font: inherit;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: 2px solid rgba(var(--maroon-accent-rgb), 0.45);
+  outline-offset: 1px;
+}
+
+.contact-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.contact-form-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-form-feedback {
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+}
+
+.contact-form-feedback.is-ok {
+  color: #86efac;
+}
+
+.contact-form-feedback.is-error {
+  color: #fca5a5;
+}
+
+.contact-form-hint {
+  margin: 12px 0 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.contact-form-hint code {
+  font-size: 0.75rem;
+  color: var(--maroon-accent);
+}
+
+@media (max-width: 576px) {
+  .contact-form-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

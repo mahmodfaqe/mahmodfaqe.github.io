@@ -3,9 +3,11 @@ import { Link, useLocation } from "react-router-dom";
 import "../styles/Home.css";
 import { buildSectionHref } from "../utils/sectionNavigation";
 import { PROFILE } from "../data/profile";
+import { useLocale } from "../i18n/LocaleContext";
 
 export default function Home() {
     const location = useLocation();
+    const { t, locale } = useLocale();
     const [isVisible, setIsVisible] = useState(
         () => document.body.dataset.splash === "done"
     );
@@ -30,6 +32,9 @@ export default function Home() {
         };
     }, []);
 
+    const roleText = locale === "ku" ? PROFILE.roleKu : PROFILE.role.toLowerCase();
+    const leadText = locale === "ku" ? PROFILE.homeLeadKu : PROFILE.homeLead;
+
     return (
         <section id="home" className="hero-section d-flex align-items-center">
             <div className="container">
@@ -40,7 +45,7 @@ export default function Home() {
                                 className="hero-eyebrow hero-reveal"
                                 style={{ "--hero-delay": "0.08s" }}
                             >
-                                Hello, it's me
+                                {t.home.eyebrow}
                             </h4>
 
                             <h1
@@ -55,14 +60,14 @@ export default function Home() {
                                 className="hero-role hero-reveal"
                                 style={{ "--hero-delay": "0.28s" }}
                             >
-                                And I am a {PROFILE.role.toLowerCase()}
+                                {t.home.rolePrefix} {roleText}
                             </h3>
 
                             <p
                                 className="hero-text mx-auto hero-reveal"
                                 style={{ "--hero-delay": "0.38s" }}
                             >
-                                {PROFILE.homeLead}
+                                {leadText}
                             </p>
 
                             <div
@@ -70,12 +75,12 @@ export default function Home() {
                                 style={{ "--hero-delay": "0.5s" }}
                             >
                                 <Link to={buildSectionHref(location.pathname, "about")} className="btn btn-primary-modern">
-                                    Learn More
+                                    {t.home.learnMore}
                                 </Link>
 
                                 <Link to={buildSectionHref(location.pathname, "project")} className="btn btn-outline-modern">
-                                    <i className="fas fa-briefcase me-2"></i>
-                                    View Projects
+                                    <i className="bi bi-briefcase-fill me-2" aria-hidden="true"></i>
+                                    {t.home.viewProjects}
                                 </Link>
                             </div>
                         </div>

@@ -15,9 +15,14 @@ import Skills from "./components/Skills";
 import Journey from "./components/Journey";
 import Services from "./components/Services";
 import SplashScreen from "./components/Splash-screen";
+import Analytics from "./components/Analytics";
+import ErrorBoundary from "./components/ErrorBoundary";
+import NotFound from "./components/NotFound";
+import CvPage from "./pages/CvPage";
 
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./context/ProtectedRoute";
+import { LocaleProvider, useLocale } from "./i18n/LocaleContext";
 
 const Login = lazy(() => import("./Admin/Login"));
 
@@ -68,13 +73,26 @@ function BackgroundLayer() {
   );
 }
 
+function SkipLink() {
+  const { t } = useLocale();
+
+  return (
+    <a className="skip-to-content" href="#main-content">
+      {t.skip}
+    </a>
+  );
+}
+
 function SiteLayout({ children }) {
   return (
     <>
       <SplashScreen />
       <BackgroundLayer />
+      <SkipLink />
       <Navbar />
-      <main className="page-content">{children}</main>
+      <main id="main-content" className="page-content" tabIndex={-1}>
+        {children}
+      </main>
     </>
   );
 }
@@ -116,6 +134,19 @@ function LandingPage() {
       <Services />
       <Footer />
     </SiteLayout>
+  );
+}
+
+function SoftRouteLayout({ children }) {
+  return (
+    <>
+      <BackgroundLayer />
+      <SkipLink />
+      <Navbar />
+      <main id="main-content" className="page-content" tabIndex={-1}>
+        {children}
+      </main>
+    </>
   );
 }
 
@@ -249,62 +280,83 @@ function AosManager() {
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <ViewportManager />
-        <AosManager />
-        <Suspense fallback={<RouteFallback />}>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
+    <ErrorBoundary>
+      <LocaleProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <ViewportManager />
+            <AosManager />
+            <Analytics />
+            <Suspense fallback={<RouteFallback />}>
+              <Routes>
+                <Route path="/" element={<LandingPage />} />
 
-            <Route
-              path="/admin"
-              element={
-                <>
-                  <BackgroundLayer />
-                  <Login />
-                </>
-              }
-            />
+                <Route
+                  path="/cv"
+                  element={
+                    <SoftRouteLayout>
+                      <CvPage />
+                    </SoftRouteLayout>
+                  }
+                />
 
-            <Route path="/admin/login" element={<Navigate to="/admin" replace />} />
+                <Route
+                  path="/admin"
+                  element={
+                    <>
+                      <BackgroundLayer />
+                      <Login />
+                    </>
+                  }
+                />
 
-            <Route
-              path="/admin/dashboard"
-              element={
-                <ProtectedRoute>
-                  <LandingPage />
-                </ProtectedRoute>
-              }
-            />
+                <Route path="/admin/login" element={<Navigate to="/admin" replace />} />
 
-            <Route
-              path="/project/add"
-              element={
-                <ProtectedRoute>
-                  <SiteLayout>
-                    <AddProjectPage />
-                  </SiteLayout>
-                </ProtectedRoute>
-              }
-            />
+                <Route
+                  path="/admin/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <LandingPage />
+                    </ProtectedRoute>
+                  }
+                />
 
-            <Route
-              path="/project/edit/:id"
-              element={
-                <ProtectedRoute>
-                  <SiteLayout>
-                    <EditProjectPage />
-                  </SiteLayout>
-                </ProtectedRoute>
-              }
-            />
+                <Route
+                  path="/project/add"
+                  element={
+                    <ProtectedRoute>
+                      <SiteLayout>
+                        <AddProjectPage />
+                      </SiteLayout>
+                    </ProtectedRoute>
+                  }
+                />
 
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </AuthProvider>
+                <Route
+                  path="/project/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <SiteLayout>
+                        <EditProjectPage />
+                      </SiteLayout>
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="*"
+                  element={
+                    <SoftRouteLayout>
+                      <NotFound />
+                    </SoftRouteLayout>
+                  }
+                />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </AuthProvider>
+      </LocaleProvider>
+    </ErrorBoundary>
   );
 }
 

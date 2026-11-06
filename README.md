@@ -28,12 +28,14 @@ npm run lint
 
 The site is published from this repository. `npm run build` runs Vite and then `scripts/publish-root.mjs`, which copies `dist/` into the repository root (`index.html`, `404.html`, `assets/`, `projects/`, SEO files).
 
-CI: `.github/workflows/deploy.yml` builds and deploys the `dist/` artifact. For live admin/CMS, set repository secrets:
+CI: `.github/workflows/deploy.yml` builds and deploys the `dist/` artifact. Optional repository secrets:
 
 | Secret | Value |
 |--------|--------|
-| `VITE_SUPABASE_URL` | Supabase project URL |
+| `VITE_SUPABASE_URL` | Supabase project URL (admin CMS) |
 | `VITE_SUPABASE_KEY` | Supabase **anon** key only |
+| `VITE_FORMSPREE_ID` | Formspree form id for contact form delivery |
+| `VITE_PLAUSIBLE_DOMAIN` | Plausible domain (e.g. `mahmodfaqe.github.io`) |
 
 ## Supabase CMS hardening
 

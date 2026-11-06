@@ -88,7 +88,7 @@ html {
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', 'Noto Sans Arabic', 'Segoe UI', sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
@@ -100,6 +100,37 @@ body {
   flex-direction: column;
   width: 100%;
   max-width: 100%;
+}
+
+html[lang="ckb"] body {
+  font-family: 'Noto Sans Arabic', 'Poppins', 'Segoe UI', sans-serif;
+  letter-spacing: 0;
+}
+
+.skip-to-content {
+  position: absolute;
+  inset-inline-start: 16px;
+  top: 12px;
+  z-index: 10000;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: #fff;
+  color: #1a1a1a;
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform 0.2s ease;
+}
+
+.skip-to-content:focus,
+.skip-to-content:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--maroon-accent);
+  outline-offset: 3px;
+}
+
+#main-content:focus {
+  outline: none;
 }
 
 body.modal-open {

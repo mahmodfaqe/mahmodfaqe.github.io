@@ -2,6 +2,7 @@ import "../styles/Navbar.css";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useLocale } from "../i18n/LocaleContext";
 import {
     buildSectionHref,
     getSectionBasePath,
@@ -10,23 +11,17 @@ import {
 } from "../utils/sectionNavigation";
 import { getNavbarOffset, scrollToSectionId } from "../utils/sectionScroll";
 
-const NAV_ITEMS = [
-    { id: "home", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "tools", label: "Tools" },
-    { id: "journey", label: "Journey" },
-    { id: "project", label: "Project" },
-    { id: "services", label: "Services" },
-    { id: "contact", label: "Contact" },
-];
+const NAV_IDS = ["home", "about", "tools", "journey", "project", "services", "contact"];
 
 export default function Navbar() {
-
     const location = useLocation();
     const navigate = useNavigate();
     const { role, logout } = useAuth();
+    const { t, locale, setLocale } = useLocale();
     const [activeSection, setActiveSection] = useState("");
     const [isNavOpen, setIsNavOpen] = useState(false);
+
+    const navItems = NAV_IDS.map((id) => ({ id, label: t.nav[id] }));
 
     const isAdmin =
         role === "admin" &&
@@ -65,7 +60,7 @@ export default function Navbar() {
 
         function highlightActiveLink() {
             const sections = Array.from(document.querySelectorAll("section[id]"))
-                .filter((section) => NAV_ITEMS.some((item) => item.id === section.id));
+                .filter((section) => NAV_IDS.includes(section.id));
 
             if (!sections.length) {
                 setActiveSection(location.hash.replace("#", ""));
@@ -144,25 +139,36 @@ export default function Navbar() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    useEffect(() => {
+        if (!isNavOpen) return undefined;
+        const previous = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = previous;
+        };
+    }, [isNavOpen]);
+
     return (
         <nav className="navbar navbar-expand-lg fixed-top site-nav">
             <div className="container">
-                <a className="navbar-brand">Mahmood Khdir</a>
+                <Link className="navbar-brand" to="/#home" onClick={() => setIsNavOpen(false)}>
+                    Mahmood Khdir
+                </Link>
 
                 <button
                     className="navbar-toggler"
                     type="button"
                     aria-controls="navbarNav"
                     aria-expanded={isNavOpen}
-                    aria-label="Toggle navigation"
+                    aria-label={t.nav.openMenu}
                     onClick={() => setIsNavOpen((current) => !current)}
                 >
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
                 <div className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`.trim()} id="navbarNav">
-                    <ul className="navbar-nav ms-auto">
-                        {NAV_ITEMS.map((item) => (
+                    <ul className="navbar-nav ms-auto align-items-lg-center">
+                        {navItems.map((item) => (
                             <li className="nav-item" key={item.id}>
                                 <Link
                                     className={`nav-link ${visibleActiveSection === item.id ? "active" : ""}`.trim()}
@@ -175,6 +181,35 @@ export default function Navbar() {
                             </li>
                         ))}
 
+                        <li className="nav-item">
+                            <Link
+                                className={`nav-link ${location.pathname === "/cv" ? "active" : ""}`.trim()}
+                                to="/cv"
+                                onClick={() => setIsNavOpen(false)}
+                            >
+                                {t.nav.cv}
+                            </Link>
+                        </li>
+
+                        <li className="nav-item lang-switch" role="group" aria-label="Language">
+                            <button
+                                type="button"
+                                className={`lang-btn ${locale === "en" ? "active" : ""}`}
+                                onClick={() => setLocale("en")}
+                                aria-pressed={locale === "en"}
+                            >
+                                {t.nav.langEn}
+                            </button>
+                            <button
+                                type="button"
+                                className={`lang-btn ${locale === "ku" ? "active" : ""}`}
+                                onClick={() => setLocale("ku")}
+                                aria-pressed={locale === "ku"}
+                            >
+                                {t.nav.langKu}
+                            </button>
+                        </li>
+
                         {isAdmin && (
                             <li className="nav-item">
                                 <button
@@ -182,11 +217,10 @@ export default function Navbar() {
                                     onClick={handleLogout}
                                     type="button"
                                 >
-                                    Logout
+                                    {t.nav.logout}
                                 </button>
                             </li>
                         )}
-
                     </ul>
                 </div>
             </div>

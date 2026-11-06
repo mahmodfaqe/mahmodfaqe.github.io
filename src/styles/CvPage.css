@@ -1,0 +1,115 @@
+.cv-page {
+  min-height: var(--viewport-stable-height, 100vh);
+  padding: 110px 16px 48px;
+}
+
+.cv-toolbar {
+  width: min(100%, 860px);
+  margin: 0 auto 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cv-sheet {
+  width: min(100%, 860px);
+  margin: 0 auto;
+  background: #fff;
+  color: #1a1a1a;
+  border-radius: 18px;
+  padding: 36px 34px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+}
+
+.cv-header h1 {
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  margin: 0 0 6px;
+  color: #1a1a1a;
+}
+
+.cv-role {
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: #5a0000;
+}
+
+.cv-meta,
+.cv-muted {
+  color: #555;
+  font-size: 0.92rem;
+}
+
+.cv-meta a {
+  color: #5a0000;
+}
+
+.cv-availability {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(74, 222, 128, 0.18);
+  color: #166534;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.cv-sheet section {
+  margin-top: 22px;
+  padding: 0;
+  background: transparent;
+}
+
+.cv-sheet h2 {
+  font-size: 1.05rem;
+  margin: 0 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #5a0000;
+  color: #5a0000;
+}
+
+.cv-block + .cv-block {
+  margin-top: 12px;
+}
+
+.cv-block h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  color: #111;
+}
+
+.cv-list {
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.cv-list li + li {
+  margin-top: 10px;
+}
+
+@media print {
+  .no-print,
+  .site-nav,
+  .splash,
+  .background {
+    display: none !important;
+  }
+
+  .cv-page {
+    padding: 0;
+    background: #fff;
+  }
+
+  .cv-sheet {
+    box-shadow: none;
+    border-radius: 0;
+    width: 100%;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}

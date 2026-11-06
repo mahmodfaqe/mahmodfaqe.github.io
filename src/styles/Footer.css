@@ -23,6 +23,19 @@
     align-items: start;
 }
 
+.footer-grid-with-form {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 40px;
+}
+
+.footer-cv-link {
+    margin: 18px 0 22px;
+}
+
+.footer-info .contact-form-panel {
+    margin-top: 8px;
+}
+
 .footer-title {
     font-size: 1rem;
     letter-spacing: 0.12em;
@@ -121,6 +134,12 @@ section {
     margin-top: auto;
     width: 100%;
     padding: 0;
+}
+
+@media (max-width: 992px) {
+    .footer-grid-with-form {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {

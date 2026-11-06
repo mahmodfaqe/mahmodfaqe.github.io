@@ -19,6 +19,7 @@ cpSync(join(dist, "404.html"), join(root, "404.html"));
 for (const file of [
   "robots.txt",
   "sitemap.xml",
+  "manifest.webmanifest",
   ".nojekyll",
   "og-cover.jpg",
   "og-cover.webp",

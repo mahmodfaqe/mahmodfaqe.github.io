@@ -12,7 +12,17 @@ import {
   scrollToSectionId,
 } from "../utils/sectionScroll";
 import { hasSafeHttpUrl, sanitizeHttpUrl } from "../utils/safeUrl";
+import { getCaseStudy, getProjectUpdate } from "../data/siteExtras";
+import { useLocale } from "../i18n/LocaleContext";
 
+const FILTER_DEFS = [
+  { labelKey: "filterAll", value: "all" },
+  { labelKey: "filterLanding", value: "landing-page" },
+  { labelKey: "filterWeb", value: "web-app" },
+  { labelKey: "filterMobile", value: "mobile-app" },
+];
+
+/** Admin form labels stay English (CMS UI). */
 const FILTERS = [
   { label: "All", value: "all" },
   { label: "Landing Page", value: "landing-page" },
@@ -464,6 +474,7 @@ function ProjectForm({ formData, onChange, onSubmit, saving, submitLabel, submit
 
 function ProjectDetailModal({ project, isAdmin, onClose }) {
   const navigate = useNavigate();
+  const { t, locale } = useLocale();
   const [deleteTarget, setDeleteTarget] = useState(null);
   const tools = project ? getProjectTools(project) : [];
   const features = project ? getFiturList(project) : [];
@@ -472,6 +483,8 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
   const hasAppStoreLink = hasLink(project?.app_store_url);
   const hasPlayStoreLink = hasLink(project?.play_store_url);
   const hasStoreLinks = hasAppStoreLink || hasPlayStoreLink;
+  const caseStudy = project ? getCaseStudy(project.id) : null;
+  const projectUpdate = project ? getProjectUpdate(project.id) : null;
 
   useEffect(() => {
     if (!project) return;
@@ -482,11 +495,20 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
     document.body.classList.add("modal-open");
     document.body.style.paddingRight = `${scrollbarWidth}px`;
 
+    function onKeyDown(event) {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+
     return () => {
       document.body.classList.remove("modal-open");
       document.body.style.paddingRight = "";
+      window.removeEventListener("keydown", onKeyDown);
     };
-  }, [project]);
+  }, [project, onClose]);
 
   if (!project) {
     return null;
@@ -517,7 +539,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
     <div className="project-modal-backdrop" onClick={onClose}>
       <div className="project-detail-modal" onClick={(event) => event.stopPropagation()}>
 
-        <button type="button" className="project-modal-close" onClick={onClose}>
+        <button type="button" className="project-modal-close" onClick={onClose} aria-label="Close">
           ×
         </button>
 
@@ -595,6 +617,31 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                 </div>
               </div>
             )}
+
+            {caseStudy ? (
+              <div className="project-case-study">
+                <h4>{t.project.caseStudy}</h4>
+                <p>
+                  <strong>{t.project.challenge}:</strong>{" "}
+                  {locale === "ku" ? caseStudy.challengeKu : caseStudy.challengeEn}
+                </p>
+                <p>
+                  <strong>{t.project.approach}:</strong>{" "}
+                  {locale === "ku" ? caseStudy.approachKu : caseStudy.approachEn}
+                </p>
+                <p>
+                  <strong>{t.project.outcome}:</strong>{" "}
+                  {locale === "ku" ? caseStudy.outcomeKu : caseStudy.outcomeEn}
+                </p>
+              </div>
+            ) : null}
+
+            {projectUpdate ? (
+              <p className="project-update-note">
+                <strong>{t.project.updated} {projectUpdate.date}:</strong>{" "}
+                {locale === "ku" ? projectUpdate.noteKu : projectUpdate.noteEn}
+              </p>
+            ) : null}
           </div>
 
           
@@ -936,8 +983,10 @@ function ProjectEditorPage({ mode }) {
 }
 
 export default function Project() {
+  const { t } = useLocale();
   const [projects, setProjects] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
@@ -1015,7 +1064,7 @@ export default function Project() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [activeFilter]);
+  }, [activeFilter, searchQuery]);
 
   useEffect(() => {
     if (loading) {
@@ -1027,15 +1076,31 @@ export default function Project() {
     });
 
     return () => window.cancelAnimationFrame(refreshAos);
-  }, [loading, activeFilter, currentPage, selectedProject]);
+  }, [loading, activeFilter, searchQuery, currentPage, selectedProject]);
 
   const filteredProjects = useMemo(() => {
-    if (activeFilter === "all") {
-      return projects;
-    }
+    const query = searchQuery.trim().toLowerCase();
 
-    return projects.filter((project) => (project.kategori ?? "landing-page") === activeFilter);
-  }, [activeFilter, projects]);
+    return projects.filter((project) => {
+      const categoryOk =
+        activeFilter === "all" ||
+        (project.kategori ?? "landing-page") === activeFilter;
+
+      if (!categoryOk) return false;
+      if (!query) return true;
+
+      const haystack = [
+        project.nama,
+        project.deskripsi,
+        ...(project.tools ?? []),
+        ...(project.fitur ?? []),
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return haystack.includes(query);
+    });
+  }, [activeFilter, projects, searchQuery]);
 
   const totalPages = Math.max(
     1,
@@ -1086,7 +1151,7 @@ export default function Project() {
           <div className="section-title animate-fade-in-up" data-aos="fade-up"
             data-aos-duration="700"
             data-aos-easing="ease-out">
-            <h2 className="highlight">My Projects</h2>
+            <h2 className="highlight">{t.project.title}</h2>
             <p className="highlight-text mt-3">{PROFILE.projectsLead}</p>
           </div>
 
@@ -1105,17 +1170,31 @@ export default function Project() {
             </div>
           )}
 
+          <div className="project-search-wrap" data-aos="fade-up" data-aos-delay="80">
+            <label className="project-search-label" htmlFor="project-search">
+              <i className="bi bi-search" aria-hidden="true"></i>
+              <input
+                id="project-search"
+                type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder={t.project.searchPlaceholder}
+                autoComplete="off"
+              />
+            </label>
+          </div>
+
           <div className="card-filter animate-fade-in-up" data-aos="fade-up"
             data-aos-delay="100"
             data-aos-duration="500">
-            {FILTERS.map((filter) => (
+            {FILTER_DEFS.map((filter) => (
               <button
                 key={filter.value}
                 type="button"
                 className={`filter-btn ${activeFilter === filter.value ? "active" : ""}`}
                 onClick={() => setActiveFilter(filter.value)}
               >
-                {filter.label}
+                {t.project[filter.labelKey]}
               </button>
             ))}
           </div>
@@ -1126,7 +1205,9 @@ export default function Project() {
               <p className="project-empty">Project is loading...</p>
             </div>
           ) : filteredProjects.length === 0 ? (
-            <p className="project-empty">There are no projects in this category yet.</p>
+            <p className="project-empty">
+              {searchQuery.trim() ? t.project.emptySearch : t.project.empty}
+            </p>
           ) : (
             <div className="card-container mt-5">
               {paginatedProjects.map((project, index) => {
@@ -1279,7 +1360,7 @@ export default function Project() {
                 disabled={currentPage === 1}
                 onClick={() => goToPage(currentPage - 1)}
               >
-                <i className="fas fa-chevron-left" aria-hidden="true"></i>
+                <i className="bi bi-chevron-left" aria-hidden="true"></i>
               </button>
             </li>
 
@@ -1312,7 +1393,7 @@ export default function Project() {
                 disabled={currentPage === totalPages}
                 onClick={() => goToPage(currentPage + 1)}
               >
-                <i className="fas fa-chevron-right" aria-hidden="true"></i>
+                <i className="bi bi-chevron-right" aria-hidden="true"></i>
               </button>
             </li>
           </ul>
@@ -1326,7 +1407,7 @@ export default function Project() {
                 disabled={currentPage === 1}
                 onClick={() => goToPage(currentPage - 1)}
               >
-                <i className="fas fa-chevron-left" aria-hidden="true"></i>
+                <i className="bi bi-chevron-left" aria-hidden="true"></i>
               </button>
             </li>
 
@@ -1355,7 +1436,7 @@ export default function Project() {
                 disabled={currentPage === totalPages}
                 onClick={() => goToPage(currentPage + 1)}
               >
-                <i className="fas fa-chevron-right" aria-hidden="true"></i>
+                <i className="bi bi-chevron-right" aria-hidden="true"></i>
               </button>
             </li>
           </ul>

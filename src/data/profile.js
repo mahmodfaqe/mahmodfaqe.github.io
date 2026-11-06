@@ -15,8 +15,15 @@ export const PROFILE = {
   telegram: "https://t.me/+9647507087901",
   snapchat: "https://www.snapchat.com/add/mahmod.faqe",
   siteUrl: "https://mahmodfaqe.github.io/",
+  /** Set when you have public profiles — empty strings stay hidden in the UI. */
+  orcid: "",
+  googleScholar: "",
+  availableForWork: true,
   about: `I am an undergraduate student in the Department of Biology, College of Science, University of Raparin. Alongside my studies, I design and develop web platforms and mobile applications for the university, its research centres and the life sciences. My work covers system design, backend development, mobile applications and server administration, with a particular focus on multilingual platforms in Kurdish, English and Arabic. I also provide server and VPS provisioning and management, and website security, for other clients.`,
+  aboutKu: `من خوێندکاری قۆناغی بەکالۆریۆسم لە بەشی بایۆلۆجی، کۆلێژی زانست، زانکۆی ڕاپەڕین. لەگەڵ خوێندنەکەمدا پلاتفۆڕمی وێب و ئەپی مۆبایل بۆ زانکۆ، سەنتەرەکانی توێژینەوە و زانستەکانی ژیان دیزاین و گەشەپێ دەدەم. کارەکەم دیزاینی سیستەم، باکئێند، ئەپی مۆبایل و بەڕێوەبردنی سێرڤەر دەگرێتەوە، بە تایبەتی پلاتفۆڕمی فرەزمانی کوردی، ئینگلیزی و عەرەبی. هەروەها دابینکردن و بەڕێوەبردنی سێرڤەر و VPS و پاراستنی ماڵپەڕ بۆ کڕیارانی تر پێشکەش دەکەم.`,
   homeLead: `Undergraduate biologist building web platforms and mobile applications for the University of Raparin, its research centres and the life sciences — with multilingual Kurdish, English and Arabic interfaces.`,
+  homeLeadKu: `بایۆلۆجیستێکی قۆناغی بەکالۆریۆس کە پلاتفۆڕمی وێب و ئەپی مۆبایل بۆ زانکۆی ڕاپەڕین، سەنتەرەکانی توێژینەوە و زانستەکانی ژیان دروست دەکات — لەگەڵ ڕووکاری فرەزمانی کوردی، ئینگلیزی و عەرەبی.`,
+  roleKu: "خوێندکاری بایۆلۆجی و گەشەپێدەری وێب و مۆبایل",
   skillsLead:
     "Technologies I use to design, build and deploy web platforms, mobile apps and scientific tools.",
   projectsLead:
@@ -26,6 +33,7 @@ export const PROFILE = {
   servicesLead:
     "Web, mobile and infrastructure solutions for universities, research centres and clients.",
   footerNote: "Open for academic collaboration and project enquiries",
+  footerNoteKu: "کراوەم بۆ هاوکاریی ئەکادیمی و داوای پڕۆژە",
 };
 
 export const STATIC_SKILLS = [
