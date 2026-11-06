@@ -30,8 +30,16 @@
     font-weight: 800;
     letter-spacing: -0.02em;
     margin-bottom: 12px;
-    /* Keep Latin name order stable when the page is RTL (ku). */
-    direction: ltr;
+}
+
+/* Flex row ignores RTL bidi reordering of sibling inline-blocks. */
+.hero-name-row {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.35em;
+    direction: ltr !important;
     unicode-bidi: isolate;
 }
 
@@ -48,6 +56,10 @@
         0 1px 0 rgba(0, 0, 0, 0.45),
         0 0 22px rgba(var(--maroon-accent-rgb), 0.35);
     animation: heroAccentGlow 3.2s ease-in-out infinite, heroNameFloat 4.2s ease-in-out infinite -1.1s;
+}
+
+html[dir="rtl"] .hero-name-row {
+    direction: ltr !important;
 }
 
 .hero-title-accent::after {
