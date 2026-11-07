@@ -11,7 +11,7 @@ const hasSupabaseConfig =
 
 if (!hasSupabaseConfig && import.meta.env.DEV) {
   console.warn(
-    "[supabase] VITE_SUPABASE_URL / VITE_SUPABASE_KEY ونن. پەڕەی گشتی دەکرێتەوە، بەڵام داتای پرۆژە/لۆگین کار ناکات."
+    "[supabase] VITE_SUPABASE_URL / VITE_SUPABASE_KEY دانەنراون. لاپەڕە گشتییەکە دەکرێتەوە، بەڵام داتای پڕۆژە و چوونەژوورەوە کار ناکەن."
   );
 }
 

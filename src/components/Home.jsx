@@ -2,8 +2,25 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../styles/Home.css";
 import { buildSectionHref } from "../utils/sectionNavigation";
-import { PROFILE } from "../data/profile";
+import { PROFILE, STATIC_PROJECTS } from "../data/profile";
 import { useLocale } from "../i18n/LocaleContext";
+
+const KURDISH_DIGITS = "٠١٢٣٤٥٦٧٨٩";
+
+const hasPublicLink = (project) =>
+    Boolean(project.preview_url || project.app_store_url || project.play_store_url);
+
+/** Active = finished and open to the public (site or store link); archived work counts only in the total. */
+const PROJECT_COUNTS = {
+    total: STATIC_PROJECTS.length,
+    active: STATIC_PROJECTS.filter((project) => project.status === "completed" && hasPublicLink(project)).length,
+    inProgress: STATIC_PROJECTS.filter((project) => project.status === "in progress").length,
+};
+
+function formatCount(value, locale) {
+    const text = String(value);
+    return locale === "ku" ? text.replace(/\d/g, (digit) => KURDISH_DIGITS[digit]) : text;
+}
 
 export default function Home() {
     const location = useLocation();
@@ -80,6 +97,25 @@ export default function Home() {
                                     {t.home.viewProjects}
                                 </Link>
                             </div>
+
+                            <ul
+                                className="hero-stats hero-reveal"
+                                style={{ "--hero-delay": "0.52s" }}
+                                aria-label={t.home.statsLabel}
+                            >
+                                <li className="hero-stat">
+                                    <strong>{formatCount(PROJECT_COUNTS.total, locale)}+</strong>
+                                    <span>{t.home.statTotal}</span>
+                                </li>
+                                <li className="hero-stat is-active">
+                                    <strong>{formatCount(PROJECT_COUNTS.active, locale)}</strong>
+                                    <span>{t.home.statActive}</span>
+                                </li>
+                                <li className="hero-stat is-progress">
+                                    <strong>{formatCount(PROJECT_COUNTS.inProgress, locale)}</strong>
+                                    <span>{t.home.statInProgress}</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>

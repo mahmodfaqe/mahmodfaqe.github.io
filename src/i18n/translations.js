@@ -21,6 +21,10 @@ export const TRANSLATIONS = {
     home: {
       about: "About",
       viewProjects: "Projects",
+      statsLabel: "Project summary",
+      statTotal: "Projects",
+      statActive: "Active",
+      statInProgress: "In progress",
     },
     about: {
       title: "About",
@@ -136,6 +140,10 @@ export const TRANSLATIONS = {
     home: {
       about: "دەربارەم",
       viewProjects: "پڕۆژەکان",
+      statsLabel: "کورتەی پڕۆژەکان",
+      statTotal: "پڕۆژە",
+      statActive: "چالاک",
+      statInProgress: "لە کاردان",
     },
     about: {
       title: "دەربارەی من",
@@ -150,7 +158,7 @@ export const TRANSLATIONS = {
       education: "خوێندن",
       experience: "ئەزموون",
       tabsLabel: "خوێندن و ئەزموون",
-      contributions: "بەشداریی پڕۆژە",
+      contributions: "بەشداری لە پڕۆژەکاندا",
       technologies: "تەکنەلۆژیاکان",
     },
     project: {
@@ -179,7 +187,7 @@ export const TRANSLATIONS = {
       googlePlay: "Google Play",
       github: "GitHub",
       noImage: "وێنە نییە",
-      noPreview: "پێشبینین نییە",
+      noPreview: "وێنەی پیشاندان نییە",
       close: "داخستن",
       pagesLabel: "لاپەڕەکانی پڕۆژەکان",
       prevPage: "لاپەڕەی پێشوو",
@@ -187,7 +195,7 @@ export const TRANSLATIONS = {
     },
     services: {
       title: "خزمەتگوزارییەکان",
-      lead: "کاری وێب، مۆبایل و سێرڤەر بۆ زانکۆ، سەنتەر و کڕیار.",
+      lead: "کاری وێب، مۆبایل و سێرڤەر بۆ زانکۆکان، سەنتەرەکان و کڕیاران.",
     },
     contact: {
       title: "پەیوەندی",
@@ -200,8 +208,8 @@ export const TRANSLATIONS = {
       sending: "دەنێردرێت…",
       whatsappCta: "واتساپ",
       formSuccess: "ئەپی ئیمەیڵ دەکرێتەوە.",
-      formspreeSuccess: "پەیام نێردرا.",
-      formError: "نەنێردرا. ئیمەیڵ یان واتساپ بەکار بهێنە.",
+      formspreeSuccess: "پەیامەکە نێردرا.",
+      formError: "پەیامەکە نەنێردرا. ئیمەیڵ یان واتساپ بەکار بهێنە.",
       rights: "هەموو مافەکان پارێزراون.",
     },
     cv: {
@@ -224,7 +232,7 @@ export const TRANSLATIONS = {
       ],
     },
     notFound: {
-      title: "پەڕە نەدۆزرایەوە",
+      title: "لاپەڕەکە نەدۆزرایەوە",
       body: "ئەم ناونیشانە لەسەر ماڵپەڕەکە نییە.",
       home: "سەرەتا",
     },

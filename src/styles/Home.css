@@ -300,3 +300,60 @@ html[dir="rtl"] .hero-name-row {
         max-width: 100%;
     }
 }
+
+.hero-stats {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    max-width: 520px;
+    margin: 34px auto 0;
+    padding: 0;
+}
+
+.hero-stat {
+    padding: 14px 10px;
+    border-radius: 18px;
+    border: 1px solid rgba(var(--maroon-accent-rgb), 0.22);
+    background: rgba(var(--maroon-accent-rgb), 0.06);
+    backdrop-filter: blur(6px);
+}
+
+.hero-stat strong {
+    display: block;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text-primary);
+}
+
+.hero-stat span {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.hero-stat.is-active strong {
+    color: #4ade80;
+}
+
+.hero-stat.is-progress strong {
+    color: #60a5fa;
+}
+
+@media (max-width: 576px) {
+    .hero-stats {
+        gap: 8px;
+        margin-top: 26px;
+    }
+
+    .hero-stat {
+        padding: 10px 6px;
+        border-radius: 14px;
+    }
+
+    .hero-stat span {
+        font-size: 0.74rem;
+    }
+}
