@@ -1505,7 +1505,9 @@
 
 .filter-btn.active,
 .filter-btn:hover {
-    background-color: #FF6B6B;
+    /* #C62828 keeps white text at 5.6:1; the lighter #FF6B6B border colour only reached 2.8:1. */
+    background-color: #C62828;
+    border-color: #C62828;
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 8px 18px rgba(255, 107, 107, 0.35);

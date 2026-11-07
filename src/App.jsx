@@ -21,6 +21,7 @@ import NotFound from "./components/NotFound";
 import CvPage from "./pages/CvPage";
 
 import { AuthProvider } from "./context/AuthContext";
+import supabase from "./assets/supabase-client";
 import ProtectedRoute from "./context/ProtectedRoute";
 import { LocaleProvider, useLocale } from "./i18n/LocaleContext";
 
@@ -105,7 +106,7 @@ function useActiveSectionHash() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const id = entry.target.id;
-            window.history.replaceState(null, "", `#${id}`);
+            window.history.replaceState(window.history.state, "", `${window.location.pathname}#${id}`);
           }
         });
       },
@@ -302,10 +303,16 @@ function App() {
                 <Route
                   path="/admin"
                   element={
-                    <>
-                      <BackgroundLayer />
-                      <Login />
-                    </>
+                    supabase ? (
+                      <>
+                        <BackgroundLayer />
+                        <Login />
+                      </>
+                    ) : (
+                      <SoftRouteLayout>
+                        <NotFound />
+                      </SoftRouteLayout>
+                    )
                   }
                 />
 

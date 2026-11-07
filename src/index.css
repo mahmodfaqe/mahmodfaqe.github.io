@@ -104,7 +104,12 @@ body {
 
 html[lang="ckb"] body {
   font-family: 'Noto Sans Arabic', 'Poppins', 'Segoe UI', sans-serif;
-  letter-spacing: 0;
+}
+
+/* Letter-spacing pulls joined Arabic-script letters apart, so Kurdish text never gets any. */
+html[lang="ckb"] body,
+html[lang="ckb"] body * {
+  letter-spacing: 0 !important;
 }
 
 .skip-to-content {

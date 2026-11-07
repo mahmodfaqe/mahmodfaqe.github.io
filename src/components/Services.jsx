@@ -1,9 +1,10 @@
 import "../styles/Services.css";
 import { SERVICES } from "../data/profile";
 import { useLocale } from "../i18n/LocaleContext";
+import { localized } from "../i18n/localize";
 
 export default function Services() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
 
   return (
     <section id="services" className="services-section" aria-labelledby="services-title">
@@ -16,11 +17,13 @@ export default function Services() {
         <div className="services-grid">
           {SERVICES.map((service, index) => (
             <article className="service-card" key={service.title} data-aos="fade-up" data-aos-delay={index * 100}>
-              <div className="service-icon"><i className={`bi ${service.icon}`}></i></div>
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
+              <div className="service-icon"><i className={`bi ${service.icon}`} aria-hidden="true"></i></div>
+              <h3>{localized(service, "title", locale)}</h3>
+              <p>{localized(service, "description", locale)}</p>
               <ul>
-                {service.points.map((point) => <li key={point}><i className="bi bi-check2"></i>{point}</li>)}
+                {localized(service, "points", locale).map((point) => (
+                  <li key={point}><i className="bi bi-check2" aria-hidden="true"></i>{point}</li>
+                ))}
               </ul>
             </article>
           ))}

@@ -1,4 +1,4 @@
-import { cpSync, mkdirSync, rmSync, existsSync } from "node:fs";
+import { cpSync, mkdirSync, rmSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -15,6 +15,19 @@ mkdirSync(assetsOut, { recursive: true });
 cpSync(join(dist, "assets"), assetsOut, { recursive: true });
 cpSync(join(dist, "index.html"), join(root, "index.html"));
 cpSync(join(dist, "404.html"), join(root, "404.html"));
+
+const cvTitle = "Mahmood Khdir Faqe Rasul — CV";
+const cvUrl = "https://mahmodfaqe.github.io/cv/";
+const cvHtml = readFileSync(join(dist, "index.html"), "utf8")
+  .replace(/<title>[^<]*<\/title>/, `<title>${cvTitle}</title>`)
+  .replace(/(<link rel="canonical" href=")[^"]*/, `$1${cvUrl}`)
+  .replace(/(<meta property="og:url" content=")[^"]*/, `$1${cvUrl}`)
+  .replace(/(<meta property="og:title" content=")[^"]*/, `$1${cvTitle}`)
+  .replace(/(<meta name="twitter:title" content=")[^"]*/, `$1${cvTitle}`);
+const cvOut = join(root, "cv");
+rmSync(cvOut, { recursive: true, force: true });
+mkdirSync(cvOut, { recursive: true });
+writeFileSync(join(cvOut, "index.html"), cvHtml);
 
 for (const file of [
   "robots.txt",

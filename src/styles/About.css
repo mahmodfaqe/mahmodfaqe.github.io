@@ -8,6 +8,7 @@
 
 .about-title {
     font-weight: bold;
+    font-size: calc(1.375rem + 1.5vw);
 }
 
 .about-section .container,
@@ -231,5 +232,11 @@
         width: 210px;
         height: 3px;
         margin: 8px auto 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    .about-section .about-title {
+        font-size: 2.5rem;
     }
 }

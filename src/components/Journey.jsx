@@ -2,9 +2,10 @@ import { useState } from "react";
 import "../styles/Journey.css";
 import { JOURNEY_CONTENT } from "../data/profile";
 import { useLocale } from "../i18n/LocaleContext";
+import { localized } from "../i18n/localize";
 
 export default function Journey() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const [activeTab, setActiveTab] = useState("education");
   const items = JOURNEY_CONTENT[activeTab];
 
@@ -39,7 +40,7 @@ export default function Journey() {
               type="button"
               role="tab"
               aria-selected={activeTab === tab}
-              aria-controls={`${tab}-panel`}
+              aria-controls={activeTab === tab ? `${tab}-panel` : undefined}
               onClick={() => setActiveTab(tab)}
             >
               <i
@@ -78,16 +79,16 @@ export default function Journey() {
 
               <div className="journey-card-content">
                 <span className="journey-period">
-                  {item.period}
+                  {localized(item, "period", locale)}
                 </span>
 
-                <h3>{item.title}</h3>
+                <h3>{localized(item, "title", locale)}</h3>
 
                 <p className="journey-place">
-                  {item.place}
+                  {localized(item, "place", locale)}
                 </p>
 
-                <p>{item.description}</p>
+                <p>{localized(item, "description", locale)}</p>
 
                 {item.projects && item.projects.length > 0 && (
                   <div className="journey-projects">
@@ -101,8 +102,8 @@ export default function Journey() {
                         <span className="journey-project-dot" />
 
                         <div>
-                          <h5>{project.name}</h5>
-                          <p>{project.description}</p>
+                          <h5>{localized(project, "name", locale)}</h5>
+                          <p>{localized(project, "description", locale)}</p>
                         </div>
                       </div>
                     ))}

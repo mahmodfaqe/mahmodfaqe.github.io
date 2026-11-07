@@ -8,7 +8,7 @@ export default function About() {
     const { t, locale } = useLocale();
 
     return (
-        <section id="about" className="about-section">
+        <section id="about" className="about-section" aria-labelledby="about-title">
             <div className="container">
                 <div className="about">
                     <div className="row align-items-center">
@@ -18,13 +18,14 @@ export default function About() {
                             data-aos-duration="900"
                             data-aos-easing="ease-out-cubic"
                         >
-                            <h1
+                            <h2
+                                id="about-title"
                                 className="about-title"
                                 data-aos="fade-up"
                                 data-aos-delay="100"
                             >
                                 {t.about.title}
-                            </h1>
+                            </h2>
 
                             <p
                                 className="about-sub-title"

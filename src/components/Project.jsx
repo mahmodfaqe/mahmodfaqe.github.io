@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import AOS from "aos";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import supabase from "../assets/supabase-client";
@@ -13,6 +13,7 @@ import {
 } from "../utils/sectionScroll";
 import { hasSafeHttpUrl, sanitizeHttpUrl } from "../utils/safeUrl";
 import { useLocale } from "../i18n/LocaleContext";
+import { localized } from "../i18n/localize";
 
 const FILTER_DEFS = [
   { labelKey: "filterAll", value: "all" },
@@ -47,9 +48,9 @@ const STATUS_ALIASES = {
 };
 
 const STATUS_META = {
-  completed: { text: "Completed", class: "done" },
-  "in repair": { text: "In Repair", class: "repair" },
-  "in progress": { text: "In Progress", class: "progress" },
+  completed: { text: "Completed", class: "done", key: "statusCompleted" },
+  "in repair": { text: "In Repair", class: "repair", key: "statusInRepair" },
+  "in progress": { text: "In Progress", class: "progress", key: "statusInProgress" },
 };
 
 function getMobilePaginationPages(currentPage, totalPages) {
@@ -167,6 +168,11 @@ function getProjectStatusMeta(status) {
   return STATUS_META[normalizeStatus(status)] ?? STATUS_META["in progress"];
 }
 
+function getProjectStatusText(status, t) {
+  const meta = getProjectStatusMeta(status);
+  return t?.project?.[meta.key] ?? meta.text;
+}
+
 function getProjectImageSources(file) {
   if (!file || typeof file !== "string") {
     return { primary: "", fallback: "" };
@@ -189,11 +195,11 @@ function getProjectImageSources(file) {
   return { primary: file, fallback: file };
 }
 
-function ProjectCoverImage({ file, alt, className, loading = "lazy" }) {
+function ProjectCoverImage({ file, alt, className, loading = "lazy", emptyText = "No image" }) {
   const { primary, fallback } = getProjectImageSources(file);
 
   if (!primary && !fallback) {
-    return <div className="project-placeholder">No Image</div>;
+    return <div className="project-placeholder">{emptyText}</div>;
   }
 
   if (primary && fallback && primary !== fallback) {
@@ -473,10 +479,12 @@ function ProjectForm({ formData, onChange, onSubmit, saving, submitLabel, submit
 
 function ProjectDetailModal({ project, isAdmin, onClose }) {
   const navigate = useNavigate();
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
+  const dialogRef = useRef(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const tools = project ? getProjectTools(project) : [];
-  const features = project ? getFiturList(project) : [];
+  const kurdishFeatures = locale === "ku" && Array.isArray(project?.fiturKu) && project.fiturKu.length > 0;
+  const features = project ? (kurdishFeatures ? project.fiturKu : getFiturList(project)) : [];
   const hasPreviewLink = hasLink(project?.preview_url);
   const hasGithubLink = hasLink(project?.github_url);
   const hasAppStoreLink = hasLink(project?.app_store_url);
@@ -500,10 +508,18 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
 
     window.addEventListener("keydown", onKeyDown);
 
+    const previouslyFocused = document.activeElement;
+    const closeButtons = dialogRef.current?.querySelectorAll(".project-modal-close") ?? [];
+    const visibleClose = Array.from(closeButtons).find((button) => button.offsetParent !== null);
+    (visibleClose ?? dialogRef.current)?.focus();
+
     return () => {
       document.body.classList.remove("modal-open");
       document.body.style.paddingRight = "";
       window.removeEventListener("keydown", onKeyDown);
+      if (previouslyFocused instanceof HTMLElement) {
+        previouslyFocused.focus();
+      }
     };
   }, [project, onClose]);
 
@@ -534,9 +550,17 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
 
   return (
     <div className="project-modal-backdrop" onClick={onClose}>
-      <div className="project-detail-modal" onClick={(event) => event.stopPropagation()}>
+      <div
+        className="project-detail-modal"
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="project-modal-title"
+        onClick={(event) => event.stopPropagation()}
+      >
 
-        <button type="button" className="project-modal-close" onClick={onClose} aria-label="Close">
+        <button type="button" className="project-modal-close" onClick={onClose} aria-label={t.project.close}>
           ×
         </button>
 
@@ -548,16 +572,16 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
               className="project-modal-close project-editor-back-btn"
               onClick={onClose}
             >
-              <i className="bi bi-arrow-left"></i>
-              Close
+              <i className="bi bi-arrow-left" aria-hidden="true"></i>
+              {t.project.close}
             </button>
 
             <div className="project-title-area">
-              <h2>{project.nama}</h2>
+              <h2 id="project-modal-title">{localized(project, "nama", locale)}</h2>
               <span className="project-subtitle">
-                {project.kategori === "landing-page" && "Landing Page Project"}
-                {project.kategori === "web-app" && "Web Application"}
-                {project.kategori === "mobile-app" && "Mobile Application"}
+                {project.kategori === "landing-page" && t.project.categoryLanding}
+                {project.kategori === "web-app" && t.project.categoryWeb}
+                {project.kategori === "mobile-app" && t.project.categoryMobile}
               </span>
             </div>
 
@@ -621,22 +645,22 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
           <div className="project-preview-section" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
             <div className="project-preview-container">
               {project.file ? (
-                <ProjectCoverImage file={project.file} alt={project.nama} />
+                <ProjectCoverImage file={project.file} alt={localized(project, "nama", locale)} emptyText={t.project.noImage} />
               ) : (
                 <div className="project-preview-placeholder">
-                  No Preview Available
+                  {t.project.noPreview}
                 </div>
               )}
             </div>
 
             <div className="project-description-wrapper">
               <p className="project-description">
-                {project.deskripsi}
+                {localized(project, "deskripsi", locale)}
               </p>
             </div>
 
             <p className={`project-status-text ${currentStatus.class}`}>
-              {currentStatus.text}
+              {getProjectStatusText(project.status, t)}
             </p>
 
             {(hasPreviewLink || hasGithubLink || hasStoreLinks) && (
@@ -648,8 +672,8 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                     rel="noopener noreferrer"
                     className="btn btn-live-demo project-modal-link-btn"
                   >
-                    <i className="bi bi-eye"></i>
-                    Live Demo
+                    <i className="bi bi-eye" aria-hidden="true"></i>
+                    {t.project.visitSite}
                   </a>
                 )}
 
@@ -673,7 +697,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                     className="btn btn-play-store project-modal-link-btn"
                   >
                     <i className="bi bi-google-play" aria-hidden="true"></i>
-                    <span>Play Store</span>
+                    <span>{t.project.googlePlay}</span>
                   </a>
                 )}
 
@@ -684,8 +708,8 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                     rel="noopener noreferrer"
                     className="btn btn-learn-more project-modal-link-btn"
                   >
-                    <i className="bi bi-github"></i>
-                    Github
+                    <i className="bi bi-github" aria-hidden="true"></i>
+                    {t.project.github}
                   </a>
                 )}
               </div>
@@ -955,7 +979,7 @@ function ProjectEditorPage({ mode }) {
 }
 
 export default function Project() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const [projects, setProjects] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -1063,7 +1087,10 @@ export default function Project() {
 
       const haystack = [
         project.nama,
+        project.namaKu,
         project.deskripsi,
+        project.deskripsiKu,
+        ...(project.fiturKu ?? []),
         ...(project.tools ?? []),
         ...(project.fitur ?? []),
       ]
@@ -1212,32 +1239,36 @@ export default function Project() {
                   <div className="project-visual-trigger" aria-hidden="true">
                     <div className="img-wrapper">
                       <span className={`project-status-badge ${statusMeta.class}`}>
-                        {statusMeta.text}
+                        {getProjectStatusText(project.status, t)}
                       </span>
 
                       {project.file ? (
                         <ProjectCoverImage
                           file={project.file}
-                          alt={project.nama}
+                          alt={localized(project, "nama", locale)}
                           className="project-image"
+                          emptyText={t.project.noImage}
                         />
                       ) : (
-                        <div className="project-placeholder">No Image</div>
+                        <div className="project-placeholder">{t.project.noImage}</div>
                       )}
                     </div>
                   </div>
 
                   <div className="card-body">
-                    <h5 className="card-title">
+                    <h3 className="card-title">
                       <button
                         type="button"
                         className="project-title-trigger"
                         onClick={() => setSelectedProject(project)}
                       >
-                        {project.nama}
+                        {localized(project, "nama", locale)}
                       </button>
-                    </h5>
-                    <p className="card-text">{project.deskripsi}</p>
+                    </h3>
+                    <p className="visually-hidden">
+                      {t.project.statusLabel}: {getProjectStatusText(project.status, t)}
+                    </p>
+                    <p className="card-text">{localized(project, "deskripsi", locale)}</p>
 
                     {hasFooterActions && (
                       <div className="project-card-footer">
@@ -1251,7 +1282,7 @@ export default function Project() {
                                   rel="noopener noreferrer"
                                 >
                                   <i className="bi bi-eye" aria-hidden="true"></i>
-                                  <span>Preview</span>
+                                  <span>{t.project.visit}</span>
                                 </a>
                               )}
 
@@ -1275,7 +1306,7 @@ export default function Project() {
                                   rel="noopener noreferrer"
                                 >
                                   <i className="bi bi-google-play" aria-hidden="true"></i>
-                                  <span>Play</span>
+                                  <span>{t.project.googlePlay}</span>
                                 </a>
                               )}
 
@@ -1285,7 +1316,7 @@ export default function Project() {
                                 onClick={() => setSelectedProject(project)}
                               >
                                 <i className="bi bi-info-circle" aria-hidden="true"></i>
-                                <span>Detail</span>
+                                <span>{t.project.details}</span>
                               </button>
                             </div>
 
@@ -1323,12 +1354,12 @@ export default function Project() {
         </div>
 
         <div className="portfolio-pagination animate-fade-in-up text-center">
-          <ul className="pagination-custom pagination-desktop" aria-label="Project pages">
+          <ul className="pagination-custom pagination-desktop" aria-label={t.project.pagesLabel}>
             <li className={`page-item-custom ${currentPage === 1 ? "disabled" : ""}`}>
               <button
                 type="button"
                 className="page-item-btn"
-                aria-label="Previous page"
+                aria-label={t.project.prevPage}
                 disabled={currentPage === 1}
                 onClick={() => goToPage(currentPage - 1)}
               >
@@ -1361,7 +1392,7 @@ export default function Project() {
               <button
                 type="button"
                 className="page-item-btn"
-                aria-label="Next page"
+                aria-label={t.project.nextPage}
                 disabled={currentPage === totalPages}
                 onClick={() => goToPage(currentPage + 1)}
               >
@@ -1370,12 +1401,12 @@ export default function Project() {
             </li>
           </ul>
 
-          <ul className="pagination-custom pagination-mobile" aria-label="Project pages">
+          <ul className="pagination-custom pagination-mobile" aria-label={t.project.pagesLabel}>
             <li className={`page-item-custom ${currentPage === 1 ? "disabled" : ""}`}>
               <button
                 type="button"
                 className="page-item-btn"
-                aria-label="Previous page"
+                aria-label={t.project.prevPage}
                 disabled={currentPage === 1}
                 onClick={() => goToPage(currentPage - 1)}
               >
@@ -1404,7 +1435,7 @@ export default function Project() {
               <button
                 type="button"
                 className="page-item-btn"
-                aria-label="Next page"
+                aria-label={t.project.nextPage}
                 disabled={currentPage === totalPages}
                 onClick={() => goToPage(currentPage + 1)}
               >

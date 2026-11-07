@@ -183,7 +183,7 @@ export default function Navbar() {
 
                         <li className="nav-item">
                             <Link
-                                className={`nav-link ${location.pathname === "/cv" ? "active" : ""}`.trim()}
+                                className={`nav-link ${location.pathname.replace(/\/+$/, "") === "/cv" ? "active" : ""}`.trim()}
                                 to="/cv"
                                 onClick={() => setIsNavOpen(false)}
                             >
@@ -191,12 +191,14 @@ export default function Navbar() {
                             </Link>
                         </li>
 
-                        <li className="nav-item lang-switch" role="group" aria-label="Language">
+                        <li className="nav-item lang-switch" role="group" aria-label={t.nav.language}>
                             <button
                                 type="button"
                                 className={`lang-btn ${locale === "en" ? "active" : ""}`}
                                 onClick={() => setLocale("en")}
                                 aria-pressed={locale === "en"}
+                                aria-label={t.nav.langEnName}
+                                title={t.nav.langEnName}
                             >
                                 {t.nav.langEn}
                             </button>
@@ -205,6 +207,8 @@ export default function Navbar() {
                                 className={`lang-btn ${locale === "ku" ? "active" : ""}`}
                                 onClick={() => setLocale("ku")}
                                 aria-pressed={locale === "ku"}
+                                aria-label={t.nav.langKuName}
+                                title={t.nav.langKuName}
                             >
                                 {t.nav.langKu}
                             </button>

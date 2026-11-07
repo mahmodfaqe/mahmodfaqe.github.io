@@ -22,7 +22,7 @@ export default function Home() {
         }
 
         const handleSplashComplete = () => setIsVisible(true);
-        const fallbackTimer = window.setTimeout(handleSplashComplete, 3200);
+        const fallbackTimer = window.setTimeout(handleSplashComplete, 1800);
 
         window.addEventListener("splashscreen:complete", handleSplashComplete);
 
@@ -45,6 +45,7 @@ export default function Home() {
                                 className="hero-title hero-reveal"
                                 style={{ "--hero-delay": "0.08s" }}
                                 lang="en"
+                                aria-label={`${PROFILE.firstName} ${PROFILE.lastName}`}
                             >
                                 <span className="hero-name-row" dir="ltr">
                                     <span className="hero-title-first">{PROFILE.firstName}</span>

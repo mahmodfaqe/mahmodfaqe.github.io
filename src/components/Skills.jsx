@@ -167,7 +167,7 @@ export default function Skills() {
   }
 
   return (
-    <section id="tools" className="skills-section">
+    <section id="tools" className="skills-section" aria-labelledby="tools-title">
       <div className="container">
         <div
           className="section-heading"
@@ -175,13 +175,14 @@ export default function Skills() {
           data-aos-duration="800"
           data-aos-easing="ease-out-cubic"
         >
-          <h1
+          <h2
+            id="tools-title"
             className="skills-title"
             data-aos="fade-up"
             data-aos-delay="100"
           >
             {t.skills.title}
-          </h1>
+          </h2>
 
           <p
             className="section-subtitle"

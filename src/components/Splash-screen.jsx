@@ -7,10 +7,12 @@ const SPLASH_DONE_KEY = "portfolio:splash-done";
 
 function hasCompletedSplash() {
     if (typeof window === "undefined") return false;
-    return (
-        document.body.dataset.splash === "done" ||
-        window.sessionStorage.getItem(SPLASH_DONE_KEY) === "1"
-    );
+    if (document.body.dataset.splash === "done") return true;
+    try {
+        return window.localStorage.getItem(SPLASH_DONE_KEY) === "1";
+    } catch {
+        return false;
+    }
 }
 
 export default function SplashScreen() {
@@ -53,7 +55,7 @@ export default function SplashScreen() {
                 pauseTimer = window.setTimeout(() => {
                     deleting = true;
                     type();
-                }, 900);
+                }, 600);
                 return;
             }
 
@@ -62,7 +64,7 @@ export default function SplashScreen() {
                 i = (i + 1) % texts.length;
             }
 
-            typingTimer = window.setTimeout(type, deleting ? 40 : 70);
+            typingTimer = window.setTimeout(type, deleting ? 25 : 40);
         }
 
         type();
@@ -83,8 +85,8 @@ export default function SplashScreen() {
         const previousBodyOverflow = document.body.style.overflow;
         const previousHtmlOverflow = document.documentElement.style.overflow;
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const leaveAt = reducedMotion ? 0 : 2200;
-        const hideAt = reducedMotion ? 0 : 2850;
+        const leaveAt = reducedMotion ? 0 : 1000;
+        const hideAt = reducedMotion ? 0 : 1400;
 
         document.body.dataset.splash = "active";
         document.body.style.overflow = "hidden";
@@ -93,7 +95,11 @@ export default function SplashScreen() {
 
         const finishSplash = () => {
             document.body.dataset.splash = "done";
-            window.sessionStorage.setItem(SPLASH_DONE_KEY, "1");
+            try {
+                window.localStorage.setItem(SPLASH_DONE_KEY, "1");
+            } catch {
+                // Blocked storage only means the splash shows again next visit.
+            }
             document.body.style.overflow = previousBodyOverflow;
             document.documentElement.style.overflow = previousHtmlOverflow;
             window.dispatchEvent(new Event("viewport:change"));

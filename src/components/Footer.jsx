@@ -19,17 +19,17 @@ export default function Footer() {
                         <ul className="footer-list">
                             <li>
                                 <i className="bi bi-geo-alt-fill" aria-hidden="true"></i>
-                                <span>{PROFILE.location}</span>
+                                <span>{locale === "ku" ? PROFILE.locationKu : PROFILE.location}</span>
                             </li>
                             <li>
                                 <i className="bi bi-telephone-fill" aria-hidden="true"></i>
-                                <a href={`tel:${PROFILE.phoneDisplay.replace(/\s+/g, "")}`}>
+                                <a href={`tel:${PROFILE.phoneDisplay.replace(/\s+/g, "")}`} dir="ltr">
                                     {PROFILE.phoneDisplay}
                                 </a>
                             </li>
                             <li>
                                 <i className="bi bi-envelope-fill" aria-hidden="true"></i>
-                                <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
+                                <a href={`mailto:${PROFILE.email}`} dir="ltr">{PROFILE.email}</a>
                             </li>
                             {PROFILE.orcid ? (
                                 <li>
@@ -73,11 +73,11 @@ export default function Footer() {
                             </a>
                             <a href={`mailto:${PROFILE.email}`} className="social-item">
                                 <i className="bi bi-envelope-fill" aria-hidden="true"></i>
-                                <span>Email</span>
+                                <span>{t.contact.email}</span>
                             </a>
                             <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="social-item">
                                 <i className="bi bi-github" aria-hidden="true"></i>
-                                <span>Github</span>
+                                <span>GitHub</span>
                             </a>
                             <a href={PROFILE.facebook} target="_blank" rel="noopener noreferrer" className="social-item">
                                 <i className="bi bi-facebook" aria-hidden="true"></i>
