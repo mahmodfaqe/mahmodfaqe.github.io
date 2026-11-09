@@ -2,6 +2,7 @@ name: Deploy
 
 # Every push to main builds the site and publishes dist/ to GitHub Pages
 # (Settings > Pages > Source: GitHub Actions). Pull requests only run the build.
+# A newer push cancels a run that is still going, so the latest commit goes live first.
 
 on:
   push:
@@ -15,7 +16,7 @@ permissions:
 
 concurrency:
   group: pages-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
