@@ -172,7 +172,7 @@ export default function Skills() {
         <div
           className="section-heading"
           data-aos="fade-up"
-          data-aos-duration="800"
+          data-aos-duration="500"
           data-aos-easing="ease-out-cubic"
         >
           <h2
@@ -187,7 +187,7 @@ export default function Skills() {
           <p
             className="section-subtitle"
             data-aos="fade-up"
-            data-aos-delay="200"
+            data-aos-delay="120"
           >
             {t.skills.lead}
           </p>
@@ -198,7 +198,7 @@ export default function Skills() {
             className="skills-form"
             data-aos="fade-up"
             data-aos-delay="150"
-            data-aos-duration="700"
+            data-aos-duration="500"
           >
             <input
               type="text"
@@ -262,7 +262,7 @@ export default function Skills() {
                 key={skill.id}
                 data-aos="fade-up"
                 data-aos-delay="0"
-                data-aos-duration="700"
+                data-aos-duration="500"
                 data-aos-easing="ease-out-cubic"
               >
                 <div

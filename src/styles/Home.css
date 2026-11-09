@@ -15,13 +15,13 @@
 
 .hero-reveal {
     opacity: 0;
-    transform: translateY(26px) scale(0.98);
-    filter: blur(12px);
+    transform: translateY(16px) scale(0.98);
+    filter: blur(6px);
     will-change: transform, opacity, filter;
 }
 
 .hero-content.is-visible .hero-reveal {
-    animation: heroTextReveal 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation: heroTextReveal 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     animation-delay: var(--hero-delay, 0s);
 }
 
@@ -124,8 +124,8 @@ html[dir="rtl"] .hero-name-row {
 @keyframes heroTextReveal {
     0% {
         opacity: 0;
-        transform: translateY(26px) scale(0.98);
-        filter: blur(12px);
+        transform: translateY(16px) scale(0.98);
+        filter: blur(6px);
     }
 
     60% {

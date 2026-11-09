@@ -2874,3 +2874,41 @@
         width: auto;
     }
 }
+
+/* Project story in the detail dialog: the developer's role, who the project serves and its key figures. */
+.project-story {
+    display: grid;
+    gap: 16px;
+    margin: 0;
+}
+
+.project-story-row dt {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.project-story-row dt i {
+    color: #C9485B;
+    font-size: 0.95rem;
+}
+
+.project-story-row dd {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.92rem;
+    line-height: 1.65;
+}
+
+.project-stats-grid.is-single {
+    grid-template-columns: 1fr !important;
+}
+
+.project-stats-grid .project-stat-label {
+    text-transform: none;
+    line-height: 1.4;
+}

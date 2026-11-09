@@ -482,3 +482,20 @@ section[id] {
 .project-card *::after {
   box-sizing: border-box;
 }
+
+/* Scroll reveals move only a short way, so a section reads as soon as it enters the screen. */
+body [data-aos="fade-up"]:not(.aos-animate) {
+  transform: translate3d(0, 24px, 0);
+}
+
+body [data-aos="fade-right"]:not(.aos-animate) {
+  transform: translate3d(-24px, 0, 0);
+}
+
+body [data-aos="zoom-in"]:not(.aos-animate) {
+  transform: scale(0.94);
+}
+
+body [data-aos="zoom-in-up"]:not(.aos-animate) {
+  transform: translate3d(0, 24px, 0) scale(0.94);
+}

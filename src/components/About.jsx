@@ -15,7 +15,7 @@ export default function About() {
                         <div
                             className="col-lg-6 mt-4 mt-lg-0 text-center text-lg-start order-1"
                             data-aos="fade-right"
-                            data-aos-duration="900"
+                            data-aos-duration="500"
                             data-aos-easing="ease-out-cubic"
                         >
                             <h2
@@ -30,7 +30,7 @@ export default function About() {
                             <p
                                 className="about-sub-title"
                                 data-aos="fade-up"
-                                data-aos-delay="200"
+                                data-aos-delay="120"
                             >
                                 {locale === "ku" ? PROFILE.aboutKu : PROFILE.about}
                             </p>
@@ -39,7 +39,7 @@ export default function About() {
                         <div
                             className="col-lg-6 text-center mt-4 mt-lg-0 order-2"
                             data-aos="zoom-in"
-                            data-aos-duration="1000"
+                            data-aos-duration="500"
                             data-aos-easing="ease-out-cubic"
                         >
                             <div className="profile-wrap">

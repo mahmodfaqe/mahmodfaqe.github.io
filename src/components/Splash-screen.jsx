@@ -64,7 +64,7 @@ export default function SplashScreen() {
                 i = (i + 1) % texts.length;
             }
 
-            typingTimer = window.setTimeout(type, deleting ? 25 : 40);
+            typingTimer = window.setTimeout(type, deleting ? 18 : 25);
         }
 
         type();
@@ -85,8 +85,8 @@ export default function SplashScreen() {
         const previousBodyOverflow = document.body.style.overflow;
         const previousHtmlOverflow = document.documentElement.style.overflow;
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const leaveAt = reducedMotion ? 0 : 1000;
-        const hideAt = reducedMotion ? 0 : 1400;
+        const leaveAt = reducedMotion ? 0 : 700;
+        const hideAt = reducedMotion ? 0 : 1000;
 
         document.body.dataset.splash = "active";
         document.body.style.overflow = "hidden";

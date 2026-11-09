@@ -4,8 +4,7 @@ import "../styles/Home.css";
 import { buildSectionHref } from "../utils/sectionNavigation";
 import { PROFILE, STATIC_PROJECTS } from "../data/profile";
 import { useLocale } from "../i18n/LocaleContext";
-
-const KURDISH_DIGITS = "٠١٢٣٤٥٦٧٨٩";
+import { formatNumber } from "../i18n/digits";
 
 const hasPublicLink = (project) =>
     Boolean(project.preview_url || project.app_store_url || project.play_store_url);
@@ -16,11 +15,6 @@ const PROJECT_COUNTS = {
     active: STATIC_PROJECTS.filter((project) => project.status === "completed" && hasPublicLink(project)).length,
     inProgress: STATIC_PROJECTS.filter((project) => project.status === "in progress").length,
 };
-
-function formatCount(value, locale) {
-    const text = String(value);
-    return locale === "ku" ? text.replace(/\d/g, (digit) => KURDISH_DIGITS[digit]) : text;
-}
 
 export default function Home() {
     const location = useLocation();
@@ -60,7 +54,7 @@ export default function Home() {
                         <div className={`hero-content ${isVisible ? "is-visible" : ""}`}>
                             <h1
                                 className="hero-title hero-reveal"
-                                style={{ "--hero-delay": "0.08s" }}
+                                style={{ "--hero-delay": "0.04s" }}
                                 lang="en"
                                 aria-label={`${PROFILE.firstName} ${PROFILE.lastName}`}
                             >
@@ -72,21 +66,21 @@ export default function Home() {
 
                             <h2
                                 className="hero-role hero-reveal"
-                                style={{ "--hero-delay": "0.18s" }}
+                                style={{ "--hero-delay": "0.1s" }}
                             >
                                 {roleText}
                             </h2>
 
                             <p
                                 className="hero-text mx-auto hero-reveal"
-                                style={{ "--hero-delay": "0.28s" }}
+                                style={{ "--hero-delay": "0.16s" }}
                             >
                                 {leadText}
                             </p>
 
                             <div
                                 className="d-flex flex-wrap gap-3 justify-content-center hero-actions hero-reveal"
-                                style={{ "--hero-delay": "0.4s" }}
+                                style={{ "--hero-delay": "0.22s" }}
                             >
                                 <Link to={buildSectionHref(location.pathname, "about")} className="btn btn-primary-modern">
                                     {t.home.about}
@@ -100,19 +94,19 @@ export default function Home() {
 
                             <ul
                                 className="hero-stats hero-reveal"
-                                style={{ "--hero-delay": "0.52s" }}
+                                style={{ "--hero-delay": "0.28s" }}
                                 aria-label={t.home.statsLabel}
                             >
                                 <li className="hero-stat">
-                                    <strong>{formatCount(PROJECT_COUNTS.total, locale)}+</strong>
+                                    <strong>{formatNumber(PROJECT_COUNTS.total, locale)}+</strong>
                                     <span>{t.home.statTotal}</span>
                                 </li>
                                 <li className="hero-stat is-active">
-                                    <strong>{formatCount(PROJECT_COUNTS.active, locale)}</strong>
+                                    <strong>{formatNumber(PROJECT_COUNTS.active, locale)}</strong>
                                     <span>{t.home.statActive}</span>
                                 </li>
                                 <li className="hero-stat is-progress">
-                                    <strong>{formatCount(PROJECT_COUNTS.inProgress, locale)}</strong>
+                                    <strong>{formatNumber(PROJECT_COUNTS.inProgress, locale)}</strong>
                                     <span>{t.home.statInProgress}</span>
                                 </li>
                             </ul>

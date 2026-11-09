@@ -14,6 +14,7 @@ import {
 import { hasSafeHttpUrl, sanitizeHttpUrl } from "../utils/safeUrl";
 import { useLocale } from "../i18n/LocaleContext";
 import { localized } from "../i18n/localize";
+import { formatNumber } from "../i18n/digits";
 
 const FILTER_DEFS = [
   { labelKey: "filterAll", value: "all" },
@@ -85,9 +86,9 @@ function hasLink(url) {
   return hasSafeHttpUrl(url);
 }
 
-function getAppleStoreLabel(url) {
+function getAppleStoreLabel(url, t) {
   if (!url) return "App Store";
-  return url.includes("testflight.apple.com") ? "TestFlight" : "App Store";
+  return url.includes("testflight.apple.com") ? t.project.testflight : "App Store";
 }
 
 function parseTools(value) {
@@ -485,6 +486,9 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
   const tools = project ? getProjectTools(project) : [];
   const kurdishFeatures = locale === "ku" && Array.isArray(project?.fiturKu) && project.fiturKu.length > 0;
   const features = project ? (kurdishFeatures ? project.fiturKu : getFiturList(project)) : [];
+  const role = localized(project, "role", locale);
+  const audience = localized(project, "audience", locale);
+  const stats = Array.isArray(project?.stats) ? project.stats : [];
   const hasPreviewLink = hasLink(project?.preview_url);
   const hasGithubLink = hasLink(project?.github_url);
   const hasAppStoreLink = hasLink(project?.app_store_url);
@@ -587,6 +591,29 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
 
             <div className="project-accent-line"></div>
 
+            {(role || audience) && (
+              <dl className="project-story">
+                {role && (
+                  <div className="project-story-row">
+                    <dt>
+                      <i className="bi bi-person-workspace" aria-hidden="true"></i>
+                      {t.project.myRole}
+                    </dt>
+                    <dd>{role}</dd>
+                  </div>
+                )}
+                {audience && (
+                  <div className="project-story-row">
+                    <dt>
+                      <i className="bi bi-people" aria-hidden="true"></i>
+                      {t.project.audience}
+                    </dt>
+                    <dd>{audience}</dd>
+                  </div>
+                )}
+              </dl>
+            )}
+
             {tools.length > 0 && (
               <div className="project-tools-section">
                 <p className="tools-label">{t.project.technologiesUsed}</p>
@@ -601,27 +628,24 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
               </div>
             )}
 
-            <div className="project-stats-grid">
-              <div className="project-stat-card">
-                <div className="project-stat-icon">
-                  <i className="bi bi-code-slash"></i>
-                </div>
-                <div className="project-stat-info">
-                  <span className="project-stat-value">{tools.length}</span>
-                  <span className="project-stat-label">{t.project.technologies}</span>
-                </div>
+            {stats.length > 0 && (
+              <div className={`project-stats-grid${stats.length === 1 ? " is-single" : ""}`}>
+                {stats.map((stat) => (
+                  <div className="project-stat-card" key={stat.label}>
+                    <div className="project-stat-icon">
+                      <i className={`bi ${stat.icon || "bi-bar-chart"}`} aria-hidden="true"></i>
+                    </div>
+                    <div className="project-stat-info">
+                      <span className="project-stat-value">
+                        {formatNumber(stat.value, locale)}
+                        {stat.suffix || ""}
+                      </span>
+                      <span className="project-stat-label">{localized(stat, "label", locale)}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
-
-              <div className="project-stat-card">
-                <div className="project-stat-icon">
-                  <i className="bi bi-layers"></i>
-                </div>
-                <div className="project-stat-info">
-                  <span className="project-stat-value">{features.length}</span>
-                  <span className="project-stat-label">{t.project.keyFeatures}</span>
-                </div>
-              </div>
-            </div>
+            )}
 
             {features.length > 0 && (
               <div className="project-features-section">
@@ -642,7 +666,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
 
           
 
-          <div className="project-preview-section" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
+          <div className="project-preview-section" data-aos="fade-up" data-aos-duration="500" data-aos-delay="100">
             <div className="project-preview-container">
               {project.file ? (
                 <ProjectCoverImage file={project.file} alt={localized(project, "nama", locale)} emptyText={t.project.noImage} />
@@ -685,7 +709,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                     className="btn btn-app-store project-modal-link-btn"
                   >
                     <i className="bi bi-apple" aria-hidden="true"></i>
-                    <span>{getAppleStoreLabel(project.app_store_url)}</span>
+                    <span>{getAppleStoreLabel(project.app_store_url, t)}</span>
                   </a>
                 )}
 
@@ -1148,7 +1172,7 @@ export default function Project() {
       <section id="project" className="portfolio-section">
         <div className="container">
           <div className="section-title animate-fade-in-up" data-aos="fade-up"
-            data-aos-duration="700"
+            data-aos-duration="500"
             data-aos-easing="ease-out">
             <h2 className="highlight">{t.project.title}</h2>
             <p className="highlight-text mt-3">{t.project.lead}</p>
@@ -1232,8 +1256,8 @@ export default function Project() {
                   key={project.id}
                   className="card project-card"
                     data-aos="fade-up"
-                    data-aos-delay={index * 60}
-                    data-aos-duration="600"
+                    data-aos-delay={Math.min(index, 4) * 50}
+                    data-aos-duration="450"
                     data-aos-easing="ease-out"
                 >
                   <div className="project-visual-trigger" aria-hidden="true">
@@ -1294,7 +1318,7 @@ export default function Project() {
                                   rel="noopener noreferrer"
                                 >
                                   <i className="bi bi-apple" aria-hidden="true"></i>
-                                  <span>{getAppleStoreLabel(project.app_store_url)}</span>
+                                  <span>{getAppleStoreLabel(project.app_store_url, t)}</span>
                                 </a>
                               )}
 

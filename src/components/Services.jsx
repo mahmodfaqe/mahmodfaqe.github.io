@@ -2,6 +2,7 @@ import "../styles/Services.css";
 import { SERVICES } from "../data/profile";
 import { useLocale } from "../i18n/LocaleContext";
 import { localized } from "../i18n/localize";
+import { buildWhatsappHref } from "../utils/whatsapp";
 
 export default function Services() {
   const { t, locale } = useLocale();
@@ -16,7 +17,7 @@ export default function Services() {
 
         <div className="services-grid">
           {SERVICES.map((service, index) => (
-            <article className="service-card" key={service.title} data-aos="fade-up" data-aos-delay={index * 100}>
+            <article className="service-card" key={service.title} data-aos="fade-up" data-aos-delay={index * 60}>
               <div className="service-icon"><i className={`bi ${service.icon}`} aria-hidden="true"></i></div>
               <h3>{localized(service, "title", locale)}</h3>
               <p>{localized(service, "description", locale)}</p>
@@ -27,6 +28,19 @@ export default function Services() {
               </ul>
             </article>
           ))}
+        </div>
+
+        <div className="services-cta" data-aos="fade-up">
+          <p>{t.services.ctaLead}</p>
+          <a
+            className="btn btn-primary-modern"
+            href={buildWhatsappHref(t.services.ctaMessage)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i className="bi bi-whatsapp" aria-hidden="true"></i>
+            {t.services.cta}
+          </a>
         </div>
       </div>
     </section>
