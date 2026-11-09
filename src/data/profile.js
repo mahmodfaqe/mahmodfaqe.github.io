@@ -14,7 +14,7 @@ export const PROFILE = {
   github: "https://github.com/mahmodfaqe",
   facebook: "https://www.facebook.com/mahmod.faqe",
   messenger: "https://m.me/mahmod.faqe",
-  telegram: "https://t.me/+9647507087901",
+  telegram: "https://t.me/mahmod_faqe",
   snapchat: "https://www.snapchat.com/add/mahmod.faqe",
   siteUrl: "https://mahmodfaqe.github.io/",
   /** Set when you have public profiles — empty strings stay hidden in the UI. */
