@@ -18,7 +18,7 @@ export const PROFILE = {
   snapchat: "https://www.snapchat.com/add/mahmod.faqe",
   siteUrl: "https://mahmodfaqe.github.io/",
   /** Set when you have public profiles — empty strings stay hidden in the UI. */
-  orcid: "",
+  orcid: "https://orcid.org/0009-0007-3585-3707",
   googleScholar: "",
   about: `I am an undergraduate student in the Department of Biology, College of Science, University of Raparin. Alongside my studies, I design and develop web platforms and mobile applications for the university, its research centres and the life sciences. My work covers system design, backend development, mobile applications and server administration, with a particular focus on multilingual platforms in Kurdish, English and Arabic. I also provide server and VPS provisioning and management, and website security, for other clients.`,
   aboutKu: `من خوێندکاری قۆناغی بەکالۆریۆسم لە بەشی بایۆلۆجی، کۆلێژی زانست، زانکۆی ڕاپەڕین. لەگەڵ خوێندنەکەمدا پلاتفۆرمی وێب و ئەپی مۆبایل بۆ زانکۆ، سەنتەرەکانی توێژینەوە و زانستەکانی ژیان دیزاین دەکەم و گەشەیان پێدەدەم. کارەکەم دیزاینی سیستەم، باکئێند، ئەپی مۆبایل و بەڕێوەبردنی سێرڤەر دەگرێتەوە، بە تایبەتی پلاتفۆرمی فرەزمانی بە کوردی، ئینگلیزی و عەرەبی. هەروەها دابینکردن و بەڕێوەبردنی سێرڤەر و VPS، و پاراستنی ماڵپەڕ بۆ کڕیارانی تر پێشکەش دەکەم.`,

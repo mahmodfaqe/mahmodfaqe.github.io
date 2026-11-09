@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "cp index.vite.html index.html && vite",
-    "build": "cp index.vite.html index.html && vite build && node scripts/publish-root.mjs",
+    "dev": "vite",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy:check": "npm run build && vite preview"

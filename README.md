@@ -20,21 +20,19 @@ npm run dev
 ```
 
 ```bash
-npm run build   # builds dist/ and publishes assets to repo root for GitHub Pages
+npm run build   # builds dist/, the files GitHub Pages serves
 npm run lint
 ```
 
 ## GitHub Pages
 
-Pages source is **Deploy from a branch → `main` / (root)**.
+Pages source is **GitHub Actions**. Every push to `main` runs `.github/workflows/deploy.yml`, which builds the site and publishes `dist/`. Pull requests only run the build.
 
-1. Locally (or before push): `npm run build` runs Vite, then `scripts/publish-root.mjs` copies `dist/` into the repo root (`index.html`, `404.html`, `assets/`, `projects/`, SEO files).
-2. Commit those publish-root files with your source changes and push `main`.
-3. GitHub’s branch Pages builder publishes the root. SPA routes (e.g. `/cv`) rely on `404.html` being a copy of `index.html`.
+- Commit source changes only. `dist/` is build output and is never committed.
+- `index.html` is the Vite template; `npm run dev` and `npm run build` leave it unchanged.
+- GitHub Pages has no SPA rewrites, so the build also writes `dist/404.html` (the app, for unknown paths) and `dist/cv/index.html` (so `/cv/` answers 200 with the CV title).
 
-CI (`.github/workflows/deploy.yml`) only **verifies** the build. It does **not** call `actions/deploy-pages` — that conflicts with branch-based Pages.
-
-Optional repository secrets (used when CI builds):
+Optional repository secrets (used by the build):
 
 | Secret | Value |
 |--------|--------|
@@ -63,6 +61,6 @@ Details: [`supabase/README.md`](supabase/README.md)
 
 ## Notes
 
-- Contact phones intentionally use **two numbers**: WhatsApp `+964 770 469 2000`, Telegram `+964 750 708 7901`.
+- Contact: WhatsApp `+964 770 469 2000`; Telegram by username (`@mahmod_faqe`).
 - Bootstrap **JavaScript** is not imported; collapse/nav state is handled in React.
 - Bootstrap **CSS** remains for grid/navbar utilities to avoid a full layout rewrite.
