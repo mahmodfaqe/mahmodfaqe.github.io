@@ -1254,7 +1254,7 @@
     font-size: 1.1rem;
 }
 
-.features-header h4 {
+.features-header h3 {
     font-size: 1rem;
     font-weight: 600;
     color: #ffffff;
@@ -2911,4 +2911,22 @@
 .project-stats-grid .project-stat-label {
     text-transform: none;
     line-height: 1.4;
+}
+
+/* Keep the corner glow inside the preview column so it cannot widen the dialog,
+   and put it on the outer corner in both reading directions. */
+.project-preview-section {
+    overflow: hidden;
+}
+
+.project-preview-section::before {
+    right: auto;
+    inset-inline-end: -50px;
+}
+
+/* The dialog scrolls as a whole, so the description needs no scroll box of its own;
+   a nested one would also need keyboard focus to be scrollable. */
+.project-description-wrapper {
+    max-height: none;
+    overflow: visible;
 }

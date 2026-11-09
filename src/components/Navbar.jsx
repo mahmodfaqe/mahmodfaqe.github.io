@@ -191,27 +191,29 @@ export default function Navbar() {
                             </Link>
                         </li>
 
-                        <li className="nav-item lang-switch" role="group" aria-label={t.nav.language}>
-                            <button
-                                type="button"
-                                className={`lang-btn ${locale === "en" ? "active" : ""}`}
-                                onClick={() => setLocale("en")}
-                                aria-pressed={locale === "en"}
-                                aria-label={t.nav.langEnName}
-                                title={t.nav.langEnName}
-                            >
-                                {t.nav.langEn}
-                            </button>
-                            <button
-                                type="button"
-                                className={`lang-btn ${locale === "ku" ? "active" : ""}`}
-                                onClick={() => setLocale("ku")}
-                                aria-pressed={locale === "ku"}
-                                aria-label={t.nav.langKuName}
-                                title={t.nav.langKuName}
-                            >
-                                {t.nav.langKu}
-                            </button>
+                        <li className="nav-item lang-switch-item">
+                            <div className="lang-switch" role="group" aria-label={t.nav.language}>
+                                <button
+                                    type="button"
+                                    className={`lang-btn ${locale === "en" ? "active" : ""}`}
+                                    onClick={() => setLocale("en")}
+                                    aria-pressed={locale === "en"}
+                                    aria-label={t.nav.langEnName}
+                                    title={t.nav.langEnName}
+                                >
+                                    {t.nav.langEn}
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`lang-btn ${locale === "ku" ? "active" : ""}`}
+                                    onClick={() => setLocale("ku")}
+                                    aria-pressed={locale === "ku"}
+                                    aria-label={t.nav.langKuName}
+                                    title={t.nav.langKuName}
+                                >
+                                    {t.nav.langKu}
+                                </button>
+                            </div>
                         </li>
 
                         {isAdmin && (

@@ -499,3 +499,10 @@ body [data-aos="zoom-in"]:not(.aos-animate) {
 body [data-aos="zoom-in-up"]:not(.aos-animate) {
   transform: translate3d(0, 24px, 0) scale(0.94);
 }
+
+/* Back and page arrows point the other way in right-to-left text. */
+[dir="rtl"] .bi-arrow-left::before,
+[dir="rtl"] .bi-chevron-left::before,
+[dir="rtl"] .bi-chevron-right::before {
+  transform: scaleX(-1);
+}

@@ -652,7 +652,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
               <div className="project-features-section">
                 <div className="features-header">
                   <i className="bi bi-star"></i>
-                  <h4>{t.project.keyFeatures}</h4>
+                  <h3>{t.project.keyFeatures}</h3>
                 </div>
                 <div className="features-list">
                   {features.slice(0, 10).map((feature, index) => (
@@ -1236,7 +1236,7 @@ export default function Project() {
           {loading ? (
             <div className="project-loading-panel" data-aos="zoom-in-up">
               <div className="project-loading-spinner"></div>
-              <p className="project-empty">Project is loading...</p>
+              <p className="project-empty">{t.project.loading}</p>
             </div>
           ) : filteredProjects.length === 0 ? (
             <p className="project-empty">
@@ -1413,11 +1413,11 @@ export default function Project() {
                   <button
                     type="button"
                     className="page-item-btn"
-                    aria-label={`Page ${page}`}
+                    aria-label={`${t.project.pageLabel} ${formatNumber(page, locale)}`}
                     aria-current={currentPage === page ? "page" : undefined}
                     onClick={() => goToPage(page)}
                   >
-                    {page}
+                    {formatNumber(page, locale)}
                   </button>
                 </li>
               );
@@ -1457,11 +1457,11 @@ export default function Project() {
                 <button
                   type="button"
                   className="page-item-btn"
-                  aria-label={`Page ${page}`}
+                  aria-label={`${t.project.pageLabel} ${formatNumber(page, locale)}`}
                   aria-current={currentPage === page ? "page" : undefined}
                   onClick={() => goToPage(page)}
                 >
-                  {page}
+                  {formatNumber(page, locale)}
                 </button>
               </li>
             ))}

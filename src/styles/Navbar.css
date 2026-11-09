@@ -180,6 +180,10 @@
     filter: invert(1);
 }
 
+.lang-switch-item {
+    display: flex;
+}
+
 .lang-switch {
     display: inline-flex;
     align-items: center;

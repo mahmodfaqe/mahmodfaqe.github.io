@@ -448,7 +448,7 @@ export const JOURNEY_CONTENT = {
         "Design and develop multilingual web platforms and mobile applications, with backend systems, deployment, VPS management and website security.",
       icon: "bi-briefcase-fill",
       periodKu: "بەردەوامە",
-      titleKu: "پەرەپێدەری وێب و مۆبایل",
+      titleKu: "گەشەپێدەری وێب و مۆبایل",
       placeKu: "زانکۆی ڕاپەڕین، سەنتەرەکانی توێژینەوە، کڕیارانی سەربەخۆ",
       descriptionKu: "دیزاین و پەرەپێدانی پلاتفۆرمی وێبی فرەزمانی و ئەپی مۆبایل، لەگەڵ سیستەمی باکئێند، بڵاوکردنەوە، بەڕێوەبردنی VPS و ئاسایشی ماڵپەڕ.",
       projects: [
