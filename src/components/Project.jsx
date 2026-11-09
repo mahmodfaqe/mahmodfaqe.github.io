@@ -8,6 +8,7 @@ import { STATIC_PROJECTS } from "../data/profile";
 import { isKnownSectionId } from "../utils/sectionNavigation";
 import {
   consumeSectionTarget,
+  getNavbarOffset,
   rememberSectionTarget,
   scrollToSectionId,
 } from "../utils/sectionScroll";
@@ -1012,6 +1013,7 @@ export default function Project() {
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+  const cardListRef = useRef(null);
   const { role } = useAuth();
 
   const location = useLocation();
@@ -1138,8 +1140,17 @@ export default function Project() {
   }, [filteredProjects, currentPage]);
 
   function goToPage(page) {
-    if (page < 1 || page > totalPages) return;
+    if (page < 1 || page > totalPages || page === currentPage) return;
     setCurrentPage(page);
+
+    // The pager sits below the cards, and a shorter last page would otherwise leave
+    // the visitor looking at the next section. Bring the start of the new page into view.
+    const list = cardListRef.current;
+    if (!list) return;
+    const listTop = list.getBoundingClientRect().top + window.scrollY - getNavbarOffset() - 16;
+    if (listTop < window.scrollY) {
+      window.scrollTo({ top: Math.max(listTop, 0) });
+    }
   }
 
   async function handleDelete(project) {
@@ -1232,7 +1243,7 @@ export default function Project() {
               {searchQuery.trim() ? t.project.emptySearch : t.project.empty}
             </p>
           ) : (
-            <div className="card-container mt-5">
+            <div className="card-container mt-5" ref={cardListRef}>
               {paginatedProjects.map((project, index) => {
                 const showPreview = hasLink(project.preview_url);
                 const showAppStore = hasLink(project.app_store_url);
