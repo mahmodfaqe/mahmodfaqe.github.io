@@ -1718,15 +1718,10 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
     font-size: 0.82rem;
-}
-
-.project-card .project-link-actions.project-link-actions-wrap .btn span {
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .project-card .project-link-actions.project-link-actions-wrap .btn-detail {
