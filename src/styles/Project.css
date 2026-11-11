@@ -2930,3 +2930,8 @@
     max-height: none;
     overflow: visible;
 }
+
+.project-card a.project-title-trigger,
+.project-card a.btn-detail {
+    text-decoration: none;
+}

@@ -13,6 +13,7 @@ import {
   scrollToSectionId,
 } from "../utils/sectionScroll";
 import { hasSafeHttpUrl, sanitizeHttpUrl } from "../utils/safeUrl";
+import { getAppleStoreLabel } from "../utils/storeLinks";
 import { useLocale } from "../i18n/LocaleContext";
 import { localized } from "../i18n/localize";
 import { formatNumber } from "../i18n/digits";
@@ -85,11 +86,6 @@ function getIsAdmin(role) {
 
 function hasLink(url) {
   return hasSafeHttpUrl(url);
-}
-
-function getAppleStoreLabel(url, t) {
-  if (!url) return "App Store";
-  return url.includes("testflight.apple.com") ? t.project.testflight : "App Store";
 }
 
 function parseTools(value) {
@@ -1292,13 +1288,19 @@ export default function Project() {
 
                   <div className="card-body">
                     <h3 className="card-title">
-                      <button
-                        type="button"
-                        className="project-title-trigger"
-                        onClick={() => setSelectedProject(project)}
-                      >
-                        {localized(project, "nama", locale)}
-                      </button>
+                      {project.caseStudy ? (
+                        <Link className="project-title-trigger" to={`/projects/${project.caseStudy}`}>
+                          {localized(project, "nama", locale)}
+                        </Link>
+                      ) : (
+                        <button
+                          type="button"
+                          className="project-title-trigger"
+                          onClick={() => setSelectedProject(project)}
+                        >
+                          {localized(project, "nama", locale)}
+                        </button>
+                      )}
                     </h3>
                     <p className="visually-hidden">
                       {t.project.statusLabel}: {getProjectStatusText(project.status, t)}
@@ -1345,14 +1347,21 @@ export default function Project() {
                                 </a>
                               )}
 
-                              <button
-                                type="button"
-                                className="btn btn-detail"
-                                onClick={() => setSelectedProject(project)}
-                              >
-                                <i className="bi bi-info-circle" aria-hidden="true"></i>
-                                <span>{t.project.details}</span>
-                              </button>
+                              {project.caseStudy ? (
+                                <Link className="btn btn-detail" to={`/projects/${project.caseStudy}`}>
+                                  <i className="bi bi-journal-text" aria-hidden="true"></i>
+                                  <span>{t.caseStudy.label}</span>
+                                </Link>
+                              ) : (
+                                <button
+                                  type="button"
+                                  className="btn btn-detail"
+                                  onClick={() => setSelectedProject(project)}
+                                >
+                                  <i className="bi bi-info-circle" aria-hidden="true"></i>
+                                  <span>{t.project.details}</span>
+                                </button>
+                              )}
                             </div>
 
                           {isAdmin && (

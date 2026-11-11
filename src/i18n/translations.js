@@ -79,6 +79,16 @@ export const TRANSLATIONS = {
       audience: "Who it serves",
       testflight: "TestFlight (beta)",
     },
+    caseStudy: {
+      label: "Case study",
+      back: "All projects",
+      brief: "The brief",
+      built: "What I built",
+      screens: "Screens",
+      approach: "How it is built",
+      outcome: "Where it stands",
+      next: "Next project",
+    },
     services: {
       title: "Services",
       lead: "Web, mobile and server work for universities, centres and clients.",
@@ -210,6 +220,16 @@ export const TRANSLATIONS = {
       myRole: "ڕۆڵی من",
       audience: "بۆ کێیە",
       testflight: "TestFlight (تاقیکاری)",
+    },
+    caseStudy: {
+      label: "چیرۆکی پڕۆژە",
+      back: "هەموو پڕۆژەکان",
+      brief: "پێویستییەکە",
+      built: "ئەوەی دروستم کرد",
+      screens: "وێنەکان",
+      approach: "چۆن دروست کراوە",
+      outcome: "ئێستا لە کوێدایە",
+      next: "پڕۆژەی دواتر",
     },
     services: {
       title: "خزمەتگوزارییەکان",

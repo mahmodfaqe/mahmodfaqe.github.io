@@ -80,17 +80,18 @@ export const STATIC_PROJECTS = [
     app_store_url: "https://testflight.apple.com/join/W3uZxt6a",
     play_store_url: "https://play.google.com/store/apps/details?id=krd.uor.dormitory",
     file: "/projects/dormitory.webp",
+    caseStudy: "dormitory",
   },
   {
     id: 2,
     nama: "UOR Air Quality",
     deskripsi:
-      "Air-quality monitoring for the region from the Global Warming Research Center's stations: a live map and readings on the web, and a mobile app on the App Store and Google Play.",
+      "Air quality and weather for Ranya and the cities of the region, from the University of Raparin's own station: live readings, forecasts and a map on the web, and a mobile app on the App Store and Google Play.",
     kategori: "mobile-app",
     status: "completed",
-    tools: ["Django", "Flutter", "Docker"],
+    tools: ["React", "FastAPI", "TimescaleDB", "Flutter", "Docker"],
     fitur: ["Live monitoring", "Mobile apps", "Regional coverage", "Store distribution"],
-    deskripsiKu: "چاودێریکردنی کوالیتیی هەوای ناوچەکە لە ڕێگەی وێستگەکانی سەنتەری توێژینەوەی گەرمبوونی جیهانی: نەخشە و خوێندنەوەی ڕاستەوخۆ لەسەر وێب، و ئەپێکی مۆبایل لە App Store و Google Play.",
+    deskripsiKu: "کوالیتیی هەوا و کەشوهەوای ڕانیە و شارەکانی ناوچەکە، لە وێستگەی خودی زانکۆی ڕاپەڕینەوە: خوێندنەوەی ڕاستەوخۆ، پێشبینی و نەخشە لەسەر وێب، و ئەپێکی مۆبایل لە App Store و Google Play.",
     fiturKu: ["چاودێریی ڕاستەوخۆ", "ئەپی مۆبایل", "داپۆشینی ناوچەکە", "بڵاوکراوە لە ستۆرەکان"],
     role: "Design and development of the website, the mobile app and the server.",
     roleKu: "دیزاین و دروستکردنی ماڵپەڕەکە، ئەپی مۆبایلەکە و سێرڤەرەکە.",
@@ -104,6 +105,7 @@ export const STATIC_PROJECTS = [
     app_store_url: "https://apps.apple.com/us/app/uor-air-quality/id6821161186",
     play_store_url: "https://play.google.com/store/apps/details?id=edu.uor.aqkr_mobile",
     file: "/projects/air-quality.webp",
+    caseStudy: "air-quality",
   },
   {
     id: 3,
@@ -128,6 +130,7 @@ export const STATIC_PROJECTS = [
     preview_url: "https://gwrc.uor.edu.krd",
     github_url: "",
     file: "/projects/gwrc.webp",
+    caseStudy: "gwrc",
   },
   {
     id: 4,
@@ -148,6 +151,7 @@ export const STATIC_PROJECTS = [
     preview_url: "https://research.dormitory-uor.online",
     github_url: "",
     file: "/projects/research-center.webp",
+    caseStudy: "research-center",
   },
   {
     id: 5,

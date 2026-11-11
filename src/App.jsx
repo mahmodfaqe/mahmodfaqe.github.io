@@ -26,6 +26,7 @@ import ProtectedRoute from "./context/ProtectedRoute";
 import { LocaleProvider, useLocale } from "./i18n/LocaleContext";
 
 const Login = lazy(() => import("./Admin/Login"));
+const CaseStudyPage = lazy(() => import("./pages/CaseStudyPage"));
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
@@ -299,6 +300,17 @@ function App() {
                     </SoftRouteLayout>
                   }
                 />
+
+                <Route
+                  path="/projects/:slug"
+                  element={
+                    <SoftRouteLayout>
+                      <CaseStudyPage />
+                    </SoftRouteLayout>
+                  }
+                />
+
+                <Route path="/projects" element={<Navigate to="/#project" replace />} />
 
                 <Route
                   path="/admin"
