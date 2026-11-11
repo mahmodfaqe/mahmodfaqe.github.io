@@ -479,6 +479,8 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
   const hasAppStoreLink = hasLink(project?.app_store_url);
   const hasPlayStoreLink = hasLink(project?.play_store_url);
   const hasStoreLinks = hasAppStoreLink || hasPlayStoreLink;
+  const doiUrl = project?.doi ? `https://doi.org/${project.doi}` : "";
+  const hasDoiLink = hasLink(doiUrl);
 
   useEffect(() => {
     if (!project) return;
@@ -672,7 +674,7 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
               {getProjectStatusText(project.status, t)}
             </p>
 
-            {(hasPreviewLink || hasGithubLink || hasStoreLinks) && (
+            {(hasPreviewLink || hasGithubLink || hasStoreLinks || hasDoiLink) && (
               <div className="project-action-grid">
                 {hasPreviewLink && (
                   <a
@@ -719,6 +721,18 @@ function ProjectDetailModal({ project, isAdmin, onClose }) {
                   >
                     <i className="bi bi-github" aria-hidden="true"></i>
                     {t.project.github}
+                  </a>
+                )}
+
+                {hasDoiLink && (
+                  <a
+                    href={sanitizeHttpUrl(doiUrl)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-learn-more project-modal-link-btn"
+                  >
+                    <i className="bi bi-journal-check" aria-hidden="true"></i>
+                    DOI
                   </a>
                 )}
               </div>
@@ -1050,6 +1064,18 @@ function ProjectCard({ project, index, variant, isAdmin, onOpen, onDelete }) {
       >
         <i className="bi bi-google-play" aria-hidden="true"></i>
         <span>{t.project.googlePlay}</span>
+      </a>
+    ),
+    project.doi && (
+      <a
+        key="doi"
+        href={sanitizeHttpUrl(`https://doi.org/${project.doi}`)}
+        className="btn btn-github"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i className="bi bi-journal-check" aria-hidden="true"></i>
+        <span>DOI</span>
       </a>
     ),
   ].filter(Boolean);
