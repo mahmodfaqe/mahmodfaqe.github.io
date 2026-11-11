@@ -8,7 +8,6 @@ import { STATIC_PROJECTS } from "../data/profile";
 import { isKnownSectionId } from "../utils/sectionNavigation";
 import {
   consumeSectionTarget,
-  getNavbarOffset,
   rememberSectionTarget,
   scrollToSectionId,
 } from "../utils/sectionScroll";
@@ -55,17 +54,6 @@ const STATUS_META = {
   "in repair": { text: "In Repair", class: "repair", key: "statusInRepair" },
   "in progress": { text: "In Progress", class: "progress", key: "statusInProgress" },
 };
-
-function getMobilePaginationPages(currentPage, totalPages) {
-  if (totalPages <= 3) {
-    return Array.from({ length: totalPages }, (_, index) => index + 1);
-  }
-
-  if (currentPage <= 2) return [1, 2, 3];
-  if (currentPage >= totalPages - 1) return [totalPages - 2, totalPages - 1, totalPages];
-
-  return [currentPage - 1, currentPage, currentPage + 1];
-}
 
 const EMPTY_FORM = {
   nama: "",
@@ -999,17 +987,211 @@ function ProjectEditorPage({ mode }) {
   );
 }
 
-export default function Project() {
+const PROJECT_GROUPS = [
+  { key: "featured", variant: "featured", titleKey: "groupFeatured", leadKey: "groupFeaturedLead" },
+  { key: "more", variant: "standard", titleKey: "groupMore", leadKey: "groupMoreLead" },
+  { key: "building", variant: "compact", titleKey: "groupBuilding", leadKey: "groupBuildingLead" },
+];
+
+function getProjectGroup(project) {
+  if (project.caseStudy) return "featured";
+  if (project.status === "in progress") return "building";
+  return "more";
+}
+
+function hasPublicLink(project) {
+  return hasLink(project.preview_url) || hasLink(project.app_store_url) || hasLink(project.play_store_url);
+}
+
+/**
+ * One project card. "featured" shows the case-study banner and opens the case study,
+ * "standard" shows the cover image, and "compact" (work still being built) shows text
+ * and tools only.
+ */
+function ProjectCard({ project, index, variant, isAdmin, onOpen, onDelete }) {
   const { t, locale } = useLocale();
+  const name = localized(project, "nama", locale);
+  const statusMeta = getProjectStatusMeta(project.status);
+  const statusText = getProjectStatusText(project.status, t);
+  const caseStudyPath = project.caseStudy ? `/projects/${project.caseStudy}` : "";
+
+  const links = [
+    hasLink(project.preview_url) && (
+      <a
+        key="preview"
+        href={sanitizeHttpUrl(project.preview_url)}
+        className="btn btn-preview"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i className="bi bi-eye" aria-hidden="true"></i>
+        <span>{t.project.visit}</span>
+      </a>
+    ),
+    hasLink(project.app_store_url) && (
+      <a
+        key="app-store"
+        href={sanitizeHttpUrl(project.app_store_url)}
+        className="btn btn-app-store"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i className="bi bi-apple" aria-hidden="true"></i>
+        <span>{getAppleStoreLabel(project.app_store_url, t)}</span>
+      </a>
+    ),
+    hasLink(project.play_store_url) && (
+      <a
+        key="play-store"
+        href={sanitizeHttpUrl(project.play_store_url)}
+        className="btn btn-play-store"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i className="bi bi-google-play" aria-hidden="true"></i>
+        <span>{t.project.googlePlay}</span>
+      </a>
+    ),
+  ].filter(Boolean);
+
+  const actionCount = links.length + 1;
+  const actionsLayoutClass =
+    actionCount >= 3
+      ? "project-link-actions project-link-actions-wrap"
+      : actionCount === 2
+        ? "project-link-actions dual-link"
+        : "project-link-actions single-link";
+
+  let cover = <div className="project-placeholder">{t.project.noImage}</div>;
+  if (variant === "featured" && project.caseStudy) {
+    const base = `/projects/${project.caseStudy}`;
+    cover = (
+      <img
+        src={`${base}/hero-800.webp`}
+        srcSet={`${base}/hero-800.webp 800w, ${base}/hero-1600.webp 1600w`}
+        sizes="(max-width: 900px) 100vw, 560px"
+        alt={name}
+        className="project-image"
+        loading="lazy"
+        decoding="async"
+      />
+    );
+  } else if (project.file) {
+    cover = (
+      <ProjectCoverImage
+        file={project.file}
+        alt={name}
+        className="project-image"
+        emptyText={t.project.noImage}
+      />
+    );
+  }
+
+  return (
+    <article
+      className={`card project-card project-card--${variant}`}
+      data-aos="fade-up"
+      data-aos-delay={Math.min(index, 4) * 50}
+      data-aos-duration="450"
+      data-aos-easing="ease-out"
+    >
+      {variant !== "compact" && (
+        <div className="project-visual-trigger" aria-hidden="true">
+          <div className="img-wrapper">
+            {variant === "standard" && (
+              <span className={`project-status-badge ${statusMeta.class}`}>{statusText}</span>
+            )}
+            {cover}
+          </div>
+        </div>
+      )}
+
+      <div className="card-body">
+        {variant === "compact" && (
+          <span className={`project-status-badge ${statusMeta.class}`} aria-hidden="true">
+            {statusText}
+          </span>
+        )}
+
+        <h4 className="card-title">
+          {caseStudyPath ? (
+            <Link className="project-title-trigger" to={caseStudyPath}>
+              {name}
+            </Link>
+          ) : (
+            <button type="button" className="project-title-trigger" onClick={() => onOpen(project)}>
+              {name}
+            </button>
+          )}
+        </h4>
+        <p className="visually-hidden">
+          {t.project.statusLabel}: {statusText}
+        </p>
+        <p className="card-text">{localized(project, "deskripsi", locale)}</p>
+
+        {variant === "compact" && project.tools.length > 0 && (
+          <ul className="project-tool-list" aria-label={t.project.technologies}>
+            {project.tools.slice(0, 4).map((tool) => (
+              <li key={tool}>{tool}</li>
+            ))}
+          </ul>
+        )}
+
+        <div className="project-card-footer">
+          <div className="project-card-actions-stack">
+            <div className={actionsLayoutClass}>
+              {links}
+              {caseStudyPath ? (
+                <Link className="btn btn-detail" to={caseStudyPath}>
+                  <i className="bi bi-journal-text" aria-hidden="true"></i>
+                  <span>{t.caseStudy.label}</span>
+                </Link>
+              ) : (
+                <button type="button" className="btn btn-detail" onClick={() => onOpen(project)}>
+                  <i className="bi bi-info-circle" aria-hidden="true"></i>
+                  <span>{t.project.details}</span>
+                </button>
+              )}
+            </div>
+
+            {isAdmin && (
+              <div className="project-admin-actions">
+                <Link
+                  to={`/project/edit/${project.id}`}
+                  className="btn btn-edit"
+                  onClick={() => rememberSectionTarget("project")}
+                  aria-label={`Edit ${project.nama}`}
+                  title="Edit project"
+                >
+                  <i className="bi bi-pencil-square"></i>
+                </Link>
+
+                <button
+                  type="button"
+                  className="btn btn-delete"
+                  onClick={() => onDelete(project)}
+                  aria-label={`Delete ${project.nama}`}
+                  title="Delete project"
+                >
+                  <i className="bi bi-trash"></i>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export default function Project() {
+  const { t } = useLocale();
   const [projects, setProjects] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-  const cardListRef = useRef(null);
   const { role } = useAuth();
 
   const location = useLocation();
@@ -1081,10 +1263,6 @@ export default function Project() {
   }, []);
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [activeFilter, searchQuery]);
-
-  useEffect(() => {
     if (loading) {
       return;
     }
@@ -1094,7 +1272,7 @@ export default function Project() {
     });
 
     return () => window.cancelAnimationFrame(refreshAos);
-  }, [loading, activeFilter, searchQuery, currentPage, selectedProject]);
+  }, [loading, activeFilter, searchQuery, selectedProject]);
 
   const filteredProjects = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -1123,31 +1301,13 @@ export default function Project() {
     });
   }, [activeFilter, projects, searchQuery]);
 
-  const totalPages = Math.max(
-    1,
-    Math.ceil(filteredProjects.length / itemsPerPage)
-  );
-  const mobilePaginationPages = getMobilePaginationPages(currentPage, totalPages);
-
-  const paginatedProjects = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    return filteredProjects.slice(start, end);
-  }, [filteredProjects, currentPage]);
-
-  function goToPage(page) {
-    if (page < 1 || page > totalPages || page === currentPage) return;
-    setCurrentPage(page);
-
-    // The pager sits below the cards, and a shorter last page would otherwise leave
-    // the visitor looking at the next section. Bring the start of the new page into view.
-    const list = cardListRef.current;
-    if (!list) return;
-    const listTop = list.getBoundingClientRect().top + window.scrollY - getNavbarOffset() - 16;
-    if (listTop < window.scrollY) {
-      window.scrollTo({ top: Math.max(listTop, 0) });
-    }
-  }
+  const groupedProjects = useMemo(() => {
+    const groups = { featured: [], more: [], building: [] };
+    filteredProjects.forEach((project) => groups[getProjectGroup(project)].push(project));
+    // Finished work that visitors can open comes before archived work without a link.
+    groups.more.sort((a, b) => Number(hasPublicLink(b)) - Number(hasPublicLink(a)));
+    return groups;
+  }, [filteredProjects]);
 
   async function handleDelete(project) {
     try {
@@ -1239,254 +1399,30 @@ export default function Project() {
               {searchQuery.trim() ? t.project.emptySearch : t.project.empty}
             </p>
           ) : (
-            <div className="card-container mt-5" ref={cardListRef}>
-              {paginatedProjects.map((project, index) => {
-                const showPreview = hasLink(project.preview_url);
-                const showAppStore = hasLink(project.app_store_url);
-                const showPlayStore = hasLink(project.play_store_url);
-                const linkCount =
-                  Number(showPreview) +
-                  Number(showAppStore) +
-                  Number(showPlayStore);
-                const actionCount = linkCount + 1;
-                const hasFooterActions = true;
-                const statusMeta = getProjectStatusMeta(project.status);
-                const actionsLayoutClass =
-                  actionCount >= 3
-                    ? "project-link-actions project-link-actions-wrap"
-                    : actionCount === 2
-                      ? "project-link-actions dual-link"
-                      : "project-link-actions single-link";
-
-                return (
-                <article
-                  key={project.id}
-                  className="card project-card"
-                    data-aos="fade-up"
-                    data-aos-delay={Math.min(index, 4) * 50}
-                    data-aos-duration="450"
-                    data-aos-easing="ease-out"
-                >
-                  <div className="project-visual-trigger" aria-hidden="true">
-                    <div className="img-wrapper">
-                      <span className={`project-status-badge ${statusMeta.class}`}>
-                        {getProjectStatusText(project.status, t)}
-                      </span>
-
-                      {project.file ? (
-                        <ProjectCoverImage
-                          file={project.file}
-                          alt={localized(project, "nama", locale)}
-                          className="project-image"
-                          emptyText={t.project.noImage}
-                        />
-                      ) : (
-                        <div className="project-placeholder">{t.project.noImage}</div>
-                      )}
-                    </div>
+            <div className="project-groups">
+              {PROJECT_GROUPS.filter((group) => groupedProjects[group.key].length > 0).map((group) => (
+                <div className="project-group" key={group.key}>
+                  <div className="project-group-head" data-aos="fade-up" data-aos-duration="450">
+                    <h3>{t.project[group.titleKey]}</h3>
+                    <p>{t.project[group.leadKey]}</p>
                   </div>
-
-                  <div className="card-body">
-                    <h3 className="card-title">
-                      {project.caseStudy ? (
-                        <Link className="project-title-trigger" to={`/projects/${project.caseStudy}`}>
-                          {localized(project, "nama", locale)}
-                        </Link>
-                      ) : (
-                        <button
-                          type="button"
-                          className="project-title-trigger"
-                          onClick={() => setSelectedProject(project)}
-                        >
-                          {localized(project, "nama", locale)}
-                        </button>
-                      )}
-                    </h3>
-                    <p className="visually-hidden">
-                      {t.project.statusLabel}: {getProjectStatusText(project.status, t)}
-                    </p>
-                    <p className="card-text">{localized(project, "deskripsi", locale)}</p>
-
-                    {hasFooterActions && (
-                      <div className="project-card-footer">
-                        <div className="project-card-actions-stack">
-                            <div className={actionsLayoutClass}>
-                                {showPreview && (
-                                <a
-                                  href={sanitizeHttpUrl(project.preview_url)}
-                                  className="btn btn-preview"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <i className="bi bi-eye" aria-hidden="true"></i>
-                                  <span>{t.project.visit}</span>
-                                </a>
-                              )}
-
-                              {showAppStore && (
-                                <a
-                                  href={sanitizeHttpUrl(project.app_store_url)}
-                                  className="btn btn-app-store"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <i className="bi bi-apple" aria-hidden="true"></i>
-                                  <span>{getAppleStoreLabel(project.app_store_url, t)}</span>
-                                </a>
-                              )}
-
-                              {showPlayStore && (
-                                <a
-                                  href={sanitizeHttpUrl(project.play_store_url)}
-                                  className="btn btn-play-store"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <i className="bi bi-google-play" aria-hidden="true"></i>
-                                  <span>{t.project.googlePlay}</span>
-                                </a>
-                              )}
-
-                              {project.caseStudy ? (
-                                <Link className="btn btn-detail" to={`/projects/${project.caseStudy}`}>
-                                  <i className="bi bi-journal-text" aria-hidden="true"></i>
-                                  <span>{t.caseStudy.label}</span>
-                                </Link>
-                              ) : (
-                                <button
-                                  type="button"
-                                  className="btn btn-detail"
-                                  onClick={() => setSelectedProject(project)}
-                                >
-                                  <i className="bi bi-info-circle" aria-hidden="true"></i>
-                                  <span>{t.project.details}</span>
-                                </button>
-                              )}
-                            </div>
-
-                          {isAdmin && (
-                            <div className="project-admin-actions">
-                              <Link
-                                to={`/project/edit/${project.id}`}
-                                className="btn btn-edit"
-                                onClick={() => rememberSectionTarget("project")}
-                                aria-label={`Edit ${project.nama}`}
-                                title="Edit project"
-                              >
-                                <i className="bi bi-pencil-square"></i>
-                              </Link>
-
-                              <button
-                                type="button"
-                                className="btn btn-delete"
-                                onClick={() => setDeleteTarget(project)}
-                                aria-label={`Delete ${project.nama}`}
-                                title="Delete project"
-                              >
-                                <i className="bi bi-trash"></i>
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                  <div className={`card-container card-container--${group.key}`}>
+                    {groupedProjects[group.key].map((project, index) => (
+                      <ProjectCard
+                        key={project.id}
+                        project={project}
+                        index={index}
+                        variant={group.variant}
+                        isAdmin={isAdmin}
+                        onOpen={setSelectedProject}
+                        onDelete={setDeleteTarget}
+                      />
+                    ))}
                   </div>
-                </article>
-              )})}
+                </div>
+              ))}
             </div>
           )}
-        </div>
-
-        <div className="portfolio-pagination animate-fade-in-up text-center">
-          <ul className="pagination-custom pagination-desktop" aria-label={t.project.pagesLabel}>
-            <li className={`page-item-custom ${currentPage === 1 ? "disabled" : ""}`}>
-              <button
-                type="button"
-                className="page-item-btn"
-                aria-label={t.project.prevPage}
-                disabled={currentPage === 1}
-                onClick={() => goToPage(currentPage - 1)}
-              >
-                <i className="bi bi-chevron-left" aria-hidden="true"></i>
-              </button>
-            </li>
-
-            {Array.from({ length: totalPages }).map((_, i) => {
-              const page = i + 1;
-
-              return (
-                <li
-                  key={page}
-                  className={`page-item-custom ${currentPage === page ? "active" : ""}`}
-                >
-                  <button
-                    type="button"
-                    className="page-item-btn"
-                    aria-label={`${t.project.pageLabel} ${formatNumber(page, locale)}`}
-                    aria-current={currentPage === page ? "page" : undefined}
-                    onClick={() => goToPage(page)}
-                  >
-                    {formatNumber(page, locale)}
-                  </button>
-                </li>
-              );
-            })}
-
-            <li className={`page-item-custom ${currentPage === totalPages ? "disabled" : ""}`}>
-              <button
-                type="button"
-                className="page-item-btn"
-                aria-label={t.project.nextPage}
-                disabled={currentPage === totalPages}
-                onClick={() => goToPage(currentPage + 1)}
-              >
-                <i className="bi bi-chevron-right" aria-hidden="true"></i>
-              </button>
-            </li>
-          </ul>
-
-          <ul className="pagination-custom pagination-mobile" aria-label={t.project.pagesLabel}>
-            <li className={`page-item-custom ${currentPage === 1 ? "disabled" : ""}`}>
-              <button
-                type="button"
-                className="page-item-btn"
-                aria-label={t.project.prevPage}
-                disabled={currentPage === 1}
-                onClick={() => goToPage(currentPage - 1)}
-              >
-                <i className="bi bi-chevron-left" aria-hidden="true"></i>
-              </button>
-            </li>
-
-            {mobilePaginationPages.map((page) => (
-              <li
-                key={page}
-                className={`page-item-custom ${currentPage === page ? "active" : ""}`}
-              >
-                <button
-                  type="button"
-                  className="page-item-btn"
-                  aria-label={`${t.project.pageLabel} ${formatNumber(page, locale)}`}
-                  aria-current={currentPage === page ? "page" : undefined}
-                  onClick={() => goToPage(page)}
-                >
-                  {formatNumber(page, locale)}
-                </button>
-              </li>
-            ))}
-
-            <li className={`page-item-custom ${currentPage === totalPages ? "disabled" : ""}`}>
-              <button
-                type="button"
-                className="page-item-btn"
-                aria-label={t.project.nextPage}
-                disabled={currentPage === totalPages}
-                onClick={() => goToPage(currentPage + 1)}
-              >
-                <i className="bi bi-chevron-right" aria-hidden="true"></i>
-              </button>
-            </li>
-          </ul>
         </div>
       </section>
 

@@ -2935,3 +2935,74 @@
 .project-card a.btn-detail {
     text-decoration: none;
 }
+
+/* Project groups: featured case studies, other finished work, and work still being built. */
+.project-groups {
+    display: grid;
+    gap: 72px;
+    margin-top: 44px;
+}
+
+.project-group-head {
+    margin-bottom: 24px;
+}
+
+.project-group-head h3 {
+    margin: 0 0 6px;
+    color: var(--text-primary);
+    font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+    font-weight: 700;
+}
+
+.project-group-head p {
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.card-container--featured {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.project-card--featured .img-wrapper img {
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-position: top;
+}
+
+.project-card--featured .card-title {
+    font-size: 1.35rem;
+}
+
+.project-card--compact .card-body {
+    padding: 24px;
+}
+
+.project-card--compact .project-status-badge {
+    position: static;
+    align-self: flex-start;
+    box-shadow: none;
+}
+
+.project-tool-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 2px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.project-tool-list li {
+    padding: 3px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+    .card-container--featured {
+        grid-template-columns: 1fr;
+    }
+}
