@@ -152,7 +152,7 @@ export default function Navbar() {
         <nav className="navbar navbar-expand-lg fixed-top site-nav">
             <div className="container">
                 <Link className="navbar-brand" to="/#home" onClick={() => setIsNavOpen(false)} dir="ltr" lang="en">
-                    Mahmood Khdir
+                    Mahmood Faqe
                 </Link>
 
                 <button

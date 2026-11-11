@@ -1,4 +1,4 @@
-# Mahmood Khdir — Portfolio
+# Mahmood Faqe — Portfolio
 
 Personal portfolio for **Mahmood Khdir Faqe Rasul**: biology student and web & mobile developer at the University of Raparin.
 

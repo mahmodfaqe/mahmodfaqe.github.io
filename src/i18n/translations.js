@@ -131,7 +131,7 @@ export const TRANSLATIONS = {
     },
     splash: {
       lines: [
-        "Mahmood Khdir — Portfolio",
+        "Mahmood Faqe — Portfolio",
         "Biology student & developer",
         "Web · Mobile · Research tools",
         "Kurdish · English · Arabic",
@@ -275,7 +275,7 @@ export const TRANSLATIONS = {
     },
     splash: {
       lines: [
-        "مەحموود خدر — پۆرتفۆلیۆ",
+        "مەحموود فەقێ — پۆرتفۆلیۆ",
         "خوێندکاری بایۆلۆجی و گەشەپێدەر",
         "وێب · مۆبایل · ئامرازی توێژینەوە",
         "کوردی · ئینگلیزی · عەرەبی",

@@ -1,6 +1,6 @@
 export const PROFILE = {
   firstName: "Mahmood",
-  lastName: "Khdir",
+  lastName: "Faqe",
   fullName: "Mahmood Khdir Faqe Rasul",
   role: "Biology Student and Web & Mobile Developer",
   splashRole: "Biology Student · Developer",

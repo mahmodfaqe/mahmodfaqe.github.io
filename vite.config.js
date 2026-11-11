@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react'
 
 const ROOT = fileURLToPath(new URL('.', import.meta.url))
 const SITE_URL = 'https://mahmodfaqe.github.io'
-const AUTHOR = 'Mahmood Khdir'
+const AUTHOR = 'Mahmood Faqe'
 const CV_TITLE = 'Mahmood Khdir Faqe Rasul — CV'
 
 function escapeHtml(value) {
