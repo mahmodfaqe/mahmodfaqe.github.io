@@ -148,7 +148,7 @@ export const STATIC_PROJECTS = [
     roleKu: "دیزاین، دروستکردن و بڵاوکردنەوەی ماڵپەڕەکە و بەڕێوەبردنی ناوەڕۆکەکەی.",
     audience: "Researchers and students of the university, and visitors following its research activity.",
     audienceKu: "توێژەران و خوێندکارانی زانکۆ، و ئەو سەردانکەرانەی بەدواداچوون بۆ چالاکییە توێژینەوەییەکانی دەکەن.",
-    preview_url: "https://research.dormitory-uor.online",
+    preview_url: "https://rc.uor.edu.krd",
     github_url: "",
     file: "/projects/research-center.webp",
     caseStudy: "research-center",
