@@ -177,6 +177,27 @@ export const STATIC_PROJECTS = [
     file: "/projects/e-library.webp",
   },
   {
+    id: 18,
+    nama: "Biology Department Website",
+    deskripsi:
+      "Website of the Biology Department, College of Science, University of Raparin, in Kurdish, English and Arabic: the department's profile, academic staff, study programmes and subjects, labs, forms, graduation projects, news and a gallery, with a content management panel for the department's staff.",
+    kategori: "landing-page",
+    status: "completed",
+    tools: ["Wagtail", "Django", "SQLite", "Docker"],
+    fitur: ["Three languages", "Academic staff", "Study and subjects", "News and gallery", "Content management"],
+    namaKu: "ماڵپەڕی بەشی بایۆلۆجی",
+    deskripsiKu: "ماڵپەڕی بەشی بایۆلۆجی لە کۆلێژی زانستی زانکۆی ڕاپەڕین، بە کوردی، ئینگلیزی و عەرەبی: ناساندنی بەشەکە، ستافی ئەکادیمی، پڕۆگرام و وانەکانی خوێندن، تاقیگەکان، فۆڕمەکان، پڕۆژەکانی دەرچوون، هەواڵ و گەلەری، لەگەڵ پانێڵی بەڕێوەبردنی ناوەڕۆک بۆ ستافی بەشەکە.",
+    fiturKu: ["سێزمانە", "ستافی ئەکادیمی", "خوێندن و وانەکان", "هەواڵ و گەلەری", "بەڕێوەبردنی ناوەڕۆک"],
+    role: "Development and deployment of the website and its content management, in the College of Science's own design.",
+    roleKu: "دروستکردن و بڵاوکردنەوەی ماڵپەڕەکە و بەڕێوەبردنی ناوەڕۆکەکەی، بە هەمان دیزاینی ماڵپەڕی کۆلێژی زانست.",
+    audience: "Biology students and applicants, the department's staff, and visitors to the College of Science.",
+    audienceKu: "خوێندکارانی بایۆلۆجی و ئەوانەی دەیانەوێت لەم بەشە بخوێنن، ستافی بەشەکە، و سەردانکەرانی کۆلێژی زانست.",
+    stats: [{ value: 3, icon: "bi-translate", label: "Languages", labelKu: "زمان" }],
+    preview_url: "https://biology.entomo.online",
+    github_url: "",
+    file: "/projects/biology-department.webp",
+  },
+  {
     id: 6,
     nama: "BioGuide",
     deskripsi:
